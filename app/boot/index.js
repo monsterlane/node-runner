@@ -2,8 +2,8 @@
 var express = require( 'express' ),
 	fs = require( 'fs' );
 
-module.exports = function( aParent, aOptions ) {
-	var verbose = aOptions.verbose || false;
+module.exports = function( parent, options ) {
+	var verbose = options.verbose || false;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
 		verbose && console.log( '\n   %s:', name );
@@ -74,6 +74,6 @@ module.exports = function( aParent, aOptions ) {
 		}
 
 		// mount the app
-		aParent.use( app );
+		parent.use( app );
 	});
 };

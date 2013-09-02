@@ -27,45 +27,28 @@ app.configure( function( ) {
 	// support _method (PUT in forms etc)
 	app.use( express.methodOverride( ) );
 
-	// expose the "messages" local variable when views are rendered
-	app.use( function(req, res, next ) {
-		var msgs = req.session.messages || [];
+	// assume "not found" in the error msgs is a 404
+	app.use( function( err, req, res, next ) {
+		// treat as 404
+		if ( ~err.message.indexOf( 'not found' ) ) return next( );
 
-		// expose "messages" local variable
-		res.locals.messages = msgs;
+		// log it
+		console.error( err.stack );
 
-		// expose "hasMessages"
-		res.locals.hasMessages = !!msgs.length;
+		// error page
+		res.status( 500 ).render( '5xx' );
+	});
 
-		next( );
-
-		// empty or "flush" the messages so they don't build up
-		req.session.messages = [ ];
+	// assume 404 since no middleware responded
+	app.use( function( req, res, next ) {
+		res.status( 404 ).render( '404', { url: req.originalUrl } );
 	});
 });
 
 // load controllers
 require( './boot/index' )( app, { verbose: !module.parent } );
 
-// assume "not found" in the error msgs is a 404. this is somewhat silly, but
-// valid, you can do whatever you like, set properties, use instanceof etc.
-app.use( function( err, req, res, next ) {
-	// treat as 404
-	if ( ~err.message.indexOf( 'not found' ) ) return next( );
-
-	// log it
-	console.error( err.stack );
-
-	// error page
-	res.status( 500 ).render( '5xx' );
-});
-
-// assume 404 since no middleware responded
-app.use( function( req, res, next ) {
-	res.status( 404 ).render( '404', { url: req.originalUrl } );
-});
-
 if ( !module.parent ) {
   app.listen( config.port );
-  console.log( '\n  ' + config.mode + 'listening on port ' + config.port + '\n' );
+  console.log( '\n  ' + config.mode + ' server listening on port ' + config.port + '\n' );
 }
