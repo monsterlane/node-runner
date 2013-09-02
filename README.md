@@ -31,7 +31,7 @@ Installation:
 7. Install/configure package.json dependencies
 > cd ~/Sites/node-framework/app
 >
-> npm install
+> sudo npm install
 
 8. Run the app
 > supervisor index.js
