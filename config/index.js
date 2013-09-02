@@ -1,6 +1,6 @@
 
 var config = {
-	local: {
+	development: {
 		mode: 'development',
 		port: 3000,
 		mongo: {
@@ -26,6 +26,6 @@ var config = {
 	}
 };
 
-module.exports = function( mode ) {
-	return config[ mode || process.argv[ 2 ] || 'development' ] || config.local;
+module.exports = function( aMode ) {
+	return config[ aMode || process.argv[ 2 ] || 'development' ] || config.development;
 };

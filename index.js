@@ -18,7 +18,7 @@ app.configure( function( ) {
 	// logging
 	if ( !module.parent ) app.use( express.logger( 'div' ) );
 
-	// compress response data with gzip / deflat
+	// compress response data with gzip / deflate
 	app.use( express.compress( ) );
 
 	// parse request bodies (req.body)

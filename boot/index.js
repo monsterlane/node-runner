@@ -2,8 +2,8 @@
 var express = require( 'express' ),
 	fs = require( 'fs' );
 
-module.exports = function( parent, options ) {
-	var verbose = options.verbose;
+module.exports = function( aParent, aOptions ) {
+	var verbose = aOptions.verbose || false;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
 		verbose && console.log( '\n   %s:', name );
@@ -32,11 +32,12 @@ module.exports = function( parent, options ) {
 			verbose && console.log( '     ALL %s -> before', path );
 		}
 
-		// generate routes based
-		// on the exported methods
+		// generate routes based on the exported methods
 		for ( var key in obj ) {
 			// "reserved" exports
-			if ( ~[ 'name', 'prefix', 'engine', 'before' ].indexOf( key ) ) continue;
+			if ( ~[ 'name', 'prefix', 'engine', 'before' ].indexOf( key ) ) {
+				continue;
+			}
 
 			if ( key == 'show' ) {
 				method = 'get';
@@ -73,6 +74,6 @@ module.exports = function( parent, options ) {
 		}
 
 		// mount the app
-		parent.use( app );
+		aParent.use( app );
 	});
 };
