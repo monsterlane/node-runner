@@ -26,27 +26,27 @@ app.configure( function( ) {
 
 	// support _method (PUT in forms etc)
 	app.use( express.methodOverride( ) );
-
-	// assume "not found" in the error msgs is a 404
-	app.use( function( err, req, res, next ) {
-		// treat as 404
-		if ( ~err.message.indexOf( 'not found' ) ) return next( );
-
-		// log it
-		console.error( err.stack );
-
-		// error page
-		res.status( 500 ).render( '5xx' );
-	});
-
-	// assume 404 since no middleware responded
-//	app.use( function( req, res, next ) {
-//		res.status( 404 ).render( '404', { url: req.originalUrl } );
-//	});
 });
 
 // load controllers
 require( './boot/index' )( app, { verbose: !module.parent } );
+
+// assume "not found" in the error msgs is a 404
+app.use( function( err, req, res, next ) {
+	// treat as 404
+	if ( ~err.message.indexOf( 'not found' ) ) return next( );
+
+	// log it
+	console.error( err.stack );
+
+	// error page
+	res.status( 500 ).render( '5xx' );
+});
+
+// assume 404 since no middleware responded
+app.use( function( req, res, next ) {
+	res.status( 404 ).render( '404', { url: req.originalUrl } );
+});
 
 if ( !module.parent ) {
   app.listen( config.port );
