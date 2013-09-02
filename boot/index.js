@@ -15,7 +15,7 @@ module.exports = function( parent, options ) {
 			method,
 			path;
 
-    	// allow specifying the view engine
+		// allow specifying the view engine
 		if ( obj.engine ) app.set( 'view engine', obj.engine );
 		app.set( 'views', __dirname + '/../controllers/' + name + '/views' );
 
