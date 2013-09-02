@@ -5,7 +5,7 @@ HTML5 MVC app framework using Express.js (http://expressjs.com/), doT.js (http:/
 This project was created to provide a re-usable starting point for Node projects.
 
 #### Installation
-* Please read the instructions in the wiki https://github.com/monsterlane/node-framework/wiki#installation-guide on how to install.
+* Please read the instructions in the wiki (https://github.com/monsterlane/node-framework/wiki#installation-guide) on how to install.
 
 #### Todo
 * All the things
@@ -14,4 +14,4 @@ This project was created to provide a re-usable starting point for Node projects
 * It boots... :)
 
 #### License
-* MIT
+* MIT (http://opensource.org/licenses/MIT)
