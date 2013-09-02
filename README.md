@@ -19,6 +19,7 @@ Installation:
 
 4. Install doT.js templating engine
 > sudo npm install dot
+> sudo npm install express-dot
 
 5. Install Socket.IO
 > sudo npm install socket.io
