@@ -19,6 +19,7 @@ Installation:
 
 4. Install doT.js templating engine
 > sudo npm install dot
+> 
 > sudo npm install express-dot
 
 5. Install Socket.IO
@@ -29,6 +30,7 @@ Installation:
 
 7. Install/configure package.json dependencies
 > cd ~/Sites/node-framework/app
+> 
 > npm install
 
 8. Run the app
