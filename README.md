@@ -1,7 +1,7 @@
 node-framework
 ===
 
-HTML5 Node Framework using Node, doT.js for templating, MongoDB for persistent data, and Redis for session and real-time data.
+HTML5 MVC app framework using Express.js (http://expressjs.com/), doT.js (http://olado.github.io/doT/index.html) for templating, MongoDB (http://www.mongodb.org/) for persistent data, and Redis (http://redis.io/) for session and real-time data.
 
 Installation:
 ---
@@ -19,7 +19,7 @@ Installation:
 
 4. Install doT.js templating engine
 > sudo npm install dot
-> 
+>
 > sudo npm install express-dot
 
 5. Install Socket.IO
@@ -30,7 +30,7 @@ Installation:
 
 7. Install/configure package.json dependencies
 > cd ~/Sites/node-framework/app
-> 
+>
 > npm install
 
 8. Run the app
