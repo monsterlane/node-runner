@@ -6,7 +6,7 @@ HTML5 MVC app framework using Express.js (http://expressjs.com/), doT.js (http:/
 * Please read the instructions in the wiki https://github.com/monsterlane/node-framework/wiki#installation-guide
 
 #### Todo
-* Everything
+* All the things
 
 #### Known issues
-* It boots, that's about it
+* It boots... :)
