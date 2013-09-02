@@ -47,7 +47,6 @@ app.configure( function( ) {
 // load controllers
 require( './boot/index' )( app, { verbose: !module.parent } );
 
-/*
 // assume "not found" in the error msgs is a 404. this is somewhat silly, but
 // valid, you can do whatever you like, set properties, use instanceof etc.
 app.use( function( err, req, res, next ) {
@@ -65,41 +64,8 @@ app.use( function( err, req, res, next ) {
 app.use( function( req, res, next ) {
 	res.status( 404 ).render( '404', { url: req.originalUrl } );
 });
-*/
 
 if ( !module.parent ) {
-  app.listen( 3000 );
-  console.log( '\n  listening on port 3000\n' );
+  app.listen( config.port );
+  console.log( '\n  listening on port ' + config.port + '\n' );
 }
-
-/*
-app.use( express.favicon( ) );
-app.use( app.router );
-
-if ( app.get('env' ) == 'development' ) {
-  	app.use( express.errorHandler( ) );
-}
-
-mongo.connect( 'mongodb://' + config.mongo.host + ':' + config.mongo.port + '/', function( err, db ) {
-	if ( err ) {
-		console.log( 'Sorry, there is no mongo db server running.' );
-	}
-	else {
-		var attachDB = function( req, res, next ) {
-			req.db = db;
-			next( );
-		};
-
-		app.all( '/', attachDB, function( req, res, next ) {
-			main.run( req, res, next );
-		});
-
-		http.createServer( app ).listen( config.port, function( ) {
-		  	console.log(
-		  		'Successfully connected to mongodb://' + config.mongo.host + ':' + config.mongo.port,
-		  		'\nExpress server listening on port ' + config.port
-		  	);
-		});
-	}
-});
-*/

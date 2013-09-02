@@ -1,5 +1,5 @@
 
-var express = require( '../' ),
+var express = require( 'express' ),
 	fs = require( 'fs' );
 
 module.exports = function( parent, options ) {
