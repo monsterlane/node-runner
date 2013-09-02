@@ -57,7 +57,7 @@ app.use( function( err, req, res, next ) {
 	console.error( err.stack );
 
 	// error page
-	res.status( 500 ).render( '500' );
+	res.status( 500 ).render( '5xx' );
 });
 
 // assume 404 since no middleware responded
@@ -67,5 +67,5 @@ app.use( function( req, res, next ) {
 
 if ( !module.parent ) {
   app.listen( config.port );
-  console.log( '\n  listening on port ' + config.port + '\n' );
+  console.log( '\n  ' + config.mode + 'listening on port ' + config.port + '\n' );
 }
