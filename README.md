@@ -31,4 +31,4 @@ Installation:
 > npm install
 
 8. Run the app
-> supervisor app.js
+> supervisor index.js
