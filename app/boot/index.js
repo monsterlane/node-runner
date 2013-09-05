@@ -19,6 +19,8 @@ module.exports = function( parent, options ) {
 		if ( obj.engine ) app.set( 'view engine', obj.engine );
 		app.set( 'views', __dirname + '/../controllers/' + name + '/views' );
 
+console.log( __dirname + '/../controllers/' + name + '/views' );
+
 		// before middleware support
 		if ( obj.before ) {
 			path = '/' + name + '/:' + name + '_id';
@@ -61,13 +63,23 @@ module.exports = function( parent, options ) {
 			}
 			else if ( key == 'index' ) {
 				method = 'get';
-				path = '/';
+				path = ( name != 'main' ) ? '/' + name : '/';
 			}
 			else {
 				throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
+/*
+console.log( method );
+console.log( path );
+console.log( obj[ key ] );
+console.log( app[ method ]( path, obj[ key ] ) );
+*/
+
 			path = prefix + path;
+
+console.log( path );
+
 			app[ method ]( path, obj[ key ] );
 
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );

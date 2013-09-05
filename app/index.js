@@ -1,7 +1,5 @@
 
 var config = require( './config' )( ),
-	http = require( 'http' ),
-	path = require( 'path' ),
 	express = require( 'express' ),
 	cons = require( 'consolidate' ),
 	dot = require( 'dot' ),
@@ -17,7 +15,7 @@ app.configure( function( ) {
 	app.use( express.static( __dirname + '/public' ) );
 
 	// logging
-	if ( !module.parent ) app.use( express.logger( 'div' ) );
+	if ( !module.parent ) app.use( express.logger( 'dev' ) );
 
 	// compress response data with gzip / deflate
 	app.use( express.compress( ) );
@@ -30,7 +28,7 @@ app.configure( function( ) {
 });
 
 // load controllers
-require( './boot/index' )( app, { verbose: !module.parent } );
+require( './boot' )( app, { verbose: !module.parent } );
 
 // assume "not found" in the error msgs is a 404
 app.use( function( err, req, res, next ) {
