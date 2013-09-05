@@ -1,4 +1,4 @@
 
 exports.index = function( req, res ) {
-	res.redirect( '/system' );
+	res.redirect( '/system/index' );
 };

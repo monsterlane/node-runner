@@ -3,16 +3,17 @@ var config = require( './config' )( ),
 	http = require( 'http' ),
 	path = require( 'path' ),
 	express = require( 'express' ),
-	dot = require( 'express-dot' ),
+	cons = require( 'consolidate' ),
+	dot = require( 'dot' ),
 	mongo = require( 'mongodb' ).MongoClient,
 	app = module.exports = express( );
 
 // environment settings
 app.configure( function( ) {
 	// configure dot template engine
+	app.engine( 'html', cons.dot );
+	app.set( 'view engine', 'html' );
 	app.set( 'views', __dirname + '/views' );
-	app.set( 'view engine', 'dot' );
-	app.engine( 'html', dot.__express );
 	app.use( express.static( __dirname + '/public' ) );
 
 	// logging
