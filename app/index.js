@@ -11,7 +11,6 @@ app.configure( function( ) {
 	// configure dot template engine
 	app.engine( 'html', cons.dot );
 	app.set( 'view engine', 'html' );
-	app.set( 'view options', { layout: true });
 	app.set( 'views', __dirname + '/views' );
 
 	// logging
