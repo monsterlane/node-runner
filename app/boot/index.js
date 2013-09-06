@@ -19,6 +19,9 @@ module.exports = function( parent, options ) {
 		if ( obj.engine ) app.set( 'view engine', obj.engine );
 		app.set( 'views', __dirname + '/../controllers/' + name + '/views' );
 
+		// serve static files
+		app.use( express.static( __dirname + '/../controllers/' + name + '/public' ) );
+
 		// before middleware support
 		if ( obj.before ) {
 			path = '/' + name + '/:' + name + '_id';
