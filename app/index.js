@@ -9,8 +9,8 @@ var config = require( './config' )( ),
 // environment settings
 app.configure( function( ) {
 	// configure dot template engine
-	app.engine( 'html', cons.dot );
-	app.set( 'view engine', 'html' );
+	app.engine( 'html', cons[ config.viewEngine ] );
+	app.set( 'view engine', config.viewExtension );
 	app.set( 'views', __dirname + '/views' );
 	app.use( express.favicon( ) );
 
@@ -48,6 +48,6 @@ app.use( function( req, res, next ) {
 });
 
 if ( !module.parent ) {
-  app.listen( config.port );
-  console.log( '\n  ' + config.mode + ' server listening on port ' + config.port + '\n' );
+  app.listen( config.server[ config.environment ].port );
+  console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
 }

@@ -1,31 +1,42 @@
 
 var config = {
-	development: {
-		mode: 'development',
-		port: 3000,
-		mongo: {
-			host: '127.0.0.1',
-			port: 27017
-		}
-	},
-	staging: {
-		mode: 'staging',
-		port: 4000,
-		mongo: {
-			host: '127.0.0.1',
-			port: 27017
-		}
-	},
-	production: {
-		mode: 'production',
-		port: 5000,
-		mongo: {
-			host: '127.0.0.1',
-			port: 27017
+	environment: 'development',
+	viewEngine: 'dot',
+	viewExtension: 'html',
+	server: {
+		development: {
+			port: 3000,
+			database: {
+				type: 'mongo',
+				host: '127.0.0.1',
+				port: 27017
+			}
+		},
+		staging: {
+			port: 4000,
+			database: {
+				type: 'mongo',
+				host: '127.0.0.1',
+				port: 27017
+			}
+		},
+		production: {
+			port: 5000,
+			database: {
+				type: 'mongo',
+				host: '127.0.0.1',
+				port: 27017
+			}
 		}
 	}
 };
 
-module.exports = function( aMode ) {
-	return config[ aMode || process.argv[ 2 ] || 'development' ] || config.development;
+module.exports = function( mode ) {
+	var t;
+
+	if ( ( t = mode || process.argv[ 2 ] ) != null ) {
+		config.environment = t;
+	}
+
+	return config;
 };
