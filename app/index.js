@@ -2,7 +2,7 @@
 var config = require( './config' )( ),
 	express = require( 'express' ),
 	cons = require( 'consolidate' ),
-	dot = require( 'dot' ),
+	tpl = require( config.viewEngine ),
 	mongo = require( 'mongodb' ).MongoClient,
 	app = module.exports = express( );
 
