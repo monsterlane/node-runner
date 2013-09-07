@@ -12,6 +12,7 @@ app.configure( function( ) {
 	app.engine( 'html', cons.dot );
 	app.set( 'view engine', 'html' );
 	app.set( 'views', __dirname + '/views' );
+	app.use( express.favicon( ) );
 
 	// logging
 	if ( !module.parent ) app.use( express.logger( 'dev' ) );

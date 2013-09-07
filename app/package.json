@@ -1,6 +1,6 @@
 {
 	"name": "node-framework",
-	"description": "Node Framework using Consolidate, doT, MongoDB, and Redis",
+	"description": "Node Framework using Express, Consolidate, doT, MongoDB, and Redis",
 	"version": "0.0.1",
 	"private": true,
 	"dependencies": {

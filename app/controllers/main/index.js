@@ -1,4 +1,13 @@
 
-exports.index = function( req, res ) {
-	res.redirect( '/system' );
-};
+/**
+ * Module: main
+ */
+
+var util = require( './../system/util' );
+
+module.exports = util.extend(
+	require( './../system/index' ),
+	{
+		name: 'main'
+	}
+);
