@@ -32,11 +32,6 @@ var config = {
 };
 
 module.exports = function( mode ) {
-	var t;
-
-	if ( ( t = mode || process.argv[ 2 ] ) != null ) {
-		config.environment = t;
-	}
-
+	config.environment = mode || process.argv[ 2 ] || 'development';
 	return config;
 };
