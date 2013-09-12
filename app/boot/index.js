@@ -9,6 +9,7 @@ module.exports = function( parent, options ) {
 		verbose && console.log( '\n   %s:', name );
 
 		var obj = require( './../controllers/' + name + '/index' ),
+			obj = new obj( ),
 			app = express( ),
 			method,
 			path,
@@ -21,26 +22,6 @@ module.exports = function( parent, options ) {
 		// serve static files
 		app.use( express.static( __dirname + '/../controllers/' + name + '/public' ) );
 
-		method = new obj( );
-
-		/*
-		method = 'get';
-		path = ( name != 'main' ) ? '/' + name : '/';
-		key = 'index';
-
-		console.log( obj );
-
-		app[ method ]( path, function( ) {
-			obj.index( );
-		});
-
-		verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
-		*/
-
-		//path = ( name != 'main' ) ? '/' + name : '/';
-		//app[ 'get' ]( '/', obj[ 'index' ] );
-
-
 		// generate routes based on the exported methods
 		for ( var key in obj ) {
 			// "reserved" exports
@@ -48,37 +29,19 @@ module.exports = function( parent, options ) {
 				continue;
 			}
 
-			if ( key == 'show' ) {
+			if ( key == 'index' && name == 'main' ) {
 				method = 'get';
-				path = '/' + name + '/:' + name + '_id';
-			}
-			else if ( key == 'list' ) {
-				method = 'get';
-				path = '/' + name + 's';
-			}
-			else if ( key == 'edit' ) {
-				method = 'get';
-				path = '/' + name + '/:' + name + '_id/edit';
-			}
-			else if ( key == 'update' ) {
-				method = 'put';
-				path = '/' + name + '/:' + name + '_id';
-			}
-			else if ( key == 'create' ) {
-				method = 'post';
-				path = '/' + name;
+				path = '/';
 			}
 			else if ( key == 'index' ) {
 				method = 'get';
-				path = ( name != 'main' ) ? '/' + name : '/';
+				path = '/' + name;
 			}
 			else {
-				throw new Error( 'unrecognized route: ' + name + '.' + key );
+				console.log( 'unrecognized route: ' + name + '.' + key );
+				//throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
-			path = prefix + path;
-
-			path = ( name != 'main' ) ? '/' + name : '/';
 			app[ method ]( path, obj[ key ] );
 
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
