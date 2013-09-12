@@ -8,12 +8,11 @@ module.exports = function( parent, options ) {
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
 		verbose && console.log( '\n   %s:', name );
 
-		var obj = require( './../controllers/' + name ),
-			name = obj.name || name,
-			prefix = obj.prefix || '',
+		var obj = require( './../controllers/' + name + '/index' ),
 			app = express( ),
 			method,
-			path;
+			path,
+			key;
 
 		// allow specifying the view engine
 		if ( obj.engine ) app.set( 'view engine', obj.engine );
@@ -22,23 +21,30 @@ module.exports = function( parent, options ) {
 		// serve static files
 		app.use( express.static( __dirname + '/../controllers/' + name + '/public' ) );
 
-		// before middleware support
-		if ( obj.before ) {
-			path = '/' + name + '/:' + name + '_id';
-			app.all( path, obj.before );
+		method = new obj( );
 
-			verbose && console.log( '     ALL %s -> before', path );
+		/*
+		method = 'get';
+		path = ( name != 'main' ) ? '/' + name : '/';
+		key = 'index';
 
-			path = '/' + name + '/:' + name + '_id/*';
-			app.all( path, obj.before );
+		console.log( obj );
 
-			verbose && console.log( '     ALL %s -> before', path );
-		}
+		app[ method ]( path, function( ) {
+			obj.index( );
+		});
+
+		verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
+		*/
+
+		//path = ( name != 'main' ) ? '/' + name : '/';
+		//app[ 'get' ]( '/', obj[ 'index' ] );
+
 
 		// generate routes based on the exported methods
 		for ( var key in obj ) {
 			// "reserved" exports
-			if ( ~[ 'name', 'prefix', 'engine', 'before' ].indexOf( key ) ) {
+			if ( ~[ 'name', 'prefix', 'engine', 'before', 'super_' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
 				continue;
 			}
 
@@ -71,6 +77,8 @@ module.exports = function( parent, options ) {
 			}
 
 			path = prefix + path;
+
+			path = ( name != 'main' ) ? '/' + name : '/';
 			app[ method ]( path, obj[ key ] );
 
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );

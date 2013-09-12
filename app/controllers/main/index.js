@@ -3,11 +3,15 @@
  * Module: main
  */
 
-var util = require( './../system/util' );
+var util = require( 'util' ),
+	System = require( './../system/index' );
 
-module.exports = util.extend(
-	require( './../system/index' ),
-	{
-		name: 'main'
-	}
-);
+function Main( ) {
+	System.apply( this, arguments );
+
+	this.name = 'Main';
+}
+
+util.inherits( Main, System );
+
+module.exports = Main;
