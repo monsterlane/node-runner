@@ -2,6 +2,12 @@
 var express = require( 'express' ),
 	fs = require( 'fs' );
 
+/**
+ * exports
+ * @param {Object} parent
+ * @param {Object} options
+ */
+
 module.exports = function( parent, options ) {
 	var verbose = options.verbose || false;
 
@@ -15,17 +21,13 @@ module.exports = function( parent, options ) {
 			path,
 			key;
 
-		// allow specifying the view engine
-		if ( obj.engine ) app.set( 'view engine', obj.engine );
-		app.set( 'views', __dirname + '/../controllers/' + name + '/views' );
-
 		// serve static files
 		app.use( express.static( __dirname + '/../controllers/' + name + '/public' ) );
 
 		// generate routes based on the exported methods
 		for ( var key in obj ) {
 			// "reserved" exports
-			if ( ~[ 'name', 'prefix', 'engine', 'before', 'super_' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
+			if ( ~[ 'name', 'prefix', 'before', 'super_' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
 				continue;
 			}
 
@@ -38,11 +40,12 @@ module.exports = function( parent, options ) {
 				path = '/' + name;
 			}
 			else {
-				console.log( 'unrecognized route: ' + name + '.' + key );
-				//throw new Error( 'unrecognized route: ' + name + '.' + key );
+				throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
-			app[ method ]( path, obj[ key ] );
+			app.use( path, obj[ key ].bind( obj ) );
+
+			//app[ method ]( path, obj[ key ] );
 
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
 		}

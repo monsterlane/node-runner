@@ -1,6 +1,6 @@
 
 /**
- * Module: main
+ * Module: Main
  */
 
 var util = require( 'util' ),
@@ -9,9 +9,19 @@ var util = require( 'util' ),
 function Main( ) {
 	System.apply( this, arguments );
 
-	this.name = 'Main';
+	this.name = 'main';
 }
 
 util.inherits( Main, System );
+
+/**
+ * Method: _getBodyContent
+ */
+
+Main.prototype._getBodyContent = function( ) {
+	return this._loadFile( '/controllers/main/views/main.html' );
+};
+
+/* */
 
 module.exports = Main;
