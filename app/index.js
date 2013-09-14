@@ -2,20 +2,24 @@
 var config = require( './config' )( ),
 	express = require( 'express' ),
 	cons = require( 'consolidate' ),
-	tpl = require( config.viewEngine ),
 	mongo = require( 'mongodb' ).MongoClient,
 	app = module.exports = express( );
 
 // environment settings
 app.configure( function( ) {
 	// configure dot template engine
-	app.engine( 'html', cons[ config.viewEngine ] );
-	app.set( 'view engine', config.viewExtension );
+	app.engine( 'html', cons.dot );
+	app.set( 'view engine', 'html' );
 	app.set( 'views', __dirname + '/views' );
 	app.use( express.favicon( ) );
 
 	// logging
 	if ( !module.parent ) app.use( express.logger( 'dev' ) );
+
+	// serve system static files
+	app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
+	app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
+	app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
 
 	// compress response data with gzip / deflate
 	app.use( express.compress( ) );

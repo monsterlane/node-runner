@@ -4,6 +4,8 @@
  */
 
 var util = require( 'util' ),
+	fs = require( 'fs' ),
+	dot = require( 'dot' ),
 	System = require( './../system/index' );
 
 function Main( ) {

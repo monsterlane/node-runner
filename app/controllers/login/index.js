@@ -4,6 +4,8 @@
  */
 
 var util = require( 'util' ),
+	fs = require( 'fs' ),
+	dot = require( 'dot' ),
 	System = require( './../system/index' );
 
 function Login( ) {
@@ -22,6 +24,6 @@ Login.prototype._getBodyContent = function( ) {
 	return this._loadFile( '/controllers/login/views/main.html' );
 };
 
-module.exports = Login;
-
 /* */
+
+module.exports = Login;

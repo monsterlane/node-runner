@@ -12,6 +12,8 @@ module.exports = function( parent, options ) {
 	var verbose = options.verbose || false;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
+		if ( name == 'system' ) return;
+
 		verbose && console.log( '\n   %s:', name );
 
 		var obj = require( './../controllers/' + name + '/index' ),
@@ -22,12 +24,14 @@ module.exports = function( parent, options ) {
 			key;
 
 		// serve static files
-		app.use( express.static( __dirname + '/../controllers/' + name + '/public' ) );
+		app.use( '/' + name + '/img', express.static( __dirname + '/../controllers/' + name + '/public/img' ) );
+		app.use( '/' + name + '/css', express.static( __dirname + '/../controllers/' + name + '/public/css' ) );
+		app.use( '/' + name + '/js', express.static( __dirname + '/../controllers/' + name + '/public/js' ) );
 
 		// generate routes based on the exported methods
 		for ( var key in obj ) {
 			// "reserved" exports
-			if ( ~[ 'name', 'prefix', 'before', 'super_' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
+			if ( ~[ 'super_', 'name', 'options', 'hooks', 'scripts', 'styles' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
 				continue;
 			}
 
@@ -43,11 +47,9 @@ module.exports = function( parent, options ) {
 				throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
-			if ( name != 'system' ) {
-				app.use( path, obj[ key ].bind( obj ) );
+			app.use( path, obj[ key ].bind( obj ) );
 
-				verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
-			}
+			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
 		}
 
 		// mount the app

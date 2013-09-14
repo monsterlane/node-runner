@@ -1,8 +1,6 @@
 
 var config = {
 	environment: 'development',
-	viewEngine: 'dot',
-	viewExtension: 'html',
 	server: {
 		development: {
 			port: 3000,
@@ -33,5 +31,6 @@ var config = {
 
 module.exports = function( mode ) {
 	config.environment = mode || process.argv[ 2 ] || 'development';
+
 	return config;
 };
