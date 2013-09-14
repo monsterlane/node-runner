@@ -3,16 +3,16 @@ HTML5 MVC app framework using Express.js (http://expressjs.com/), Consolidate (h
 
 This project was created to provide a re-usable starting point for Node projects.
 
-## Installation
-Please read the instructions in the wiki (https://github.com/monsterlane/node-framework/wiki#installation-guide) on how to install.
+### Installation
+Please read the instructions in the wiki (https://github.com/monsterlane/node-runner/wiki) on how to install.
 
-## Todo
+### Todo
 All the things
 
-## Known issues
+### Known issues
 It boots... :)
 
-## License
+### License
 (The MIT License)
 
 Copyright (c) 2013 Jonathan Down
