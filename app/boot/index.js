@@ -2,16 +2,11 @@
 var express = require( 'express' ),
 	fs = require( 'fs' );
 
-/**
- * exports
- * @param {Object} parent
- * @param {Object} options
- */
-
 module.exports = function( parent, options ) {
 	var verbose = options.verbose || false;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
+		// load all controllers except system
 		if ( name == 'system' ) return;
 
 		verbose && console.log( '\n   %s:', name );

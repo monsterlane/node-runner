@@ -7,7 +7,7 @@ var config = require( './config' )( ),
 
 // environment settings
 app.configure( function( ) {
-	// configure dot template engine
+	// configure view engine
 	app.engine( 'html', cons.dot );
 	app.set( 'view engine', 'html' );
 	app.set( 'views', __dirname + '/views' );
@@ -15,11 +15,6 @@ app.configure( function( ) {
 
 	// logging
 	if ( !module.parent ) app.use( express.logger( 'dev' ) );
-
-	// serve system static files
-	app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
-	app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
-	app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
 
 	// compress response data with gzip / deflate
 	app.use( express.compress( ) );
@@ -30,6 +25,11 @@ app.configure( function( ) {
 	// support _method (PUT in forms etc)
 	app.use( express.methodOverride( ) );
 });
+
+// serve system static files
+app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
+app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
+app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
 
 // load controllers
 require( './boot' )( app, { verbose: !module.parent } );
