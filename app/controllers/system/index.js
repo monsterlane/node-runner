@@ -13,10 +13,10 @@ function System( ) {
 	this.hooks = { };
 
 	this.styles = [ ];
-	this._addStyle( '/system/css/normalize.min.css' );
+	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
 
 	this.scripts = [ ];
-	this._addScript( '/system/js/jquery.min.js' );
+	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
 }
 
 /**
@@ -104,9 +104,16 @@ System.prototype._setOption = function( path, value ) {
  */
 
 System.prototype._addStyle = function( path, opts ) {
-	var opts = opts || { media: 'all' };
+	var opts = this._merge({
+		group: 0,
+		media: 'all'
+	}, opts );
 
-	this.styles.push({
+	if ( !this.styles[ opts.group ] ) {
+		this.styles[ opts.group ] = [ ];
+	}
+
+	this.styles[ opts.group ].push({
 		path: path,
 		media: opts.media
 	});
@@ -119,10 +126,13 @@ System.prototype._addStyle = function( path, opts ) {
 
 System.prototype._getStyles = function( ) {
 	var str = '',
-		i, len;
+		i, len1,
+		j, len2;
 
-	for ( i = 0, len = this.styles.length; i < len; i++ ) {
-		str += '<link href="' + this.styles[ i ].path + '" type="text/css" rel="stylesheet" media="' + this.styles[ i ].media + '" />';
+	for ( i = 0, len1 = this.styles.length; i < len1; i++ ) {
+		for ( j = 0, len2 = this.styles[ i ].length; j < len2; j++ ) {
+			str += '<link href="' + this.styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this.styles[ i ][ j ].media + '" />';
+		}
 	}
 
 	return str;
@@ -135,9 +145,15 @@ System.prototype._getStyles = function( ) {
  */
 
 System.prototype._addScript = function( path, opts ) {
-	var opts = opts || { };
+	var opts = this._merge({
+		group: 0
+	}, opts );
 
-	this.scripts.push({
+	if ( !this.scripts[ opts.group ] ) {
+		this.scripts[ opts.group ] = [ ];
+	}
+
+	this.scripts[ opts.group ].push({
 		path: path,
 	});
 };
@@ -149,10 +165,13 @@ System.prototype._addScript = function( path, opts ) {
 
 System.prototype._getScripts = function( ) {
 	var str = '',
-		i, len;
+		i, len1,
+		j, len2;
 
-	for ( i = 0, len = this.scripts.length; i < len; i++ ) {
-		str += '<script src="' + this.scripts[ i ].path + '" type="text/javascript"></script>';
+	for ( i = 0, len1 = this.scripts.length; i < len1; i++ ) {
+		for ( j = 0, len2 = this.scripts[ i ].length; j < len2; j++ ) {
+			str += '<script src="' + this.scripts[ i ][ j ].path + '" type="text/javascript"></script>';
+		}
 	}
 
 	return str;
