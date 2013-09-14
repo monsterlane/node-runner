@@ -4,7 +4,8 @@
  */
 
 var util = require( 'util' ),
-	fs = require( 'fs' );
+	fs = require( 'fs' ),
+	dot = require( 'dot' );
 
 function System( ) {
 	this.name = 'system';
@@ -17,13 +18,15 @@ function System( ) {
  */
 
 System.prototype._merge = function( obj1, obj2 ) {
-	var obj = { },
+	var obj1 = obj1 || { },
+		obj2 = obj2 || { },
+		obj3 = { },
 		attr;
 
-	for ( attr in obj1 ) { obj[ attr ] = obj1[ attr ]; }
-	for ( attr in obj2 ) { obj[ attr ] = obj2[ attr ]; }
+	for ( attr in obj1 ) { obj3[ attr ] = obj1[ attr ]; }
+	for ( attr in obj2 ) { obj3[ attr ] = obj2[ attr ]; }
 
-	return obj;
+	return obj3;
 };
 
 /**
@@ -31,16 +34,27 @@ System.prototype._merge = function( obj1, obj2 ) {
  * @param {String} path
  */
 
-System.prototype._loadFile = function( path ) {
-	return fs.readFileSync( process.argv[ 1 ].replace( /\/[^\/]*$/, path ) );
+System.prototype._loadFile = function( path, def ) {
+	var def = def || { },
+		tpl, str;
+
+	str = fs.readFileSync( process.argv[ 1 ].replace( /\/[^\/]*$/, path ) );
+	tpl = dot.compile( str );
+	str = tpl( def );
+
+	return str;
 };
 
 /**
  * Method: _getHeaderContent
  */
 
-System.prototype._getHeaderContent = function( ) {
-	return this._loadFile( '/controllers/system/views/header.html' );
+System.prototype._getHeaderContent = function( def ) {
+	var def = this._merge( {
+		name: this.name
+	}, def );
+
+	return this._loadFile( '/controllers/system/views/header.html', def );
 };
 
 /**
@@ -68,7 +82,6 @@ System.prototype._getFooterContent = function( ) {
 
 System.prototype.index = function( req, res, next ) {
 	res.render( __dirname + '/../system/views/template', {
-		name: this.name,
 		header: this._getHeaderContent( ),
 		body: this._getBodyContent( ),
 		footer: this._getFooterContent( )

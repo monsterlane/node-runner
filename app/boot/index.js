@@ -43,9 +43,11 @@ module.exports = function( parent, options ) {
 				throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
-			app.use( path, obj[ key ].bind( obj ) );
+			if ( name != 'system' ) {
+				app.use( path, obj[ key ].bind( obj ) );
 
-			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
+				verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
+			}
 		}
 
 		// mount the app
