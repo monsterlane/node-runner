@@ -67,14 +67,14 @@ System.prototype._getFooterContent = function( ) {
  */
 
 System.prototype.index = function( req, res, next ) {
-	var body = this._getBodyContent( );
-
 	res.render( __dirname + '/../system/views/template', {
 		name: this.name,
 		header: this._getHeaderContent( ),
 		body: this._getBodyContent( ),
 		footer: this._getFooterContent( )
 	});
+
+	next ? next( ) : '';
 };
 
 /* */

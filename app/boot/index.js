@@ -45,8 +45,6 @@ module.exports = function( parent, options ) {
 
 			app.use( path, obj[ key ].bind( obj ) );
 
-			//app[ method ]( path, obj[ key ] );
-
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
 		}
 
