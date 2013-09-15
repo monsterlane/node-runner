@@ -24,7 +24,7 @@ module.exports = function( parent, options ) {
 		app.use( '/' + name + '/js', express.static( __dirname + '/../controllers/' + name + '/public/js' ) );
 
 		// generate routes based on the exported methods
-		for ( var key in obj ) {
+		for ( key in obj ) {
 			// "reserved" exports
 			if ( ~[ 'super_', 'name', 'options', 'hooks', 'scripts', 'styles' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
 				continue;
