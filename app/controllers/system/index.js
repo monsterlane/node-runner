@@ -230,7 +230,7 @@ System.prototype._getFooterContent = function( def ) {
  */
 
 System.prototype.index = function( req, res, next ) {
-	res.render( __dirname + '/../system/views/template', {
+	res.render( __dirname + '/../system/views/document', {
 		header: this._getHeaderContent( ),
 		body: this._getBodyContent( ),
 		footer: this._getFooterContent( )
