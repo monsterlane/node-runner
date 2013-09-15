@@ -6,12 +6,13 @@
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' ),
-	System = require( './../system/index' );
+	System = require( './../system/index' ),
+	user_model = new( require( '../../models/user' ) );
 
 function Main( ) {
 	System.apply( this, arguments );
 
-	this.name = 'main';
+	this._name = 'main';
 }
 
 util.inherits( Main, System );

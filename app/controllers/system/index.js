@@ -8,16 +8,21 @@ var util = require( 'util' ),
 	dot = require( 'dot' );
 
 function System( ) {
-	this.name = 'system';
-	this.options = { };
-	this.hooks = { };
-
-	this.styles = [ ];
-	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
-
-	this.scripts = [ ];
-	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
+	this._name = 'system';
+	this._options = { };
+	this._hooks = { };
+	this._styles = [ ];
+	this._scripts = [ ];
 }
+
+/**
+ * Method: _construct
+ */
+
+System.prototype._construct = function( ) {
+	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
+	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
+};
 
 /**
  * Method: _merge
@@ -61,7 +66,7 @@ System.prototype._loadFile = function( path, def ) {
 
 System.prototype._getOption = function( path ) {
 	var path = path.split( '.' ),
-		key = this.options,
+		key = this._options,
 		i, len;
 
 	for ( i = 0, len = path.length; i < len; i++ ) {
@@ -83,7 +88,7 @@ System.prototype._getOption = function( path ) {
 
 System.prototype._setOption = function( path, value ) {
 	var path = path.split( '.' ),
-		key = this.options,
+		key = this._options,
 		i, len;
 
 	for ( i = 0, len = path.length; i < len; i++ ) {
@@ -109,11 +114,11 @@ System.prototype._addStyle = function( path, opts ) {
 		media: 'all'
 	}, opts );
 
-	if ( !this.styles[ opts.group ] ) {
-		this.styles[ opts.group ] = [ ];
+	if ( !this._styles[ opts.group ] ) {
+		this._styles[ opts.group ] = [ ];
 	}
 
-	this.styles[ opts.group ].push({
+	this._styles[ opts.group ].push({
 		path: path,
 		media: opts.media
 	});
@@ -129,9 +134,9 @@ System.prototype._getStyles = function( ) {
 		i, len1,
 		j, len2;
 
-	for ( i = 0, len1 = this.styles.length; i < len1; i++ ) {
-		for ( j = 0, len2 = this.styles[ i ].length; j < len2; j++ ) {
-			str += '<link href="' + this.styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this.styles[ i ][ j ].media + '" />';
+	for ( i = 0, len1 = this._styles.length; i < len1; i++ ) {
+		for ( j = 0, len2 = this._styles[ i ].length; j < len2; j++ ) {
+			str += '<link href="' + this._styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
 		}
 	}
 
@@ -149,11 +154,11 @@ System.prototype._addScript = function( path, opts ) {
 		group: 1
 	}, opts );
 
-	if ( !this.scripts[ opts.group ] ) {
-		this.scripts[ opts.group ] = [ ];
+	if ( !this._scripts[ opts.group ] ) {
+		this._scripts[ opts.group ] = [ ];
 	}
 
-	this.scripts[ opts.group ].push({
+	this._scripts[ opts.group ].push({
 		path: path,
 	});
 };
@@ -168,9 +173,9 @@ System.prototype._getScripts = function( ) {
 		i, len1,
 		j, len2;
 
-	for ( i = 0, len1 = this.scripts.length; i < len1; i++ ) {
-		for ( j = 0, len2 = this.scripts[ i ].length; j < len2; j++ ) {
-			str += '<script src="' + this.scripts[ i ][ j ].path + '" type="text/javascript"></script>';
+	for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
+		for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
+			str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
 		}
 	}
 
@@ -185,7 +190,7 @@ System.prototype._getScripts = function( ) {
 
 System.prototype._getHeaderContent = function( def ) {
 	var def = this._merge( {
-		name: this.name,
+		name: this._name,
 		scripts: this._getScripts( ),
 		styles: this._getStyles( )
 	}, def );

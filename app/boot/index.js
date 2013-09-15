@@ -18,6 +18,8 @@ module.exports = function( parent, options ) {
 			path,
 			key;
 
+		obj._construct( );
+
 		// serve static files
 		app.use( '/' + name + '/img', express.static( __dirname + '/../controllers/' + name + '/public/img' ) );
 		app.use( '/' + name + '/css', express.static( __dirname + '/../controllers/' + name + '/public/css' ) );
@@ -26,7 +28,7 @@ module.exports = function( parent, options ) {
 		// generate routes based on the exported methods
 		for ( key in obj ) {
 			// "reserved" exports
-			if ( ~[ 'super_', 'name', 'options', 'hooks', 'scripts', 'styles' ].indexOf( key ) || key.charAt( 0 ) == '_' ) {
+			if ( key == 'super_' || key.charAt( 0 ) == '_' ) {
 				continue;
 			}
 

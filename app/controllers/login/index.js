@@ -11,7 +11,7 @@ var util = require( 'util' ),
 function Login( ) {
 	System.apply( this, arguments );
 
-	this.name = 'login';
+	this._name = 'login';
 }
 
 util.inherits( Login, System );
