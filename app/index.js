@@ -65,8 +65,9 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		});
 
 		if ( !module.parent ) {
-		  app.listen( config.server[ config.environment ].port );
-		  console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
+			app.listen( config.server[ config.environment ].port );
+
+			console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
 		}
 	}
 });
