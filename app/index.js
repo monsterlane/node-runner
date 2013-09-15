@@ -36,16 +36,16 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 			next( );
 		};
 
-		// serve system static files
-		app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
-		app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
-		app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
-
 		// load controllers
 		require( './boot' )( app, {
 			verbose: !module.parent,
 			database: attachDb
 		} );
+
+		// serve system static files
+		app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
+		app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
+		app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
 
 		// assume "not found" in the error msgs is a 404
 		app.use( function( err, req, res, next ) {
