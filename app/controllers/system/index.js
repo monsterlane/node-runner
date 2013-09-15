@@ -105,7 +105,7 @@ System.prototype._setOption = function( path, value ) {
 
 System.prototype._addStyle = function( path, opts ) {
 	var opts = this._merge({
-		group: 0,
+		group: 1,
 		media: 'all'
 	}, opts );
 
@@ -146,7 +146,7 @@ System.prototype._getStyles = function( ) {
 
 System.prototype._addScript = function( path, opts ) {
 	var opts = this._merge({
-		group: 0
+		group: 1
 	}, opts );
 
 	if ( !this.scripts[ opts.group ] ) {
