@@ -26,32 +26,47 @@ app.configure( function( ) {
 	app.use( express.methodOverride( ) );
 });
 
-// serve system static files
-app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
-app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
-app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
+mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host + ':' + config.server[ config.environment ].database.port + '/' + config.server[ config.environment ].database.name, function( err, db ) {
+	if ( err ) {
+		throw new Error( 'Sorry, there is no mongo db server running.' );
+	}
+	else {
+		var attachDb = function( req, res, next ) {
+			req.db = db;
+			next( );
+		};
 
-// load controllers
-require( './boot' )( app, { verbose: !module.parent } );
+		// serve system static files
+		app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
+		app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
+		app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );
 
-// assume "not found" in the error msgs is a 404
-app.use( function( err, req, res, next ) {
-	// treat as 404
-	if ( ~err.message.indexOf( 'not found' ) ) return next( );
+		// load controllers
+		require( './boot' )( app, {
+			verbose: !module.parent,
+			database: attachDb
+		} );
 
-	// log it
-	console.error( err.stack );
+		// assume "not found" in the error msgs is a 404
+		app.use( function( err, req, res, next ) {
+			// treat as 404
+			if ( ~err.message.indexOf( 'not found' ) ) return next( );
 
-	// error page
-	res.status( 500 ).render( '5xx' );
+			// log it
+			console.error( err.stack );
+
+			// error page
+			res.status( 500 ).render( '5xx' );
+		});
+
+		// assume 404 since no middleware responded
+		app.use( function( req, res, next ) {
+			res.status( 404 ).render( '404', { url: req.originalUrl } );
+		});
+
+		if ( !module.parent ) {
+		  app.listen( config.server[ config.environment ].port );
+		  console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
+		}
+	}
 });
-
-// assume 404 since no middleware responded
-app.use( function( req, res, next ) {
-	res.status( 404 ).render( '404', { url: req.originalUrl } );
-});
-
-if ( !module.parent ) {
-  app.listen( config.server[ config.environment ].port );
-  console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
-}

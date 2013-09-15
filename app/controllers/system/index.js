@@ -225,6 +225,8 @@ System.prototype._getFooterContent = function( def ) {
  */
 
 System.prototype.index = function( req, res, next ) {
+	console.log( req.db );
+
 	res.render( __dirname + '/../system/views/template', {
 		header: this._getHeaderContent( ),
 		body: this._getBodyContent( ),

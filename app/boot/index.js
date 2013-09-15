@@ -3,7 +3,8 @@ var express = require( 'express' ),
 	fs = require( 'fs' );
 
 module.exports = function( parent, options ) {
-	var verbose = options.verbose || false;
+	var verbose = options.verbose || false,
+		attachDb = options.database;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
 		// load all controllers except system
@@ -41,7 +42,7 @@ module.exports = function( parent, options ) {
 				throw new Error( 'unrecognized route: ' + name + '.' + key );
 			}
 
-			app.use( path, obj[ key ].bind( obj ) );
+			app.all( path, attachDb, obj[ key ].bind( obj ) );
 
 			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
 		}

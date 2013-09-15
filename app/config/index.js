@@ -7,7 +7,8 @@ var config = {
 			database: {
 				type: 'mongo',
 				host: '127.0.0.1',
-				port: 27017
+				port: 27017,
+				name: 'node-runner'
 			}
 		},
 		staging: {
@@ -15,7 +16,8 @@ var config = {
 			database: {
 				type: 'mongo',
 				host: '127.0.0.1',
-				port: 27017
+				port: 27017,
+				name: 'node-runner'
 			}
 		},
 		production: {
@@ -23,7 +25,8 @@ var config = {
 			database: {
 				type: 'mongo',
 				host: '127.0.0.1',
-				port: 27017
+				port: 27017,
+				name: 'node-runner'
 			}
 		}
 	}
