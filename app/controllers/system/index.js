@@ -146,7 +146,7 @@ System.prototype._getStyles = function( ) {
 };
 
 /**
- * Method: _addStyle
+ * Method: _addScript
  * @param {String} path
  * @param {Object} opts
  */
