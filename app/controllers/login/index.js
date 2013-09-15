@@ -17,12 +17,11 @@ function Login( ) {
 util.inherits( Login, System );
 
 /**
- * Method: _getBodyContent
- * @return {String}
+ * Route: index
  */
 
-Login.prototype._getBodyContent = function( ) {
-	return this._loadFile( '/controllers/login/views/main.html' );
+Login.prototype.index = function( req, res, next ) {
+	this._render( res, this._loadFile( this._path + '/views/main.html' ) );
 };
 
 /* */

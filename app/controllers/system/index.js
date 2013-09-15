@@ -9,6 +9,7 @@ var util = require( 'util' ),
 
 function System( ) {
 	this._name = 'system';
+	this._path = null;
 	this._options = { };
 	this._hooks = { };
 	this._styles = [ ];
@@ -20,6 +21,7 @@ function System( ) {
  */
 
 System.prototype._construct = function( ) {
+	this._path = '/controllers/' + this._name;
 	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
 	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
 };
@@ -199,18 +201,6 @@ System.prototype._getHeaderContent = function( def ) {
 };
 
 /**
- * Method: _getBodyContent
- * @param {Object} def
- * @return {String}
- */
-
-System.prototype._getBodyContent = function( def ) {
-	var def = def || { };
-
-	return this._loadFile( '/controllers/system/views/main.html', def );
-};
-
-/**
  * Method: _getFooterContent
  * @param {Object} def
  * @return {String}
@@ -223,16 +213,17 @@ System.prototype._getFooterContent = function( def ) {
 };
 
 /**
- * Route: index
- * @param {Object} req
+ * Method: _render
  * @param {Object} res
- * @param {Function} next
+ * @param {String} body
  */
 
-System.prototype.index = function( req, res, next ) {
+System.prototype._render = function( res, body ) {
+	var body = body || '';
+
 	res.render( __dirname + '/../system/views/document', {
 		header: this._getHeaderContent( ),
-		body: this._getBodyContent( ),
+		body: body,
 		footer: this._getFooterContent( )
 	});
 };

@@ -18,12 +18,13 @@ function Main( ) {
 util.inherits( Main, System );
 
 /**
- * Method: _getBodyContent
- * @return {String}
+ * Route: index
  */
 
-Main.prototype._getBodyContent = function( ) {
-	return this._loadFile( '/controllers/main/views/main.html' );
+Main.prototype.index = function( req, res, next ) {
+	user_model.setDatabase( req.db );
+
+	this._render( res, this._loadFile( this._path + '/views/main.html' ) );
 };
 
 /* */
