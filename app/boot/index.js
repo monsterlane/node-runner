@@ -11,8 +11,7 @@ module.exports = function( parent, options ) {
 
 		verbose && console.log( '\n   %s:', name );
 
-		var obj = require( './../controllers/' + name + '/index' ),
-			obj = new obj( ),
+		var obj = new( require( './../controllers/' + name + '/index' ) ),
 			app = express( ),
 			method,
 			path,

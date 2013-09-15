@@ -1,6 +1,6 @@
 
 /**
- * Module: System
+ * Controller: System
  */
 
 var util = require( 'util' ),

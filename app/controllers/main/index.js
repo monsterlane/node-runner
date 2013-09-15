@@ -1,6 +1,6 @@
 
 /**
- * Module: Main
+ * Controller: Main
  */
 
 var util = require( 'util' ),
@@ -18,6 +18,7 @@ util.inherits( Main, System );
 
 /**
  * Method: _getBodyContent
+ * @return {String}
  */
 
 Main.prototype._getBodyContent = function( ) {

@@ -1,6 +1,6 @@
 
 /**
- * Module: Login
+ * Controller: Login
  */
 
 var util = require( 'util' ),
@@ -18,6 +18,7 @@ util.inherits( Login, System );
 
 /**
  * Method: _getBodyContent
+ * @return {String}
  */
 
 Login.prototype._getBodyContent = function( ) {

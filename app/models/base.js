@@ -1,24 +1,31 @@
 
-module.exports = function( db ) {
+/**
+ * Model: Base_model
+ */
+
+function Base_model( db ) {
+	this.db = db;
+	this._collection = null;
+};
+
+/**
+ * Method: setDatabase
+ * @param {Object} db
+ */
+
+Base_model.prototype.setDatabase = function( db ) {
 	this.db = db;
 };
 
-module.exports.prototype = {
-	extend: function( properties ) {
-		var child = module.exports;
+/**
+ * Method: collection
+ * @return {Object}
+ */
 
-		child.prototype = module.exports.prototype;
-
-		for ( var key in properties ) {
-			child.prototype[ key ] = properties[ key ];
-		}
-
-		return child;
-	},
-	setDb: function( db ) {
-		this.db = db;
-	},
-	collection: function( ) {
-		return ( this._collection ) ? this._collection : null;
-	}
+Base_model.prototype.collection = function( ) {
+	return ( this._collection ) ? this._collection : null;
 };
+
+/* */
+
+module.exports = Base_model;
