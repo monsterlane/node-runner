@@ -219,11 +219,9 @@ System_controller.prototype._getFooterContent = function( def ) {
  */
 
 System_controller.prototype._render = function( res, body ) {
-	var body = body || '';
-
 	res.render( __dirname + '/../system/views/document', {
 		header: this._getHeaderContent( ),
-		body: body,
+		body: body || '',
 		footer: this._getFooterContent( )
 	});
 };
