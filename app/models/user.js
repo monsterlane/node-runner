@@ -8,19 +8,19 @@ var util = require( 'util' ),
 
 function User( db ) {
 	Base.apply( this, arguments );
+	this._collection = 'users';
 }
 
 util.inherits( User, Base );
 
 /**
- * Method: _construct
- * @param {Object} db
+ * Method: search
+ * @param {String} query
+ * @param {Function} callback
  */
 
-User.prototype._construct = function( db ) {
-	this.super_._construct.apply( this, arguments );
-
-	this.setCollection( 'users' );
+User.prototype.search = function( query, callback ) {
+	this.getCollection( ).find( query || { } ).toArray( callback );
 };
 
 /* bind */

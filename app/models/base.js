@@ -9,30 +9,13 @@ function Base( ) {
 };
 
 /**
- * Method: _construct
- * @param {Object} db
- */
-
-Base.prototype._construct = function( db ) {
-	this.setDatabase( db );
-};
-
-/**
  * Method: setDatabase
  * @param {Object} db
  */
 
 Base.prototype.setDatabase = function( db ) {
 	this._db = db;
-};
-
-/**
- * Method: setCollection
- * @param {String} collection
- */
-
-Base.prototype.setCollection = function( collection ) {
-	this._collection = this._db.collection( collection );
+	this._collection = this._db.collection( this._collection );
 };
 
 /**
