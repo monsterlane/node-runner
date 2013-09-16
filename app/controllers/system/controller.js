@@ -198,12 +198,12 @@ System_controller.prototype._getScripts = function( ) {
 };
 
 /**
- * Method: _getHeaderContent
+ * Method: _getDocumentHeader
  * @param {Object} def
  * @return {String}
  */
 
-System_controller.prototype._getHeaderContent = function( def ) {
+System_controller.prototype._getDocumentHeader = function( def ) {
 	var def = this._defaults( {
 		name: this._name,
 		scripts: this._getScripts( ),
@@ -214,12 +214,12 @@ System_controller.prototype._getHeaderContent = function( def ) {
 };
 
 /**
- * Method: _getFooterContent
+ * Method: _getDocumentFooter
  * @param {Object} def
  * @return {String}
  */
 
-System_controller.prototype._getFooterContent = function( def ) {
+System_controller.prototype._getDocumentFooter = function( def ) {
 	var def = def || { };
 
 	return this._template( '/controllers/system/views/footer.html', def );
@@ -233,9 +233,9 @@ System_controller.prototype._getFooterContent = function( def ) {
 
 System_controller.prototype._render = function( res, body ) {
 	res.render( __dirname + '/../system/views/document', {
-		header: this._getHeaderContent( ),
+		header: this._getDocumentHeader( ),
 		body: body || '',
-		footer: this._getFooterContent( )
+		footer: this._getDocumentFooter( )
 	});
 };
 
