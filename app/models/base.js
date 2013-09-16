@@ -15,7 +15,10 @@ function Base( ) {
 
 Base.prototype.setDatabase = function( db ) {
 	this._db = db;
-	this._collection = this._db.collection( this._collection );
+
+	if ( typeof this._collection == 'string' ) {
+		this._collection = this._db.collection( this._collection );
+	}
 };
 
 /**
