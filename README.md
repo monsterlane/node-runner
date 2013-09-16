@@ -1,23 +1,19 @@
 ![node-runner](http://i42.tinypic.com/1izjgl.jpg)
 ## node-runner
 
-HTML5 MVC app framework using Express.js (http://expressjs.com/), Consolidate (https://github.com/visionmedia/consolidate.js/) and doT.js (http://olado.github.io/doT/index.html) for templating, MongoDB (http://www.mongodb.org/) for persistent data, and Redis (http://redis.io/) for session and real-time data.
-
-This project was created to provide a re-usable starting point for Node projects.
+HTML5 MVC app framework using [Express.js](http://expressjs.com/), [Consolidate.js](https://github.com/visionmedia/consolidate.js/) and [doT.js](http://olado.github.io/doT/index.html) for templating, [MongoDB](http://www.mongodb.org/) for persistent data, and [Redis](http://redis.io/) for session and real-time data. This project was created to provide a re-usable starting point for Node projects.
 
 ## Installation
-Please read the instructions in the wiki (https://github.com/monsterlane/node-runner/wiki) on how to install.
+Please read the instructions in the [wiki](https://github.com/monsterlane/node-runner/wiki) on how to install.
 
 ## Todo
-All the things
+* All the things
 
 ## Known issues
-It boots... :)
+* It boots... :)
 
 ## License
-(The MIT License)
-
-Copyright (c) 2013 Jonathan Down
+(The MIT License) Copyright (c) 2013 Jonathan Down
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
