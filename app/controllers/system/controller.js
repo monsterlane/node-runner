@@ -239,12 +239,6 @@ System_controller.prototype._render = function( res, body ) {
 	});
 };
 
-/**
- * Method: _routes
- */
-
-System_controller.prototype._routes = function( ) { };
-
 /* bind */
 
 module.exports = System_controller;
