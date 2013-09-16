@@ -16,16 +16,16 @@ module.exports = function( parent, options ) {
 
 		var obj = new( require( './../controllers/' + name + '/controller' ) ),
 			app = express( ),
-			method,
-			path,
-			key;
+			assets = [ 'img', 'css', 'js' ],
+			method, path,
+			key, len;
 
 		obj._construct( );
 
 		// serve static files
-		app.use( '/' + name + '/img', express.static( __dirname + '/../controllers/' + name + '/public/img' ) );
-		app.use( '/' + name + '/css', express.static( __dirname + '/../controllers/' + name + '/public/css' ) );
-		app.use( '/' + name + '/js', express.static( __dirname + '/../controllers/' + name + '/public/js' ) );
+		for ( key = 0, len = assets.length; key < len; key++ ) {
+			app.use( '/' + name + '/' + assets[ key ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ key ] ) );
+		}
 
 		// generate routes based on the exported methods
 		for ( key in obj ) {

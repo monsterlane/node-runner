@@ -29,8 +29,8 @@ System_controller.prototype._construct = function( ) {
 	this._filePath = '/controllers/' + this._name;
 	this._viewPath = this._filePath + '/views';
 
-	this._addStyle( this._webPath + '/css/normalize.min.css', { group: 0 } );
-	this._addScript( this._webPath + '/js/jquery.min.js', { group: 0 } );
+	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
+	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
 };
 
 /**

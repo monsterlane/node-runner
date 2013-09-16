@@ -21,9 +21,15 @@ util.inherits( Login_controller, System_controller );
  */
 
 Login_controller.prototype.index = function( req, res, next ) {
+	var content;
+
 	user.setDatabase( req.db );
 
-	this._render( res, this._loadFile( this._viewPath + '/main.html' ) );
+	content = this._loadFile( this._viewPath + '/main.html', {
+		name: this._name
+	});
+
+	this._render( res, content );
 };
 
 /* bind */
