@@ -25,6 +25,8 @@ function System_controller( ) {
  */
 
 System_controller.prototype._construct = function( ) {
+	this._setOption( 'app.requiresAuthentication', false );
+
 	this._webPath = '/' + this._name;
 	this._filePath = '/controllers/' + this._name;
 	this._viewPath = this._filePath + '/views';
@@ -108,13 +110,11 @@ System_controller.prototype._setOption = function( path, value ) {
 
 	for ( i = 0, len = path.length; i < len; i++ ) {
 		if ( !key.hasOwnProperty( path[ i ] ) ) {
-			key[ path[ i ] ] = { };
+			key[ path[ i ] ] = ( i + 1 < len ) ? { } : value;
 		}
 
 		key = key[ path[ i ] ];
 	}
-
-	key = value;
 };
 
 /**
