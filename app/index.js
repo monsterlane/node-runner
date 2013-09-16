@@ -37,12 +37,9 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		};
 
 		// load controllers
-		require( './boot' )( app, {
-			verbose: !module.parent,
-			database: attachDb
-		} );
+		require( './boot' )( app, { verbose: !module.parent, database: attachDb } );
 
-		// serve system static files
+		// serve app wide static files
 		app.use( '/system/img', express.static( __dirname + '/controllers/system/public/img' ) );
 		app.use( '/system/css', express.static( __dirname + '/controllers/system/public/css' ) );
 		app.use( '/system/js', express.static( __dirname + '/controllers/system/public/js' ) );

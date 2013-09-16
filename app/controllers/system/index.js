@@ -7,7 +7,7 @@ var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' );
 
-function System( ) {
+function System_controller( ) {
 	this._name = 'system';
 	this._path = null;
 	this._options = { };
@@ -20,7 +20,7 @@ function System( ) {
  * Method: _construct
  */
 
-System.prototype._construct = function( ) {
+System_controller.prototype._construct = function( ) {
 	this._path = '/controllers/' + this._name;
 	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
 	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
@@ -32,7 +32,7 @@ System.prototype._construct = function( ) {
  * @param {Object} obj2
  */
 
-System.prototype._merge = function( obj1, obj2 ) {
+System_controller.prototype._merge = function( obj1, obj2 ) {
 	var obj1 = obj1 || { },
 		obj2 = obj2 || { },
 		obj3 = { },
@@ -49,7 +49,7 @@ System.prototype._merge = function( obj1, obj2 ) {
  * @param {String} path
  */
 
-System.prototype._loadFile = function( path, def ) {
+System_controller.prototype._loadFile = function( path, def ) {
 	var def = def || { },
 		tpl, str;
 
@@ -66,7 +66,7 @@ System.prototype._loadFile = function( path, def ) {
  * @return {Object}
  */
 
-System.prototype._getOption = function( path ) {
+System_controller.prototype._getOption = function( path ) {
 	var path = path.split( '.' ),
 		key = this._options,
 		i, len;
@@ -88,7 +88,7 @@ System.prototype._getOption = function( path ) {
  * @param {Object} value
  */
 
-System.prototype._setOption = function( path, value ) {
+System_controller.prototype._setOption = function( path, value ) {
 	var path = path.split( '.' ),
 		key = this._options,
 		i, len;
@@ -110,7 +110,7 @@ System.prototype._setOption = function( path, value ) {
  * @param {Object} opts
  */
 
-System.prototype._addStyle = function( path, opts ) {
+System_controller.prototype._addStyle = function( path, opts ) {
 	var opts = this._merge({
 		group: 1,
 		media: 'all'
@@ -131,7 +131,7 @@ System.prototype._addStyle = function( path, opts ) {
  * @return {String}
  */
 
-System.prototype._getStyles = function( ) {
+System_controller.prototype._getStyles = function( ) {
 	var str = '',
 		i, len1,
 		j, len2;
@@ -151,7 +151,7 @@ System.prototype._getStyles = function( ) {
  * @param {Object} opts
  */
 
-System.prototype._addScript = function( path, opts ) {
+System_controller.prototype._addScript = function( path, opts ) {
 	var opts = this._merge({
 		group: 1
 	}, opts );
@@ -170,7 +170,7 @@ System.prototype._addScript = function( path, opts ) {
  * @return {String}
  */
 
-System.prototype._getScripts = function( ) {
+System_controller.prototype._getScripts = function( ) {
 	var str = '',
 		i, len1,
 		j, len2;
@@ -190,7 +190,7 @@ System.prototype._getScripts = function( ) {
  * @return {String}
  */
 
-System.prototype._getHeaderContent = function( def ) {
+System_controller.prototype._getHeaderContent = function( def ) {
 	var def = this._merge( {
 		name: this._name,
 		scripts: this._getScripts( ),
@@ -206,7 +206,7 @@ System.prototype._getHeaderContent = function( def ) {
  * @return {String}
  */
 
-System.prototype._getFooterContent = function( def ) {
+System_controller.prototype._getFooterContent = function( def ) {
 	var def = def || { };
 
 	return this._loadFile( '/controllers/system/views/footer.html', def );
@@ -218,7 +218,7 @@ System.prototype._getFooterContent = function( def ) {
  * @param {String} body
  */
 
-System.prototype._render = function( res, body ) {
+System_controller.prototype._render = function( res, body ) {
 	var body = body || '';
 
 	res.render( __dirname + '/../system/views/document', {
@@ -230,4 +230,4 @@ System.prototype._render = function( res, body ) {
 
 /* */
 
-module.exports = System;
+module.exports = System_controller;

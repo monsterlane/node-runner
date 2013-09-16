@@ -6,27 +6,27 @@
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' ),
-	System = require( './../system/index' ),
-	user_model = new( require( '../../models/user' ) );
+	System_controller = require( './../system/index' ),
+	user = new( require( '../../models/user' ) );
 
-function Main( ) {
-	System.apply( this, arguments );
+function Main_controller( ) {
+	System_controller.apply( this, arguments );
 
 	this._name = 'main';
 }
 
-util.inherits( Main, System );
+util.inherits( Main_controller, System_controller );
 
 /**
  * Route: index
  */
 
-Main.prototype.index = function( req, res, next ) {
-	user_model.setDatabase( req.db );
+Main_controller.prototype.index = function( req, res, next ) {
+	user.setDatabase( req.db );
 
 	this._render( res, this._loadFile( this._path + '/views/main.html' ) );
 };
 
 /* */
 
-module.exports = Main;
+module.exports = Main_controller;

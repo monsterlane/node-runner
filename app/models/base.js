@@ -1,9 +1,9 @@
 
 /**
- * Model: Base_model
+ * Model: Base
  */
 
-function Base_model( ) {
+function Base( ) {
 	this._db = null;
 	this._collection = null;
 };
@@ -13,7 +13,7 @@ function Base_model( ) {
  * @param {Object} db
  */
 
-Base_model.prototype._construct = function( db ) {
+Base.prototype._construct = function( db ) {
 	this.setDatabase( db );
 };
 
@@ -22,7 +22,7 @@ Base_model.prototype._construct = function( db ) {
  * @param {Object} db
  */
 
-Base_model.prototype.setDatabase = function( db ) {
+Base.prototype.setDatabase = function( db ) {
 	this._db = db;
 };
 
@@ -31,7 +31,7 @@ Base_model.prototype.setDatabase = function( db ) {
  * @param {String} collection
  */
 
-Base_model.prototype.setCollection = function( collection ) {
+Base.prototype.setCollection = function( collection ) {
 	this._collection = this._db.collection( collection );
 };
 
@@ -40,10 +40,10 @@ Base_model.prototype.setCollection = function( collection ) {
  * @return {Object}
  */
 
-Base_model.prototype.getCollection = function( ) {
+Base.prototype.getCollection = function( ) {
 	return this._collection;
 };
 
 /* */
 
-module.exports = Base_model;
+module.exports = Base;

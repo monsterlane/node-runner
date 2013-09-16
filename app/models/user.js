@@ -4,20 +4,20 @@
  */
 
 var util = require( 'util' ),
-	Base_model = require( './base' );
+	Base = require( './base' );
 
-function User_model( db ) {
-	Base_model.apply( this, arguments );
+function User( db ) {
+	Base.apply( this, arguments );
 }
 
-util.inherits( User_model, Base_model );
+util.inherits( User, Base );
 
 /**
  * Method: _construct
  * @param {Object} db
  */
 
-User_model.prototype._construct = function( db ) {
+User.prototype._construct = function( db ) {
 	this.super_._construct.apply( this, arguments );
 
 	this.setCollection( 'users' );
@@ -25,4 +25,4 @@ User_model.prototype._construct = function( db ) {
 
 /* */
 
-module.exports = User_model;
+module.exports = User;
