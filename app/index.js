@@ -44,7 +44,7 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 
 		// serve app wide static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
-			app.use( '/system/' + assets[ i ], express.static( __dirname + '/controllers/system/public/' + assets[ i ] ) );
+			app.use( '/base/' + assets[ i ], express.static( __dirname + '/controllers/base/public/' + assets[ i ] ) );
 		}
 
 		// assume "not found" in the error msgs is a 404

@@ -9,8 +9,8 @@ module.exports = function( parent, options ) {
 		attachDb = options.database;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
-		// skip the system controller
-		if ( name == 'system' ) return;
+		// skip the base controller
+		if ( name == 'base' ) return;
 
 		verbose && console.log( '\n   %s:', name );
 

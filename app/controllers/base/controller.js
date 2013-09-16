@@ -1,14 +1,14 @@
 
 /**
- * Controller: System
+ * Controller: Base
  */
 
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' );
 
-function System_controller( ) {
-	this._name = 'system';
+function Base_controller( ) {
+	this._name = 'base';
 	this._options = { };
 	this._hooks = { };
 
@@ -24,15 +24,15 @@ function System_controller( ) {
  * Method: _construct
  */
 
-System_controller.prototype._construct = function( ) {
+Base_controller.prototype._construct = function( ) {
 	this._setOption( 'app.requiresAuthentication', false );
 
 	this._webPath = '/' + this._name;
 	this._filePath = '/controllers/' + this._name;
 	this._viewPath = this._filePath + '/views';
 
-	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
-	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
+	this._addStyle( '/base/css/normalize.min.css', { group: 0 } );
+	this._addScript( '/base/js/jquery.min.js', { group: 0 } );
 };
 
 /**
@@ -41,7 +41,7 @@ System_controller.prototype._construct = function( ) {
  * @param {Object} obj2
  */
 
-System_controller.prototype._defaults = function( obj1, obj2 ) {
+Base_controller.prototype._defaults = function( obj1, obj2 ) {
 	for ( var i in obj2 ) {
 		try {
 			if ( obj2[ i ].constructor == Object ) {
@@ -64,7 +64,7 @@ System_controller.prototype._defaults = function( obj1, obj2 ) {
  * @param {String} path
  */
 
-System_controller.prototype._template = function( path, def ) {
+Base_controller.prototype._template = function( path, def ) {
 	var def = def || { },
 		tpl, str;
 
@@ -81,7 +81,7 @@ System_controller.prototype._template = function( path, def ) {
  * @return {Object}
  */
 
-System_controller.prototype._getOption = function( path ) {
+Base_controller.prototype._getOption = function( path ) {
 	var path = path.split( '.' ),
 		key = this._options,
 		i, len;
@@ -103,7 +103,7 @@ System_controller.prototype._getOption = function( path ) {
  * @param {Object} value
  */
 
-System_controller.prototype._setOption = function( path, value ) {
+Base_controller.prototype._setOption = function( path, value ) {
 	var path = path.split( '.' ),
 		key = this._options,
 		i, len;
@@ -123,7 +123,7 @@ System_controller.prototype._setOption = function( path, value ) {
  * @param {Object} opts
  */
 
-System_controller.prototype._addStyle = function( path, opts ) {
+Base_controller.prototype._addStyle = function( path, opts ) {
 	var opts = this._defaults({
 		group: 1,
 		media: 'all'
@@ -144,7 +144,7 @@ System_controller.prototype._addStyle = function( path, opts ) {
  * @return {String}
  */
 
-System_controller.prototype._getStyles = function( ) {
+Base_controller.prototype._getStyles = function( ) {
 	var str = '',
 		i, len1,
 		j, len2;
@@ -164,7 +164,7 @@ System_controller.prototype._getStyles = function( ) {
  * @param {Object} opts
  */
 
-System_controller.prototype._addScript = function( path, opts ) {
+Base_controller.prototype._addScript = function( path, opts ) {
 	var opts = this._defaults({
 		group: 1
 	}, opts );
@@ -183,7 +183,7 @@ System_controller.prototype._addScript = function( path, opts ) {
  * @return {String}
  */
 
-System_controller.prototype._getScripts = function( ) {
+Base_controller.prototype._getScripts = function( ) {
 	var str = '',
 		i, len1,
 		j, len2;
@@ -203,14 +203,14 @@ System_controller.prototype._getScripts = function( ) {
  * @return {String}
  */
 
-System_controller.prototype._getDocumentHeader = function( def ) {
+Base_controller.prototype._getDocumentHeader = function( def ) {
 	var def = this._defaults( {
 		name: this._name,
 		scripts: this._getScripts( ),
 		styles: this._getStyles( )
 	}, def );
 
-	return this._template( '/controllers/system/views/header.html', def );
+	return this._template( '/controllers/base/views/header.html', def );
 };
 
 /**
@@ -219,10 +219,10 @@ System_controller.prototype._getDocumentHeader = function( def ) {
  * @return {String}
  */
 
-System_controller.prototype._getDocumentFooter = function( def ) {
+Base_controller.prototype._getDocumentFooter = function( def ) {
 	var def = def || { };
 
-	return this._template( '/controllers/system/views/footer.html', def );
+	return this._template( '/controllers/base/views/footer.html', def );
 };
 
 /**
@@ -231,8 +231,8 @@ System_controller.prototype._getDocumentFooter = function( def ) {
  * @param {String} body
  */
 
-System_controller.prototype._render = function( res, body ) {
-	res.render( __dirname + '/../system/views/document', {
+Base_controller.prototype._render = function( res, body ) {
+	res.render( __dirname + '/../base/views/document', {
 		header: this._getDocumentHeader( ),
 		body: body || '',
 		footer: this._getDocumentFooter( )
@@ -241,4 +241,4 @@ System_controller.prototype._render = function( res, body ) {
 
 /* bind */
 
-module.exports = System_controller;
+module.exports = Base_controller;

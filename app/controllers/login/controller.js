@@ -6,15 +6,15 @@
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' ),
-	System_controller = require( './../system/controller' ),
+	Base_controller = require( './../base/controller' ),
 	user = new( require( '../../models/user' ) );
 
 function Login_controller( ) {
-	System_controller.apply( this, arguments );
+	Base_controller.apply( this, arguments );
 	this._name = 'login';
 }
 
-util.inherits( Login_controller, System_controller );
+util.inherits( Login_controller, Base_controller );
 
 /**
  * Route: index
