@@ -6,7 +6,7 @@
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' ),
-	System_controller = require( './../system/index' ),
+	System_controller = require( './../system/controller' ),
 	user = new( require( '../../models/user' ) );
 
 function Main_controller( ) {

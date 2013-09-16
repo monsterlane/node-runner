@@ -6,7 +6,7 @@
 var util = require( 'util' ),
 	fs = require( 'fs' ),
 	dot = require( 'dot' ),
-	System_controller = require( './../system/index' );
+	System_controller = require( './../system/controller' );
 
 function Login_controller( ) {
 	System_controller.apply( this, arguments );

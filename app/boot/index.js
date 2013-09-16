@@ -12,7 +12,7 @@ module.exports = function( parent, options ) {
 
 		verbose && console.log( '\n   %s:', name );
 
-		var obj = new( require( './../controllers/' + name + '/index' ) ),
+		var obj = new( require( './../controllers/' + name + '/controller' ) ),
 			app = express( ),
 			method,
 			path,
