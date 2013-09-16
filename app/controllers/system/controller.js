@@ -9,9 +9,13 @@ var util = require( 'util' ),
 
 function System_controller( ) {
 	this._name = 'system';
-	this._path = null;
 	this._options = { };
 	this._hooks = { };
+
+	this._webPath = null;
+	this._filePath = null;
+	this._viewPath = null;
+
 	this._styles = [ ];
 	this._scripts = [ ];
 }
@@ -21,27 +25,36 @@ function System_controller( ) {
  */
 
 System_controller.prototype._construct = function( ) {
-	this._path = '/controllers/' + this._name;
-	this._addStyle( '/system/css/normalize.min.css', { group: 0 } );
-	this._addScript( '/system/js/jquery.min.js', { group: 0 } );
+	this._webPath = '/' + this._name;
+	this._filePath = '/controllers/' + this._name;
+	this._viewPath = this._filePath + '/views';
+
+	this._addStyle( this._webPath + '/css/normalize.min.css', { group: 0 } );
+	this._addScript( this._webPath + '/js/jquery.min.js', { group: 0 } );
 };
 
 /**
- * Method: _merge
+ * Method: _defaults
  * @param {Object} obj1
  * @param {Object} obj2
  */
 
-System_controller.prototype._merge = function( obj1, obj2 ) {
-	var obj1 = obj1 || { },
-		obj2 = obj2 || { },
-		obj3 = { },
-		attr;
+System_controller.prototype._defaults = function( obj1, obj2 ) {
+	for ( var i in obj2 ) {
+		try {
+			if ( obj2[ i ].constructor == Object ) {
+				obj1[ i ] = this._defaults( obj1[ i ], obj2[ i ] );
+			}
+			else {
+				obj1[ i ] = obj2[ i ];
+			}
+		}
+		catch( e ) {
+			obj1[ i ] = obj2[ i ];
+		}
+	}
 
-	for ( attr in obj1 ) { obj3[ attr ] = obj1[ attr ]; }
-	for ( attr in obj2 ) { obj3[ attr ] = obj2[ attr ]; }
-
-	return obj3;
+	return obj1;
 };
 
 /**
@@ -111,7 +124,7 @@ System_controller.prototype._setOption = function( path, value ) {
  */
 
 System_controller.prototype._addStyle = function( path, opts ) {
-	var opts = this._merge({
+	var opts = this._defaults({
 		group: 1,
 		media: 'all'
 	}, opts );
@@ -152,7 +165,7 @@ System_controller.prototype._getStyles = function( ) {
  */
 
 System_controller.prototype._addScript = function( path, opts ) {
-	var opts = this._merge({
+	var opts = this._defaults({
 		group: 1
 	}, opts );
 
@@ -191,7 +204,7 @@ System_controller.prototype._getScripts = function( ) {
  */
 
 System_controller.prototype._getHeaderContent = function( def ) {
-	var def = this._merge( {
+	var def = this._defaults( {
 		name: this._name,
 		scripts: this._getScripts( ),
 		styles: this._getStyles( )

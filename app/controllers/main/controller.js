@@ -20,7 +20,7 @@ util.inherits( Main_controller, System_controller );
  */
 
 Main_controller.prototype.index = function( req, res, next ) {
-	this._render( res, this._loadFile( this._path + '/views/main.html' ) );
+	this._render( res, this._loadFile( this._viewPath + '/main.html' ) );
 };
 
 /* */

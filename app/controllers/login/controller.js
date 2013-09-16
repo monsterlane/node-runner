@@ -23,7 +23,7 @@ util.inherits( Login_controller, System_controller );
 Login_controller.prototype.index = function( req, res, next ) {
 	user.setDatabase( req.db );
 
-	this._render( res, this._loadFile( this._path + '/views/main.html' ) );
+	this._render( res, this._loadFile( this._viewPath + '/main.html' ) );
 };
 
 /* */
