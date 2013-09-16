@@ -44,6 +44,6 @@ Base.prototype.getCollection = function( ) {
 	return this._collection;
 };
 
-/* */
+/* bind */
 
 module.exports = Base;

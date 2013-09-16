@@ -26,6 +26,6 @@ Login_controller.prototype.index = function( req, res, next ) {
 	this._render( res, this._loadFile( this._viewPath + '/main.html' ) );
 };
 
-/* */
+/* bind */
 
 module.exports = Login_controller;

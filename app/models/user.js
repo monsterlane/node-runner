@@ -23,6 +23,6 @@ User.prototype._construct = function( db ) {
 	this.setCollection( 'users' );
 };
 
-/* */
+/* bind */
 
 module.exports = User;

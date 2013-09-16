@@ -2,6 +2,8 @@
 var express = require( 'express' ),
 	fs = require( 'fs' );
 
+/* bind */
+
 module.exports = function( parent, options ) {
 	var verbose = options.verbose || false,
 		attachDb = options.database;
