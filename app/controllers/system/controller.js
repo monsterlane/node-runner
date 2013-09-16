@@ -58,11 +58,11 @@ System_controller.prototype._defaults = function( obj1, obj2 ) {
 };
 
 /**
- * Method: _loadFile
+ * Method: _template
  * @param {String} path
  */
 
-System_controller.prototype._loadFile = function( path, def ) {
+System_controller.prototype._template = function( path, def ) {
 	var def = def || { },
 		tpl, str;
 
@@ -210,7 +210,7 @@ System_controller.prototype._getHeaderContent = function( def ) {
 		styles: this._getStyles( )
 	}, def );
 
-	return this._loadFile( '/controllers/system/views/header.html', def );
+	return this._template( '/controllers/system/views/header.html', def );
 };
 
 /**
@@ -222,7 +222,7 @@ System_controller.prototype._getHeaderContent = function( def ) {
 System_controller.prototype._getFooterContent = function( def ) {
 	var def = def || { };
 
-	return this._loadFile( '/controllers/system/views/footer.html', def );
+	return this._template( '/controllers/system/views/footer.html', def );
 };
 
 /**

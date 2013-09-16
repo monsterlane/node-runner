@@ -22,7 +22,7 @@ util.inherits( Main_controller, System_controller );
 Main_controller.prototype.index = function( req, res, next ) {
 	var content;
 
-	content = this._loadFile( this._viewPath + '/main.html', {
+	content = this._template( this._viewPath + '/main.html', {
 		name: this._name
 	});
 

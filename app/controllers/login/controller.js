@@ -25,7 +25,7 @@ Login_controller.prototype.index = function( req, res, next ) {
 
 	user.setDatabase( req.db );
 
-	content = this._loadFile( this._viewPath + '/main.html', {
+	content = this._template( this._viewPath + '/main.html', {
 		name: this._name
 	});
 
