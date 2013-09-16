@@ -9,22 +9,23 @@ module.exports = function( parent, options ) {
 		attachDb = options.database;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
-		// load all controllers except system
+		// skip the system controller
 		if ( name == 'system' ) return;
 
 		verbose && console.log( '\n   %s:', name );
 
 		var obj = new( require( './../controllers/' + name + '/controller' ) ),
-			app = express( ),
 			assets = [ 'img', 'css', 'js' ],
+			app = express( ),
 			method, path,
-			key, len;
+			key, i, len;
 
+		// call the controller's constructor
 		obj._construct( );
 
 		// serve static files
-		for ( key = 0, len = assets.length; key < len; key++ ) {
-			app.use( '/' + name + '/' + assets[ key ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ key ] ) );
+		for ( i = 0, len = assets.length; i < len; i++ ) {
+			app.use( '/' + name + '/' + assets[ i ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );
 		}
 
 		// generate routes based on the exported methods
