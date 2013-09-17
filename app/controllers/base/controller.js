@@ -5,6 +5,7 @@
 
 var util = require( 'util' ),
 	fs = require( 'fs' ),
+	async = require( 'async' ),
 	dot = require( 'dot' );
 
 function Base_controller( ) {
@@ -62,18 +63,28 @@ Base_controller.prototype._defaults = function( obj1, obj2 ) {
 /**
  * Method: _template
  * @param {String} path
+ * @param {Object} def
+ * @param {Function} callback
  */
 
-Base_controller.prototype._template = function( path, def ) {
-	var def = def || { },
-		tpl, str;
+Base_controller.prototype._template = function( path, def, callback ) {
+	var def = def || { };
 
-	str = fs.readFileSync( process.argv[ 1 ].replace( /\/[^\/]*$/, path ) );
-	tpl = dot.compile( str );
-	str = tpl( def );
+	fs.readFile( process.argv[ 1 ].replace( /\/[^\/]*$/, path ), 'utf8', function( err, data ) {
+		var tpl, str;
 
-	return str;
+		if ( err ) {
+			callback( new Error( err ), null );
+		}
+		else {
+			tpl = dot.compile( data );
+			str = tpl( def );
+
+			callback( null, str );
+		}
+	});
 };
+
 
 /**
  * Method: _getOption
@@ -203,14 +214,16 @@ Base_controller.prototype._getScripts = function( ) {
  * @return {String}
  */
 
-Base_controller.prototype._getDocumentHeader = function( def ) {
+Base_controller.prototype._getDocumentHeader = function( def, callback ) {
 	var def = this._defaults( {
 		name: this._name,
 		scripts: this._getScripts( ),
 		styles: this._getStyles( )
 	}, def );
 
-	return this._template( '/controllers/base/views/header.html', def );
+	this._template( '/controllers/base/views/header.html', def, function( err, content ) {
+		callback( null, content );
+	});
 };
 
 /**
@@ -219,10 +232,12 @@ Base_controller.prototype._getDocumentHeader = function( def ) {
  * @return {String}
  */
 
-Base_controller.prototype._getDocumentFooter = function( def ) {
+Base_controller.prototype._getDocumentFooter = function( def, callback ) {
 	var def = def || { };
 
-	return this._template( '/controllers/base/views/footer.html', def );
+	this._template( '/controllers/base/views/footer.html', def, function( err, content ) {
+		callback( null, content );
+	});
 };
 
 /**
@@ -232,10 +247,28 @@ Base_controller.prototype._getDocumentFooter = function( def ) {
  */
 
 Base_controller.prototype._render = function( res, body ) {
-	res.render( __dirname + '/../base/views/document', {
-		header: this._getDocumentHeader( ),
-		body: body || '',
-		footer: this._getDocumentFooter( )
+	var body = body || '',
+		self = this;
+
+	async.parallel([
+		function( callback ) {
+			self._getDocumentHeader( { }, function( err, content ) {
+				callback( null, content );
+			});
+		},
+		function( callback ) {
+			self._getDocumentFooter( { }, function( err, content ) {
+				callback( null, content );
+			});
+		}
+	], function( err, results ) {
+		if ( err ) throw Error( err );
+
+		res.render( __dirname + '/../base/views/document', {
+			header: results[ 0 ],
+			body: body,
+			footer: results[ 1 ]
+		});
 	});
 };
 

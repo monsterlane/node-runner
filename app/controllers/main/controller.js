@@ -5,6 +5,7 @@
 
 var util = require( 'util' ),
 	fs = require( 'fs' ),
+	async = require( 'async' ),
 	dot = require( 'dot' ),
 	Base_controller = require( './../base/controller' );
 
@@ -20,13 +21,13 @@ util.inherits( Main_controller, Base_controller );
  */
 
 Main_controller.prototype.index = function( req, res, next ) {
-	var content;
+	var self = this;
 
-	content = this._template( this._viewPath + '/main.html', {
+	this._template( this._viewPath + '/main.html', {
 		name: this._name
+	}, function( err, content ) {
+		self._render( res, content );
 	});
-
-	this._render( res, content );
 };
 
 /* bind */

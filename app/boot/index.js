@@ -1,6 +1,7 @@
 
-var express = require( 'express' ),
-	fs = require( 'fs' );
+var fs = require( 'fs' ),
+	async = require( 'async' ),
+	express = require( 'express' );
 
 /* bind */
 
