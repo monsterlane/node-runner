@@ -1,7 +1,7 @@
 ![node-runner](http://i42.tinypic.com/1izjgl.jpg)
 ## node-runner
 
-HTML5 MVC app framework using [Express.js](http://expressjs.com/), [doT.js](http://olado.github.io/doT/index.html) for templating, [MongoDB](http://www.mongodb.org/) for persistent data, and [Redis](http://redis.io/) for session and real-time data. This project was created to provide a re-usable starting point for Node projects.
+HTML5 MVC app framework using [Express.js](http://expressjs.com/), [doT.js](http://olado.github.io/doT/index.html) for templating, [MongoDB](http://www.mongodb.org/) for persistent data, and [Redis](http://redis.io/) for session and real-time data. This project was created to provide a reusable starting point for Node projects.
 
 ## Installation
 Please read the instructions in the [wiki](https://github.com/monsterlane/node-runner/wiki) on how to install.
