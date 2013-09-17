@@ -43,7 +43,7 @@ Base_controller.prototype._construct = function( ) {
 
 Base_controller.prototype._defaults = function( obj1, obj2 ) {
 	for ( var i in obj2 ) {
-		try {
+		if ( obj1.hasOwnProperty( i ) ) {
 			if ( obj2[ i ].constructor == Object ) {
 				obj1[ i ] = this._defaults( obj1[ i ], obj2[ i ] );
 			}
@@ -51,7 +51,7 @@ Base_controller.prototype._defaults = function( obj1, obj2 ) {
 				obj1[ i ] = obj2[ i ];
 			}
 		}
-		catch( e ) {
+		else {
 			obj1[ i ] = obj2[ i ];
 		}
 	}
