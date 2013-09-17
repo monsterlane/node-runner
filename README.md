@@ -6,11 +6,12 @@ HTML5 MVC app framework using [Express.js](http://expressjs.com/), [doT.js](http
 ## Installation
 Please read the instructions in the [wiki](https://github.com/monsterlane/node-runner/wiki) on how to install.
 
-## Todo
-* All the things
+## Todo for v1
+* Sessions/Redis
+* CRUD methods for User model
 
 ## Known issues
-* It boots... :)
+* None
 
 ## License
 (The MIT License) Copyright (c) 2013 Jonathan Down
