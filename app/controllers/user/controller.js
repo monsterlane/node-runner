@@ -21,11 +21,12 @@ util.inherits( User_controller, Base_controller );
  */
 
 User_controller.prototype.index = function( req, res, next ) {
-	var self = this;
+	var self = this,
+		query = { };
 
 	user.setDatabase( req.db );
 
-	user.search( { }, function( err, records ) {
+	user.search( query, function( err, records ) {
 		var content = self._template( self._viewPath + '/main.html', {
 			users: records
 		});
