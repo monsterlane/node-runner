@@ -7,8 +7,6 @@ Class: app
 
 if ( window.hasOwnProperty( 'app' ) == false ) window.app = { };
 
-$.ajaxSetup({ cache: false });
-
 /**
  * Method: extend
  * Mimics classical inheritance

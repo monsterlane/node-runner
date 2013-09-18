@@ -38,7 +38,7 @@ Base_controller.prototype._construct = function( ) {
 
 	this._addScript( '/base/js/jquery.min.js', opts );
 	this._addScript( '/base/js/bootstrap.min.js', opts );
-	this._addScript( '/base/js/app.base.js', opts );
+	this._addScript( '/base/js/app.js', opts );
 	this._addScript( '/base/js/app.module.js', opts );
 };
 
@@ -251,6 +251,7 @@ Base_controller.prototype._getDocumentHeader = function( def, callback ) {
 
 Base_controller.prototype._getDocumentFooter = function( def, callback ) {
 	var def = this._defaults( {
+		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
 		scripts: this._getScripts( )
 	}, def );
 

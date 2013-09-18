@@ -1,13 +1,13 @@
 
 /*
 ===============================================================================
-Class: Module
+Class: Base Module
 ===============================================================================
 */
 
 if ( window.hasOwnProperty( 'app' ) == false ) window.app = { };
 
-app.Module = function( ) {
+app.BaseModule = function( ) {
 	this._model = null;
 	this._conduit = null;
 	this._perf = null;
@@ -18,7 +18,7 @@ app.Module = function( ) {
  * Acts as a constructor and should be called to create a global instance
  */
 
-app.Module.prototype.construct = function( ) {
+app.BaseModule.prototype.construct = function( ) {
 	this._perf = [ ];
 	this._model = [ ];
 };
@@ -30,7 +30,7 @@ app.Module.prototype.construct = function( ) {
  * @return {Object}
  */
 
-app.Module.prototype.getData = function( aKey ) {
+app.BaseModule.prototype.getData = function( aKey ) {
 	if ( this._model.hasOwnProperty( aKey ) ) {
 		return this._model[ aKey ];
 	}
@@ -45,7 +45,7 @@ app.Module.prototype.getData = function( aKey ) {
  * @param {Object} aData
  */
 
-app.Module.prototype.setData = function( aKey, aData ) {
+app.BaseModule.prototype.setData = function( aKey, aData ) {
 	this._model[ aKey ] = aData;
 };
 
@@ -55,7 +55,7 @@ app.Module.prototype.setData = function( aKey, aData ) {
  * @param {Object} aOptions
  */
 
-app.Module.prototype.ajax = function( aOptions ) {
+app.BaseModule.prototype.ajax = function( aOptions ) {
 	if ( this._conduit != null ) {
 		this._conduit.abort( );
 	}
@@ -68,7 +68,7 @@ app.Module.prototype.ajax = function( aOptions ) {
  * Aborts any requets going through the conduit
  */
 
-app.Module.prototype.abort = function( ) {
+app.BaseModule.prototype.abort = function( ) {
 	if ( this._conduit != null ) {
 		this._conduit.abort( );
 	}
@@ -80,7 +80,7 @@ app.Module.prototype.abort = function( ) {
  * @param {String} aName
  */
 
-app.Module.prototype.time = function( aName ) {
+app.BaseModule.prototype.time = function( aName ) {
 	this._perf[ aName ] = {
 		start_time: new Date( ).getTime( ),
 		end_time: null,
@@ -94,7 +94,7 @@ app.Module.prototype.time = function( aName ) {
  * @param {String} aName
  */
 
-app.Module.prototype.elapsed = function( aName ) {
+app.BaseModule.prototype.elapsed = function( aName ) {
 	var diff,
 		h, m, s, ms;
 

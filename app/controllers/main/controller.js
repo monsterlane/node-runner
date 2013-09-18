@@ -15,6 +15,15 @@ function Main_controller( ) {
 util.inherits( Main_controller, Base_controller );
 
 /**
+ * Method: _construct
+ */
+
+Main_controller.prototype._construct = function( ) {
+	this.constructor.super_.prototype._construct.apply( this, arguments );
+	this._addScript( '/main/js/module.js' );
+};
+
+/**
  * Route: index
  */
 
