@@ -4,9 +4,7 @@
  */
 
 var util = require( 'util' ),
-	fs = require( 'fs' ),
 	async = require( 'async' ),
-	dot = require( 'dot' ),
 	Base_controller = require( './../base/controller' );
 
 function Main_controller( ) {

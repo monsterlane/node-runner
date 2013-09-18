@@ -31,7 +31,7 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		throw new Error( 'Sorry, there is no mongo db server running.' );
 	}
 	else {
-		var assets = [ 'img', 'css', 'js' ],
+		var assets = [ 'img', 'css', 'js', 'fonts' ],
 			i, len;
 
 		var attachDb = function( req, res, next ) {

@@ -7,7 +7,7 @@ HTML5 MVC app framework using [Express.js](http://expressjs.com/), [doT.js](http
 Please read the instructions in the [wiki](https://github.com/monsterlane/node-runner/wiki) on how to install.
 
 ## roadmap
-* [v1](https://github.com/monsterlane/node-runner/wiki/Roadmap)
+* [Todo for v1](https://github.com/monsterlane/node-runner/wiki/Roadmap): first public release
 
 ## license
 (The MIT License) Copyright (c) 2013 Jonathan Down
