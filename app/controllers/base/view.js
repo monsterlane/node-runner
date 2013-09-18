@@ -3,18 +3,15 @@
  * View: Base
  */
 
-function Base_view( res, str ) {
+function Base_view( res ) {
 	this._response = res;
-	this._content = str;
 };
 
 /**
  * Method: render
  */
 
-Base_view.prototype.render = function( ) {
-	return '';
-};
+Base_view.prototype.render = function( def ) { };
 
 /* */
 
