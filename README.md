@@ -9,7 +9,7 @@ Please read the instructions in the [wiki](https://github.com/monsterlane/node-r
 ## roadmap
 * [v1](https://github.com/monsterlane/node-runner/wiki/Roadmap)
 
-## License
+## license
 (The MIT License) Copyright (c) 2013 Jonathan Down
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
