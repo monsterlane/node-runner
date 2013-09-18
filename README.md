@@ -3,15 +3,11 @@
 
 HTML5 MVC app framework using [Express.js](http://expressjs.com/), [doT.js](http://olado.github.io/doT/index.html) for templating, [MongoDB](http://www.mongodb.org/) for persistent data, and [Redis](http://redis.io/) for session and real-time data. This project was created to provide a reusable shell for Node projects.
 
-## Installation
+## installation
 Please read the instructions in the [wiki](https://github.com/monsterlane/node-runner/wiki) on how to install.
 
-## Todo for v1
-* Sessions/Redis
-* CRUD methods for User model
-
-## Known issues
-* None
+## roadmap
+* [v1](https://github.com/monsterlane/node-runner/wiki/Roadmap)
 
 ## License
 (The MIT License) Copyright (c) 2013 Jonathan Down
