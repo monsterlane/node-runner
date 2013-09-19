@@ -3,10 +3,13 @@
  * View: Json
  */
 
-var util = require( 'util' ),
+var util = require( '../../helpers/util' ),
 	Base_view = require( './view' );
 
-function Json_view( ) { };
+function Json_view( res ) {
+	Base_view.apply( this, arguments );
+};
+
 util.inherits( Json_view, Base_view );
 
 /**

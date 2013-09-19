@@ -10,25 +10,8 @@ var config = require( '../../config' )( ),
 	dot = require( 'dot' ),
 	Base_view = require( './view' );
 
-function Html_view( ) {
-	this._response = null;
-	this._name = null;
-
-	this._webPath = null;
-	this._filePath = null;
-	this._viewPath = null;
-
-	this._styles = [ ];
-	this._scripts = [ ];
-}
-util.inherits( Html_view, Base_view );
-
-/**
- * Method: construct
- */
-
-Html_view.prototype.construct = function( res, name ) {
-	this.constructor._superProto.construct.apply( this, arguments );
+function Html_view( res, name ) {
+	Base_view.apply( this, arguments );
 	var opts = { group: 0 };
 
 	this._name = name;
@@ -37,13 +20,17 @@ Html_view.prototype.construct = function( res, name ) {
 	this._filePath = '/controllers/' + this._name;
 	this._viewPath = this._filePath + '/views';
 
+	this._styles = [ ];
 	this._addStyle( '/base/css/bootstrap.min.css', opts );
 
+	this._scripts = [ ];
 	this._addScript( '/base/js/jquery.min.js', opts );
 	this._addScript( '/base/js/bootstrap.min.js', opts );
 	this._addScript( '/base/js/app.js', opts );
 	this._addScript( '/base/js/app.module.js', opts );
-};
+}
+
+util.inherits( Html_view, Base_view );
 
 /**
  * Method: partial

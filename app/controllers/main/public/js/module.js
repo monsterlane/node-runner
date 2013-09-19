@@ -9,9 +9,9 @@ app.MainModule = function( ) { };
 app.extend( app.MainModule, app.BaseModule );
 
 /**
- * Method: construct
+ * Method: bind
  */
 
-app.MainModule.prototype.construct = function( ) {
+app.MainModule.prototype.bind = function( ) {
 
 };

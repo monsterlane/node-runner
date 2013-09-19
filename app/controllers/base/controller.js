@@ -8,17 +8,11 @@ var config = require( '../../config' )( ),
 
 function Base_controller( ) {
 	this._name = 'base';
-	this._options = { };
 	this._hooks = { };
-}
 
-/**
- * Method: _construct
- */
-
-Base_controller.prototype._construct = function( ) {
+	this._options = { };
 	this._setOption( 'app.requiresAuthentication', false );
-};
+}
 
 /**
  * Method: _getOption

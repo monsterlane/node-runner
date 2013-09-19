@@ -3,15 +3,7 @@
  * View: Base
  */
 
-function Base_view( ) {
-	this._response = null;
-};
-
-/**
- * Method: construct
- */
-
-Base_view.prototype.construct = function( res ) {
+function Base_view( res ) {
 	this._response = res;
 };
 

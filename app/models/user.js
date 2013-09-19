@@ -4,12 +4,14 @@
  */
 
 var util = require( '../helpers/util' ),
-	Base = require( './base' );
+	Base_model = require( './base' );
 
-function User( db ) {
+function User_model( ) {
+	Base_model.apply( this, arguments );
 	this._collection = 'users';
 };
-util.inherits( User, Base );
+
+util.inherits( User_model, Base_model );
 
 /**
  * Method: search
@@ -17,10 +19,10 @@ util.inherits( User, Base );
  * @param {Function} callback
  */
 
-User.prototype.search = function( query, callback ) {
+User_model.prototype.search = function( query, callback ) {
 	this.getCollection( ).find( query || { } ).toArray( callback );
 };
 
 /* bind */
 
-module.exports = User;
+module.exports = User_model;

@@ -8,20 +8,17 @@ Class: Base Module
 if ( window.hasOwnProperty( 'app' ) == false ) window.app = { };
 
 app.BaseModule = function( ) {
-	this._model = null;
+	this._model = [ ];
 	this._conduit = null;
-	this._perf = null;
+	this._perf = [ ];
 };
 
 /**
- * Method: construct
- * Acts as a constructor and should be called to create a global instance
+ * Method: bind
+ * Called automatically when an instance is created
  */
 
-app.BaseModule.prototype.construct = function( ) {
-	this._perf = [ ];
-	this._model = [ ];
-};
+app.BaseModule.prototype.bind = function( ) { };
 
 /**
  * Method: getData

@@ -1,12 +1,11 @@
 
+var util = require( 'util' );
+
 /* bind */
 
 module.exports = {
 	inherits: function( sub, sup ) {
-		sub.prototype = new sup( sup );
-		sub.prototype.constructor = sub;
-		sub._superClass = sup;
-		sub._superProto = sup.prototype;
+		util.inherits( sub, sup );
 	},
 	merge: function( obj1, obj2 ) {
 		for ( var i in obj2 ) {

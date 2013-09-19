@@ -9,8 +9,10 @@ var util = require( '../../helpers/util' ),
 	Html_view = require( './../base/html' );
 
 function Login_controller( ) {
+	Base_controller.apply( this, arguments );
 	this._name = 'login';
 };
+
 util.inherits( Login_controller, Base_controller );
 
 /**
@@ -18,9 +20,7 @@ util.inherits( Login_controller, Base_controller );
  */
 
 Login_controller.prototype.index = function( req, res, next ) {
-	var view = new Html_view( );
-
-	view.construct( res, this._name );
+	var view = new Html_view( res, this._name );
 
 	view.partial( 'main.html', { name: this._name }, function( err, result ) {
 		view.render( result );

@@ -9,11 +9,11 @@ function Base( ) {
 };
 
 /**
- * Method: construct
+ * Method: connect
  * @param {Object} db
  */
 
-Base.prototype.construct = function( db ) {
+Base.prototype.connect = function( db ) {
 	this._db = db;
 
 	if ( typeof this._collection == 'string' ) {

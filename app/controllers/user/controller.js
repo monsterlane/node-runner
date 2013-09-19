@@ -10,8 +10,10 @@ var util = require( '../../helpers/util' ),
 	user = new( require( '../../models/user' ) );
 
 function User_controller( ) {
+	Base_controller.apply( this, arguments );
 	this._name = 'user';
 };
+
 util.inherits( User_controller, Base_controller );
 
 /**
@@ -19,12 +21,11 @@ util.inherits( User_controller, Base_controller );
  */
 
 User_controller.prototype.index = function( req, res, next ) {
-	var view = new Html_view( ),
+	var view = new Html_view( res, this._name ),
 		self = this,
 		query = { };
 
-	view.constrcut( res, this._name );
-	user.construct( req.db );
+	user.connect( req.db );
 
 	async.waterfall([
 		function( callback ) {

@@ -21,9 +21,6 @@ module.exports = function( parent, options ) {
 			method, path,
 			key, i, len;
 
-		// call the controller's constructor
-		obj._construct( );
-
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
 			app.use( '/' + name + '/' + assets[ i ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );

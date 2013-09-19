@@ -6,17 +6,13 @@
 var util = require( '../../helpers/util' ),
 	Html_view = require( './../base/html' );
 
-function Main_view( ) { };
-util.inherits( Main_view, Html_view );
+function Main_view( res, name ) {
+	Html_view.apply( this, arguments );
 
-/**
- * Method: construct
- */
-
-Main_view.prototype.construct = function( res, name ) {
-	this.constructor._superProto.construct.apply( this, arguments );
 	this._addScript( '/main/js/module.js' );
 };
+
+util.inherits( Main_view, Html_view );
 
 /* bind */
 
