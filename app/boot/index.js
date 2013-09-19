@@ -29,7 +29,7 @@ module.exports = function( parent, options ) {
 		// generate routes based on the exported methods
 		for ( key in obj ) {
 			// "reserved" exports
-			if ( key == 'constructor' || key.charAt( 0 ) == '_' ) {
+			if ( key.charAt( 0 ) == '_' ) {
 				continue;
 			}
 
