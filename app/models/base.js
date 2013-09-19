@@ -9,11 +9,11 @@ function Base( ) {
 };
 
 /**
- * Method: setDatabase
+ * Method: construct
  * @param {Object} db
  */
 
-Base.prototype.setDatabase = function( db ) {
+Base.prototype.construct = function( db ) {
 	this._db = db;
 
 	if ( typeof this._collection == 'string' ) {

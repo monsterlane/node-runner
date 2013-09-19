@@ -5,7 +5,8 @@
 
 var util = require( 'util' ),
 	async = require( 'async' ),
-	Base_controller = require( './../base/controller' );
+	Base_controller = require( './../base/controller' ),
+	view = new( require( './../base/html' ) );
 
 function Login_controller( ) {
 	Base_controller.apply( this, arguments );
@@ -19,12 +20,10 @@ util.inherits( Login_controller, Base_controller );
  */
 
 Login_controller.prototype.index = function( req, res, next ) {
-	var self = this;
+	view.construct( res, this._name );
 
-	this._template( this._viewPath + '/main.html', {
-		name: this._name
-	}, function( err, content ) {
-		self._render( res, content );
+	view.template( 'main.html', { name: this._name }, function( err, result ) {
+		view.render( result );
 	});
 };
 

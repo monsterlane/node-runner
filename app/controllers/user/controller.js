@@ -6,6 +6,7 @@
 var util = require( 'util' ),
 	async = require( 'async' ),
 	Base_controller = require( './../base/controller' ),
+	view = new( require( './../base/html' ) ),
 	user = new( require( '../../models/user' ) );
 
 function User_controller( ) {
@@ -23,7 +24,8 @@ User_controller.prototype.index = function( req, res, next ) {
 	var self = this,
 		query = { };
 
-	user.setDatabase( req.db );
+	user.construct( req.db );
+	view.construct( res, this._name );
 
 	async.waterfall([
 		function( callback ) {
@@ -32,14 +34,12 @@ User_controller.prototype.index = function( req, res, next ) {
 			});
 		},
 		function( result, callback ) {
-			self._template( self._viewPath + '/main.html', {
-				users: result
-			}, function( err, content ) {
-				callback( null, content );
+			view.template( 'main.html', { users: result }, function( err, result ) {
+				callback( null, result );
 			});
 		}
-	], function ( err, result ) {
-		self._render( res, result );
+	], function( err, result ) {
+		view.render( result );
 	});
 };
 

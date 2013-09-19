@@ -6,7 +6,7 @@
 var util = require( 'util' ),
 	Base_view = require( './view' );
 
-function Json_view( ) {
+function Json_view( res ) {
 	Base_view.apply( this, arguments );
 }
 
