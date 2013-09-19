@@ -17,7 +17,7 @@ module.exports = {
 		for ( var i in obj2 ) {
 			if ( obj1.hasOwnProperty( i ) ) {
 				if ( obj2[ i ].constructor == Object ) {
-					obj1[ i ] = this._defaults( obj1[ i ], obj2[ i ] );
+					obj1[ i ] = this.merge( obj1[ i ], obj2[ i ] );
 				}
 				else {
 					obj1[ i ] = obj2[ i ];
