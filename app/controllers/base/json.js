@@ -6,10 +6,7 @@
 var util = require( 'util' ),
 	Base_view = require( './view' );
 
-function Json_view( res ) {
-	Base_view.apply( this, arguments );
-}
-
+function Json_view( ) { };
 util.inherits( Json_view, Base_view );
 
 /**

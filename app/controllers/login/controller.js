@@ -9,10 +9,8 @@ var util = require( '../../helpers/util' ),
 	view = new( require( './../base/html' ) );
 
 function Login_controller( ) {
-	Base_controller.apply( this, arguments );
 	this._name = 'login';
-}
-
+};
 util.inherits( Login_controller, Base_controller );
 
 /**

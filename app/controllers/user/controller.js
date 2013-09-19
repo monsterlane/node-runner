@@ -10,10 +10,8 @@ var util = require( '../../helpers/util' ),
 	user = new( require( '../../models/user' ) );
 
 function User_controller( ) {
-	Base_controller.apply( this, arguments );
 	this._name = 'user';
-}
-
+};
 util.inherits( User_controller, Base_controller );
 
 /**

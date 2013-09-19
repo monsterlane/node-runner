@@ -7,10 +7,8 @@ var util = require( '../helpers/util' ),
 	Base = require( './base' );
 
 function User( db ) {
-	Base.apply( this, arguments );
 	this._collection = 'users';
-}
-
+};
 util.inherits( User, Base );
 
 /**

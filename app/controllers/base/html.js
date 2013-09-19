@@ -11,10 +11,9 @@ var config = require( '../../config' )( ),
 	Base_view = require( './view' );
 
 function Html_view( ) {
-	Base_view.apply( this, arguments );
-
 	this._response = null;
 	this._name = null;
+
 	this._webPath = null;
 	this._filePath = null;
 	this._viewPath = null;
@@ -22,7 +21,6 @@ function Html_view( ) {
 	this._styles = [ ];
 	this._scripts = [ ];
 }
-
 util.inherits( Html_view, Base_view );
 
 /**
@@ -30,7 +28,7 @@ util.inherits( Html_view, Base_view );
  */
 
 Html_view.prototype.construct = function( res, name ) {
-	this.constructor.super_.prototype.construct.apply( this, arguments );
+	this.constructor._superProto.construct.apply( this, arguments );
 	var opts = { group: 0 };
 
 	this._name = name;

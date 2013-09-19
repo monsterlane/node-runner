@@ -10,28 +10,28 @@ if ( window.hasOwnProperty( 'app' ) == false ) window.app = { };
 /**
  * Method: extend
  * Mimics classical inheritance
- * @param {Class} aSubClass
- * @param {Class} aSuperClass
+ * @param {Class} sub
+ * @param {Class} sup
  */
 
-app.extend = function( aSubClass, aSuperClass ) {
-	aSubClass.prototype = new aSuperClass( aSuperClass );
-	aSubClass.prototype.constructor = aSubClass;
-	aSubClass._superClass = aSuperClass;
-	aSubClass._superProto = aSuperClass.prototype;
+app.extend = function( sub, sup ) {
+	sub.prototype = new sup( sup );
+	sub.prototype.constructor = sub;
+	sub._superClass = sup;
+	sub._superProto = sup.prototype;
 };
 
 /**
  * Method: pad
  * Pads a string with leading characters
- * @param {String} aString
- * @param {Int} aLength
- * @param {String} aCharacter
+ * @param {String} str
+ * @param {Int} len
+ * @param {String} char
  */
 
-app.pad = function( aString, aLength, aCharacter ) {
-	var c = aCharacter || 0,
-		s = aString + '';
+app.pad = function( str, len, char ) {
+	var c = char || 0,
+		s = str + '';
 
-	return ( s.length >= aLength ) ? s : new Array( aLength - s.length + 1 ).join( c ) + s;
+	return ( s.length >= len ) ? s : new Array( len - s.length + 1 ).join( c ) + s;
 };

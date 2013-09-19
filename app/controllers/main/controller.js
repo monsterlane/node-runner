@@ -8,10 +8,8 @@ var util = require( '../../helpers/util' ),
 	view = new( require( './../base/html' ) );
 
 function Main_controller( ) {
-	Base_controller.apply( this, arguments );
 	this._name = 'main';
-}
-
+};
 util.inherits( Main_controller, Base_controller );
 
 /**
