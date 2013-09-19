@@ -21,30 +21,6 @@ Base_controller.prototype._construct = function( ) {
 };
 
 /**
- * Method: _defaults
- * @param {Object} obj1
- * @param {Object} obj2
- */
-
-Base_controller.prototype._defaults = function( obj1, obj2 ) {
-	for ( var i in obj2 ) {
-		if ( obj1.hasOwnProperty( i ) ) {
-			if ( obj2[ i ].constructor == Object ) {
-				obj1[ i ] = this._defaults( obj1[ i ], obj2[ i ] );
-			}
-			else {
-				obj1[ i ] = obj2[ i ];
-			}
-		}
-		else {
-			obj1[ i ] = obj2[ i ];
-		}
-	}
-
-	return obj1;
-};
-
-/**
  * Method: _getOption
  * @param {String} path
  * @return {Object}

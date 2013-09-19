@@ -3,7 +3,7 @@
  * Controller: User
  */
 
-var util = require( 'util' ),
+var util = require( '../../helpers/util' ),
 	async = require( 'async' ),
 	Base_controller = require( './../base/controller' ),
 	view = new( require( './../base/html' ) ),
@@ -34,7 +34,7 @@ User_controller.prototype.index = function( req, res, next ) {
 			});
 		},
 		function( result, callback ) {
-			view.template( 'main.html', { users: result }, function( err, result ) {
+			view.partial( 'main.html', { users: result }, function( err, result ) {
 				callback( null, result );
 			});
 		}

@@ -3,7 +3,7 @@
  * Controller: Main
  */
 
-var util = require( 'util' ),
+var util = require( '../../helpers/util' ),
 	Base_controller = require( './../base/controller' ),
 	view = new( require( './../base/html' ) );
 
@@ -21,7 +21,7 @@ util.inherits( Main_controller, Base_controller );
 Main_controller.prototype.index = function( req, res, next ) {
 	view.construct( res, this._name );
 
-	view.template( 'main.html', { name: this._name }, function( err, result ) {
+	view.partial( 'main.html', { name: this._name }, function( err, result ) {
 		view.render( result );
 	});
 };

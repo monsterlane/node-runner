@@ -4,7 +4,7 @@
  */
 
 var config = require( '../../config' )( ),
-	util = require( 'util' ),
+	util = require( '../../helpers/util' ),
 	fs = require( 'fs' ),
 	async = require( 'async' ),
 	dot = require( 'dot' ),
@@ -13,6 +13,7 @@ var config = require( '../../config' )( ),
 function Html_view( ) {
 	Base_view.apply( this, arguments );
 
+	this._response = null;
 	this._name = null;
 	this._webPath = null;
 	this._filePath = null;
@@ -47,10 +48,10 @@ Html_view.prototype.construct = function( res, name ) {
 };
 
 /**
- * Method: template
+ * Method: partial
  */
 
-Html_view.prototype.template = function( path, def, callback ) {
+Html_view.prototype.partial = function( path, def, callback ) {
 	var path = ( path.indexOf( '/' ) == -1 ) ? this._viewPath + '/' + path : path,
 		def = def || { };
 
@@ -76,7 +77,7 @@ Html_view.prototype.template = function( path, def, callback ) {
  */
 
 Html_view.prototype._addStyle = function( path, opts ) {
-	var opts = this._defaults({
+	var opts = util.merge( {
 		group: 1,
 		media: 'all'
 	}, opts );
@@ -123,7 +124,7 @@ Html_view.prototype._getStyles = function( ) {
  */
 
 Html_view.prototype._addScript = function( path, opts ) {
-	var opts = this._defaults({
+	var opts = util.merge( {
 		group: 1
 	}, opts );
 
@@ -168,12 +169,12 @@ Html_view.prototype._getScripts = function( ) {
  */
 
 Html_view.prototype._getDocumentHeader = function( def, callback ) {
-	var def = this._defaults( {
+	var def = util.merge( {
 		name: this._name,
 		styles: this._getStyles( )
 	}, def );
 
-	this.template( '/controllers/base/views/header.html', def, function( err, content ) {
+	this.partial( '/controllers/base/views/header.html', def, function( err, content ) {
 		callback( null, content );
 	});
 };
@@ -185,12 +186,12 @@ Html_view.prototype._getDocumentHeader = function( def, callback ) {
  */
 
 Html_view.prototype._getDocumentFooter = function( def, callback ) {
-	var def = this._defaults( {
+	var def = util.merge( {
 		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
 		scripts: this._getScripts( )
 	}, def );
 
-	this.template( '/controllers/base/views/footer.html', def, function( err, content ) {
+	this.partial( '/controllers/base/views/footer.html', def, function( err, content ) {
 		callback( null, content );
 	});
 };

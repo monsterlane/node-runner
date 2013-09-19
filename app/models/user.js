@@ -3,7 +3,7 @@
  * Model: User
  */
 
-var util = require( 'util' ),
+var util = require( '../helpers/util' ),
 	Base = require( './base' );
 
 function User( db ) {
