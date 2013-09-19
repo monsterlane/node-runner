@@ -33,29 +33,6 @@ function Html_view( res, name ) {
 util.inherits( Html_view, Base_view );
 
 /**
- * Method: partial
- */
-
-Html_view.prototype.partial = function( path, def, callback ) {
-	var path = ( path.indexOf( '/' ) == -1 ) ? this._viewPath + '/' + path : path,
-		def = def || { };
-
-	fs.readFile( process.argv[ 1 ].replace( /\/[^\/]*$/, path ), 'utf8', function( err, data ) {
-		var tpl, str;
-
-		if ( err ) {
-			callback( new Error( err ), null );
-		}
-		else {
-			tpl = dot.compile( data );
-			str = tpl( def );
-
-			callback( null, str );
-		}
-	});
-};
-
-/**
  * Method: _addStyle
  * @param {String} path
  * @param {Object} opts
@@ -150,7 +127,7 @@ Html_view.prototype._getScripts = function( ) {
 /**
  * Method: _getDocumentHeader
  * @param {Object} def
- * @return {String}
+ * @param {Function} callback
  */
 
 Html_view.prototype._getDocumentHeader = function( def, callback ) {
@@ -167,7 +144,7 @@ Html_view.prototype._getDocumentHeader = function( def, callback ) {
 /**
  * Method: _getDocumentFooter
  * @param {Object} def
- * @return {String}
+ * @param {Function} callback
  */
 
 Html_view.prototype._getDocumentFooter = function( def, callback ) {
@@ -182,7 +159,34 @@ Html_view.prototype._getDocumentFooter = function( def, callback ) {
 };
 
 /**
+ * Method: partial
+ * @param {String} path
+ * @param {Object} def
+ * @param {Function} callback
+ */
+
+Html_view.prototype.partial = function( path, def, callback ) {
+	var path = ( path.indexOf( '/' ) == -1 ) ? this._viewPath + '/' + path : path,
+		def = def || { };
+
+	fs.readFile( process.argv[ 1 ].replace( /\/[^\/]*$/, path ), 'utf8', function( err, data ) {
+		var tpl, str;
+
+		if ( err ) {
+			callback( new Error( err ), null );
+		}
+		else {
+			tpl = dot.compile( data );
+			str = tpl( def );
+
+			callback( null, str );
+		}
+	});
+};
+
+/**
  * Method: render
+ * @param {String} body
  */
 
 Html_view.prototype.render = function( body ) {
