@@ -6,7 +6,7 @@
 var util = require( '../../helpers/util' ),
 	async = require( 'async' ),
 	Base_controller = require( './../base/controller' ),
-	view = new( require( './../base/html' ) ),
+	Html_view = require( './../base/html' ),
 	user = new( require( '../../models/user' ) );
 
 function User_controller( ) {
@@ -19,11 +19,12 @@ util.inherits( User_controller, Base_controller );
  */
 
 User_controller.prototype.index = function( req, res, next ) {
-	var self = this,
+	var view = new Html_view( ),
+		self = this,
 		query = { };
 
+	view.constrcut( res, this._name );
 	user.construct( req.db );
-	view.construct( res, this._name );
 
 	async.waterfall([
 		function( callback ) {
