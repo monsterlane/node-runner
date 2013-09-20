@@ -11,7 +11,6 @@ app.configure( function( ) {
 	app.engine( 'html', cons.dot );
 	app.set( 'view engine', 'html' );
 	app.set( 'views', __dirname + '/views' );
-	app.use( express.favicon( ) );
 
 	// logging
 	if ( !module.parent ) app.use( express.logger( 'dev' ) );
@@ -24,6 +23,9 @@ app.configure( function( ) {
 
 	// support _method (PUT in forms etc)
 	app.use( express.methodOverride( ) );
+
+	// use a favicon
+	app.use( express.favicon( __dirname + '/controllers/base/public/img/favicon.ico' ) );
 });
 
 mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host + ':' + config.server[ config.environment ].database.port + '/' + config.server[ config.environment ].database.name, function( err, db ) {
