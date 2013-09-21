@@ -12,13 +12,27 @@ function Base_controller( ) {
 
 	this._hooks = {
 		pre_controller: [ ],
-		post_controller_constructor: [ ],
 		post_controller: [ ]
 	};
 
 	this._options = new collection( );
 	this._resolveOptions( );
 }
+
+/**
+ * Method: _addHook
+ * @param {String} key
+ * @param {Function} callback
+ */
+
+Base_controller.prototype._addHook = function( key, callback ) {
+	if ( this._hooks.hasOwnProperty( key ) ) {
+		this.hooks[ key ].push( callback );
+	}
+	else {
+		throw new Error( 'unrecognized hook in ' + this._name + ': ' + key );
+	}
+};
 
 /**
  * Method: _getOptions
