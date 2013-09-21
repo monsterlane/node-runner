@@ -30,7 +30,16 @@ module.exports = function( parent, options ) {
 
 		// before middleware support
 		for ( i = 0, len = obj._hooks.before.length; i < len; i++ ) {
-			app.all( obj._hooks.before[ i ].path, attachDb, obj._hooks.before[ i ].callback );
+			if ( name == 'main' ) {
+				path = ( obj._hooks.before[ i ].path != '*' ) ? '/' + obj._hooks.before[ i ].path : '/';
+			}
+			else {
+				path = '/' + name + '/' + obj._hooks.before[ i ].path;
+			}
+
+			app.all( path, attachDb, obj._hooks.before[ i ].callback );
+
+			verbose && console.log( '     %s -> %s', 'BEFORE', path );
 		}
 
 		// generate routes based on the exported methods
