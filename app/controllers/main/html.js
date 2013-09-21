@@ -8,11 +8,26 @@ var util = require( '../../helpers/util' ),
 
 function Main_view( res, name ) {
 	Html_view.apply( this, arguments );
-
-	this._addScript( '/main/js/module.js' );
 };
 
 util.inherits( Main_view, Html_view );
+
+/**
+ * Method: _setDocumentAssets
+ */
+
+Main_view.prototype._setDocumentAssets = function( ) {
+	Html_view.prototype._setDocumentAssets.apply( this, arguments );
+	this._addScript( '/main/js/module.js' );
+};
+
+/**
+ * Method: _getDocumentTitle
+ */
+
+Main_view.prototype._getDocumentTitle = function( ) {
+	return 'welcome';
+};
 
 /* bind */
 

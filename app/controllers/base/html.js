@@ -12,7 +12,6 @@ var config = require( '../../config' )( ),
 
 function Html_view( res, name ) {
 	Base_view.apply( this, arguments );
-	var opts = { group: 0 };
 
 	this._name = name;
 
@@ -21,13 +20,9 @@ function Html_view( res, name ) {
 	this._viewPath = this._filePath + '/views';
 
 	this._styles = [ ];
-	this._addStyle( '/base/css/bootstrap.min.css', opts );
-
 	this._scripts = [ ];
-	this._addScript( '/base/js/jquery.min.js', opts );
-	this._addScript( '/base/js/bootstrap.min.js', opts );
-	this._addScript( '/base/js/app.js', opts );
-	this._addScript( '/base/js/app.module.js', opts );
+
+	this._setDocumentAssets( );
 }
 
 util.inherits( Html_view, Base_view );
@@ -125,6 +120,30 @@ Html_view.prototype._getScripts = function( ) {
 };
 
 /**
+ * Method: _setDocumentAssets
+ */
+
+Html_view.prototype._setDocumentAssets = function( ) {
+	var opts = { group: 0 };
+
+	this._addStyle( '/base/css/bootstrap.min.css', opts );
+
+	this._addScript( '/base/js/jquery.min.js', opts );
+	this._addScript( '/base/js/bootstrap.min.js', opts );
+	this._addScript( '/base/js/app.js', opts );
+	this._addScript( '/base/js/app.module.js', opts );
+};
+
+/**
+ * Method: _getDocumentTitle
+ * @return {String}
+ */
+
+Html_view.prototype._getDocumentTitle = function( ) {
+	return this._name;
+};
+
+/**
  * Method: _getDocumentHeader
  * @param {Object} def
  * @param {Function} callback
@@ -132,7 +151,7 @@ Html_view.prototype._getScripts = function( ) {
 
 Html_view.prototype._getDocumentHeader = function( def, callback ) {
 	var def = util.merge( {
-		name: this._name,
+		title: this._getDocumentTitle( ),
 		styles: this._getStyles( )
 	}, def );
 
