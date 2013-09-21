@@ -4,56 +4,38 @@
  */
 
 var config = require( '../../config' )( ),
-	fs = require( 'fs' );
+	fs = require( 'fs' ),
+	collection = require( '../../helpers/collection' );
 
 function Base_controller( ) {
 	this._name = 'base';
-	this._hooks = { };
 
-	this._options = { };
-	this._setOption( 'app.requiresAuthentication', false );
+	this._hooks = {
+		pre_system: [ ],
+		pre_controller: [ ],
+		post_controller_constructor: [ ],
+		post_controller: [ ]
+	};
+
+	this._options = new collection( );
+	this._resolveOptions( );
 }
 
 /**
- * Method: _getOption
- * @param {String} path
+ * Method: _getOptions
  * @return {Object}
  */
 
-Base_controller.prototype._getOption = function( path ) {
-	var path = path.split( '.' ),
-		key = this._options,
-		i, len;
-
-	for ( i = 0, len = path.length; i < len; i++ ) {
-		if ( !key.hasOwnProperty( path[ i ] ) ) {
-			return null;
-		}
-
-		key = key[ path[ i ] ];
-	}
-
-	return key;
+Base_controller.prototype._getOptions = function( ) {
+	return this._options;
 };
 
 /**
- * Method: _setOption
- * @param {String} path
- * @param {Object} value
+ * Method: _resolveOptions
  */
 
-Base_controller.prototype._setOption = function( path, value ) {
-	var path = path.split( '.' ),
-		key = this._options,
-		i, len;
-
-	for ( i = 0, len = path.length; i < len; i++ ) {
-		if ( !key.hasOwnProperty( path[ i ] ) ) {
-			key[ path[ i ] ] = ( i + 1 < len ) ? { } : value;
-		}
-
-		key = key[ path[ i ] ];
-	}
+Base_controller.prototype._resolveOptions = function( ) {
+	this._getOptions( ).set( 'app.requiresAuthentication', false );
 };
 
 /* bind */

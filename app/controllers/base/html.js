@@ -22,10 +22,19 @@ function Html_view( res, name ) {
 	this._styles = [ ];
 	this._scripts = [ ];
 
+	this._resolveOptions( );
 	this._setDocumentAssets( );
 }
 
 util.inherits( Html_view, Base_view );
+
+/**
+ * Method: _resolveOptions
+ */
+
+Html_view.prototype._resolveOptions = function( ) {
+	this.getOptions( ).set( 'app.use.googleAnalytics', null );
+};
 
 /**
  * Method: _addStyle
@@ -169,7 +178,8 @@ Html_view.prototype._getDocumentHeader = function( def, callback ) {
 Html_view.prototype._getDocumentFooter = function( def, callback ) {
 	var def = util.merge( {
 		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
-		scripts: this._getScripts( )
+		scripts: this._getScripts( ),
+		analytics: this._options.get( 'app.use.googleAnalytics' )
 	}, def );
 
 	this.partial( '/controllers/base/views/footer.html', def, function( err, content ) {
