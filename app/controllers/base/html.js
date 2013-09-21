@@ -39,6 +39,46 @@ Html_view.prototype.resolveOptions = function( ) {
 };
 
 /**
+ * Method: resolveMetaTags
+ */
+
+Html_view.prototype.resolveMetaTags = function( ) {
+	this.addMetaTag( 'author', 'Jonathan Down' );
+	this.addMetaTag( 'description', 'An HTML5 app framework written in Express, doT.js, MongoDB, and Redis' );
+	this.addMetaTag( 'robots', 'index,follow' );
+	this.addMetaTag( 'viewport', 'initial-scale=1.0,width=device-width' );
+};
+
+/**
+ * Method: addMetaTag
+ * @param {String} name
+ * @param {String} content
+ */
+
+Html_view.prototype.addMetaTag = function( name, content ) {
+	this._meta.push( {
+		name: name,
+		content: content
+	} );
+};
+
+/**
+ * Method: createMetaTags
+ * @return {String}
+ */
+
+Html_view.prototype.createMetaTags = function( ) {
+	var str = '',
+		i, len;
+
+	for ( i = 0, len = this._meta.length; i < len; i++ ) {
+		str += '<meta name="' + this._meta[ i ].name + '" content="' + this._meta[ i ].content + '" />';
+	}
+
+	return str;
+};
+
+/**
  * Method: resolveIncludes
  */
 
@@ -140,46 +180,6 @@ Html_view.prototype.createScriptIncludes = function( ) {
 				str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
 			}
 		}
-	}
-
-	return str;
-};
-
-/**
- * Method: resolveMetaTags
- */
-
-Html_view.prototype.resolveMetaTags = function( ) {
-	this.addMetaTag( 'author', 'Jonathan Down' );
-	this.addMetaTag( 'description', 'An HTML5 app framework written in Express, doT.js, MongoDB, and Redis' );
-	this.addMetaTag( 'robots', 'index,follow' );
-	this.addMetaTag( 'viewport', 'initial-scale=1.0,width=device-width' );
-};
-
-/**
- * Method: addMetaTag
- * @param {String} name
- * @param {String} content
- */
-
-Html_view.prototype.addMetaTag = function( name, content ) {
-	this._meta.push( {
-		name: name,
-		content: content
-	} );
-};
-
-/**
- * Method: createMetaTags
- * @return {String}
- */
-
-Html_view.prototype.createMetaTags = function( ) {
-	var str = '',
-		i, len;
-
-	for ( i = 0, len = this._meta.length; i < len; i++ ) {
-		str += '<meta name="' + this._meta[ i ].name + '" content="' + this._meta[ i ].content + '" />';
 	}
 
 	return str;
