@@ -22,27 +22,27 @@ function Html_view( res, name ) {
 	this._styles = [ ];
 	this._scripts = [ ];
 
-	this._resolveOptions( );
-	this._setDocumentAssets( );
+	this.resolveOptions( );
+	this.setDocumentAssets( );
 }
 
 util.inherits( Html_view, Base_view );
 
 /**
- * Method: _resolveOptions
+ * Method: resolveOptions
  */
 
-Html_view.prototype._resolveOptions = function( ) {
+Html_view.prototype.resolveOptions = function( ) {
 	this.getOptions( ).set( 'app.use.googleAnalytics', null );
 };
 
 /**
- * Method: _addStyle
+ * Method: addStyle
  * @param {String} path
  * @param {Object} opts
  */
 
-Html_view.prototype._addStyle = function( path, opts ) {
+Html_view.prototype.addStyle = function( path, opts ) {
 	var opts = util.merge( {
 		group: 1,
 		media: 'all'
@@ -59,11 +59,11 @@ Html_view.prototype._addStyle = function( path, opts ) {
 };
 
 /**
- * Method: _getStyles
+ * Method: getStyles
  * @return {String}
  */
 
-Html_view.prototype._getStyles = function( ) {
+Html_view.prototype.getStyles = function( ) {
 	var t = new Date( ).getTime( ),
 		str = '',
 		i, len1,
@@ -84,12 +84,12 @@ Html_view.prototype._getStyles = function( ) {
 };
 
 /**
- * Method: _addScript
+ * Method: addScript
  * @param {String} path
  * @param {Object} opts
  */
 
-Html_view.prototype._addScript = function( path, opts ) {
+Html_view.prototype.addScript = function( path, opts ) {
 	var opts = util.merge( {
 		group: 1
 	}, opts );
@@ -104,11 +104,11 @@ Html_view.prototype._addScript = function( path, opts ) {
 };
 
 /**
- * Method: _getScripts
+ * Method: getScripts
  * @return {String}
  */
 
-Html_view.prototype._getScripts = function( ) {
+Html_view.prototype.getScripts = function( ) {
 	var t = new Date( ).getTime( ),
 		str = '',
 		i, len1,
@@ -129,26 +129,26 @@ Html_view.prototype._getScripts = function( ) {
 };
 
 /**
- * Method: _setDocumentAssets
+ * Method: setDocumentAssets
  */
 
-Html_view.prototype._setDocumentAssets = function( ) {
+Html_view.prototype.setDocumentAssets = function( ) {
 	var opts = { group: 0 };
 
-	this._addStyle( '/base/css/bootstrap.min.css', opts );
+	this.addStyle( '/base/css/bootstrap.min.css', opts );
 
-	this._addScript( '/base/js/jquery.min.js', opts );
-	this._addScript( '/base/js/bootstrap.min.js', opts );
-	this._addScript( '/base/js/app.js', opts );
-	this._addScript( '/base/js/app.module.js', opts );
+	this.addScript( '/base/js/jquery.min.js', opts );
+	this.addScript( '/base/js/bootstrap.min.js', opts );
+	this.addScript( '/base/js/app.js', opts );
+	this.addScript( '/base/js/app.module.js', opts );
 };
 
 /**
- * Method: _getDocumentTitle
+ * Method: getDocumentTitle
  * @return {String}
  */
 
-Html_view.prototype._getDocumentTitle = function( ) {
+Html_view.prototype.getDocumentTitle = function( ) {
 	return this._name;
 };
 
@@ -158,10 +158,10 @@ Html_view.prototype._getDocumentTitle = function( ) {
  * @param {Function} callback
  */
 
-Html_view.prototype._getDocumentHeader = function( def, callback ) {
+Html_view.prototype.getDocumentHeader = function( def, callback ) {
 	var def = util.merge( {
-		title: this._getDocumentTitle( ),
-		styles: this._getStyles( )
+		title: this.getDocumentTitle( ),
+		styles: this.getStyles( )
 	}, def );
 
 	this.partial( '/controllers/base/views/header.html', def, function( err, content ) {
@@ -175,11 +175,11 @@ Html_view.prototype._getDocumentHeader = function( def, callback ) {
  * @param {Function} callback
  */
 
-Html_view.prototype._getDocumentFooter = function( def, callback ) {
+Html_view.prototype.getDocumentFooter = function( def, callback ) {
 	var def = util.merge( {
 		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
-		scripts: this._getScripts( ),
-		analytics: this._options.get( 'app.use.googleAnalytics' )
+		scripts: this.getScripts( ),
+		analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 	}, def );
 
 	this.partial( '/controllers/base/views/footer.html', def, function( err, content ) {
@@ -224,12 +224,12 @@ Html_view.prototype.render = function( body ) {
 
 	async.parallel([
 		function( callback ) {
-			self._getDocumentHeader( { }, function( err, content ) {
+			self.getDocumentHeader( { }, function( err, content ) {
 				callback( null, content );
 			});
 		},
 		function( callback ) {
-			self._getDocumentFooter( { }, function( err, content ) {
+			self.getDocumentFooter( { }, function( err, content ) {
 				callback( null, content );
 			});
 		}

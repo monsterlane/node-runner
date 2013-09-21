@@ -13,19 +13,19 @@ function Main_view( res, name ) {
 util.inherits( Main_view, Html_view );
 
 /**
- * Method: _setDocumentAssets
+ * Method: setDocumentAssets
  */
 
-Main_view.prototype._setDocumentAssets = function( ) {
-	Html_view.prototype._setDocumentAssets.apply( this, arguments );
-	this._addScript( '/main/js/module.js' );
+Main_view.prototype.setDocumentAssets = function( ) {
+	Html_view.prototype.setDocumentAssets.apply( this, arguments );
+	this.addScript( '/main/js/module.js' );
 };
 
 /**
- * Method: _getDocumentTitle
+ * Method: getDocumentTitle
  */
 
-Main_view.prototype._getDocumentTitle = function( ) {
+Main_view.prototype.getDocumentTitle = function( ) {
 	return 'welcome';
 };
 
