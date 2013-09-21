@@ -1,6 +1,8 @@
 
-var fs = require( 'fs' ),
-	express = require( 'express' );
+var config = require( '../config' )( ),
+	fs = require( 'fs' ),
+	express = require( 'express' ),
+	compressor = require( 'node-minify' );
 
 /* bind */
 
@@ -9,20 +11,21 @@ module.exports = function( parent, options ) {
 		attachDb = options.database;
 
 	fs.readdirSync( __dirname + '/../controllers' ).forEach( function( name ) {
-		// skip the base controller
-		if ( name == 'base' ) return;
-
 		verbose && console.log( '\n   %s:', name );
 
 		var obj = new( require( './../controllers/' + name + '/controller' ) ),
-			assets = [ 'img', 'css', 'js' ],
+			assets = [ 'img', 'css', 'js', 'fonts' ],
 			app = express( ),
 			method, path,
 			key, i, len;
 
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
-			app.use( '/' + name + '/' + assets[ i ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );
+			path = '/' + name + '/' + assets[ i ];
+
+			app.use( path, express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );
+
+			verbose && console.log( '     %s -> %s', 'STATIC', path );
 		}
 
 		// before middleware support

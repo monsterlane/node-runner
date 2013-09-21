@@ -33,9 +33,6 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		throw new Error( 'Sorry, there is no mongo db server running.' );
 	}
 	else {
-		var assets = [ 'img', 'css', 'js', 'fonts' ],
-			i, len;
-
 		var attachDb = function( req, res, next ) {
 			req.db = db;
 			next( );
@@ -43,11 +40,6 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 
 		// load controllers
 		require( './boot' )( app, { verbose: !module.parent, database: attachDb } );
-
-		// serve app wide static files
-		for ( i = 0, len = assets.length; i < len; i++ ) {
-			app.use( '/base/' + assets[ i ], express.static( __dirname + '/controllers/base/public/' + assets[ i ] ) );
-		}
 
 		// assume "not found" in the error msgs is a 404
 		app.use( function( err, req, res, next ) {
