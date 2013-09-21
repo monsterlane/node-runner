@@ -202,6 +202,7 @@ Html_view.prototype.getDocumentTitle = function( ) {
 
 Html_view.prototype.getDocumentContent = function( def, callback ) {
 	var def = util.merge( {
+		name: config.name,
 		title: this.getDocumentTitle( ),
 		meta: this.createMetaTags( ),
 		styles: this.createStyleIncludes( ),

@@ -4,6 +4,7 @@
  */
 
 var config = {
+	name: 'node-runner',
 	environment: 'development',
 	server: {
 		development: {
