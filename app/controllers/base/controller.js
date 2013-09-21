@@ -11,8 +11,7 @@ function Base_controller( ) {
 	this._name = 'base';
 
 	this._hooks = {
-		pre_controller: [ ],
-		post_controller: [ ]
+		before: [ ],
 	};
 
 	this._options = new collection( );
@@ -27,7 +26,7 @@ function Base_controller( ) {
 
 Base_controller.prototype._addHook = function( key, callback ) {
 	if ( this._hooks.hasOwnProperty( key ) ) {
-		this.hooks[ key ].push( callback );
+		this._hooks[ key ].push( callback );
 	}
 	else {
 		throw new Error( 'unrecognized hook in ' + this._name + ': ' + key );

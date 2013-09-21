@@ -25,6 +25,15 @@ module.exports = function( parent, options ) {
 			app.use( '/' + name + '/' + assets[ i ], express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );
 		}
 
+		// before middleware support
+		for ( i = 0, len = obj._hooks.before.length; i < len; i++ ) {
+			path = '/' + name + '/:' + name + '_id';
+			app.all( path, obj._hooks.before[ i ] );
+
+			path = '/' + name + '/:' + name + '_id/*';
+			app.all( path, obj._hooks.before[ i ] );
+		}
+
 		// generate routes based on the exported methods
 		for ( key in obj ) {
 			// "reserved" exports
