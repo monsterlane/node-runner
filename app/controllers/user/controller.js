@@ -30,12 +30,12 @@ User_controller.prototype.index = function( req, res, next ) {
 	async.waterfall([
 		function( callback ) {
 			user.search( query, function( err, records ) {
-				callback( null, records );
+				callback( err, records );
 			});
 		},
 		function( result, callback ) {
 			view.partial( 'main.html', { users: result }, function( err, result ) {
-				callback( null, result );
+				callback( err, result );
 			});
 		}
 	], function( err, result ) {

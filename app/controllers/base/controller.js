@@ -11,7 +11,6 @@ function Base_controller( ) {
 	this._name = 'base';
 
 	this._hooks = {
-		pre_system: [ ],
 		pre_controller: [ ],
 		post_controller_constructor: [ ],
 		post_controller: [ ]

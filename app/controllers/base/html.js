@@ -23,7 +23,7 @@ function Html_view( res, name ) {
 	this._scripts = [ ];
 
 	this.resolveOptions( );
-	this.setDocumentAssets( );
+	this.resolveIncludes( );
 }
 
 util.inherits( Html_view, Base_view );
@@ -34,6 +34,21 @@ util.inherits( Html_view, Base_view );
 
 Html_view.prototype.resolveOptions = function( ) {
 	this.getOptions( ).set( 'app.use.googleAnalytics', null );
+};
+
+/**
+ * Method: resolveIncludes
+ */
+
+Html_view.prototype.resolveIncludes = function( ) {
+	var opts = { group: 0 };
+
+	this.addStyle( '/base/css/bootstrap.min.css', opts );
+
+	this.addScript( '/base/js/jquery.min.js', opts );
+	this.addScript( '/base/js/bootstrap.min.js', opts );
+	this.addScript( '/base/js/app.js', opts );
+	this.addScript( '/base/js/app.module.js', opts );
 };
 
 /**
@@ -59,11 +74,11 @@ Html_view.prototype.addStyle = function( path, opts ) {
 };
 
 /**
- * Method: getStyles
+ * Method: createStyleIncludes
  * @return {String}
  */
 
-Html_view.prototype.getStyles = function( ) {
+Html_view.prototype.createStyleIncludes = function( ) {
 	var t = new Date( ).getTime( ),
 		str = '',
 		i, len1,
@@ -104,11 +119,11 @@ Html_view.prototype.addScript = function( path, opts ) {
 };
 
 /**
- * Method: getScripts
+ * Method: createScriptIncludes
  * @return {String}
  */
 
-Html_view.prototype.getScripts = function( ) {
+Html_view.prototype.createScriptIncludes = function( ) {
 	var t = new Date( ).getTime( ),
 		str = '',
 		i, len1,
@@ -129,21 +144,6 @@ Html_view.prototype.getScripts = function( ) {
 };
 
 /**
- * Method: setDocumentAssets
- */
-
-Html_view.prototype.setDocumentAssets = function( ) {
-	var opts = { group: 0 };
-
-	this.addStyle( '/base/css/bootstrap.min.css', opts );
-
-	this.addScript( '/base/js/jquery.min.js', opts );
-	this.addScript( '/base/js/bootstrap.min.js', opts );
-	this.addScript( '/base/js/app.js', opts );
-	this.addScript( '/base/js/app.module.js', opts );
-};
-
-/**
  * Method: getDocumentTitle
  * @return {String}
  */
@@ -161,7 +161,7 @@ Html_view.prototype.getDocumentTitle = function( ) {
 Html_view.prototype.getDocumentHeader = function( def, callback ) {
 	var def = util.merge( {
 		title: this.getDocumentTitle( ),
-		styles: this.getStyles( )
+		styles: this.createStyleIncludes( )
 	}, def );
 
 	this.partial( '/controllers/base/views/header.html', def, function( err, content ) {
@@ -178,7 +178,7 @@ Html_view.prototype.getDocumentHeader = function( def, callback ) {
 Html_view.prototype.getDocumentFooter = function( def, callback ) {
 	var def = util.merge( {
 		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
-		scripts: this.getScripts( ),
+		scripts: this.createScriptIncludes( ),
 		analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 	}, def );
 
@@ -199,14 +199,12 @@ Html_view.prototype.partial = function( path, def, callback ) {
 		def = def || { };
 
 	fs.readFile( process.argv[ 1 ].replace( /\/[^\/]*$/, path ), 'utf8', function( err, data ) {
-		var tpl, str;
-
 		if ( err ) {
 			callback( new Error( err ), null );
 		}
 		else {
-			tpl = dot.compile( data );
-			str = tpl( def );
+			var tpl = dot.compile( data ),
+				str = tpl( def );
 
 			callback( null, str );
 		}
@@ -225,12 +223,12 @@ Html_view.prototype.render = function( body ) {
 	async.parallel([
 		function( callback ) {
 			self.getDocumentHeader( { }, function( err, content ) {
-				callback( null, content );
+				callback( err, content );
 			});
 		},
 		function( callback ) {
 			self.getDocumentFooter( { }, function( err, content ) {
-				callback( null, content );
+				callback( err, content );
 			});
 		}
 	], function( err, results ) {

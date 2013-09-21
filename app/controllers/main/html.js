@@ -13,11 +13,11 @@ function Main_view( res, name ) {
 util.inherits( Main_view, Html_view );
 
 /**
- * Method: setDocumentAssets
+ * Method: resolveIncludes
  */
 
-Main_view.prototype.setDocumentAssets = function( ) {
-	Html_view.prototype.setDocumentAssets.apply( this, arguments );
+Main_view.prototype.resolveIncludes = function( ) {
+	Html_view.prototype.resolveIncludes.apply( this, arguments );
 	this.addScript( '/main/js/module.js' );
 };
 
