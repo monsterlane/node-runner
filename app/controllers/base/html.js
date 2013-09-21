@@ -195,12 +195,12 @@ Html_view.prototype.getDocumentTitle = function( ) {
 };
 
 /**
- * Method: getDocumentContent
+ * Method: createDocument
  * @param {Object} def
  * @param {Function} callback
  */
 
-Html_view.prototype.getDocumentContent = function( def, callback ) {
+Html_view.prototype.createDocument = function( def, callback ) {
 	var def = util.merge( {
 		name: config.name,
 		title: this.getDocumentTitle( ),
@@ -249,7 +249,7 @@ Html_view.prototype.render = function( body ) {
 	var body = body || '',
 		self = this;
 
-	self.getDocumentContent( { body: body }, function( err, result ) {
+	self.createDocument( { body: body }, function( err, result ) {
 		self._response.send( result );
 	});
 };
