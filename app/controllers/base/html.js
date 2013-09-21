@@ -19,10 +19,12 @@ function Html_view( res, name ) {
 	this._filePath = '/controllers/' + this._name;
 	this._viewPath = this._filePath + '/views';
 
+	this._meta = [ ];
 	this._styles = [ ];
 	this._scripts = [ ];
 
 	this.resolveOptions( );
+	this.resolveMetaTags( );
 	this.resolveIncludes( );
 }
 
@@ -67,10 +69,10 @@ Html_view.prototype.addStyle = function( path, opts ) {
 		this._styles[ opts.group ] = [ ];
 	}
 
-	this._styles[ opts.group ].push({
+	this._styles[ opts.group ].push( {
 		path: path,
 		media: opts.media
-	});
+	} );
 };
 
 /**
@@ -113,9 +115,9 @@ Html_view.prototype.addScript = function( path, opts ) {
 		this._scripts[ opts.group ] = [ ];
 	}
 
-	this._scripts[ opts.group ].push({
+	this._scripts[ opts.group ].push( {
 		path: path,
-	});
+	} );
 };
 
 /**
@@ -144,6 +146,46 @@ Html_view.prototype.createScriptIncludes = function( ) {
 };
 
 /**
+ * Method: resolveMetaTags
+ */
+
+Html_view.prototype.resolveMetaTags = function( ) {
+	this.addMetaTag( 'author', 'Jonathan Down' );
+	this.addMetaTag( 'description', 'An HTML5 app framework written in Express, doT.js, MongoDB, and Redis' );
+	this.addMetaTag( 'robots', 'index,follow' );
+	this.addMetaTag( 'viewport', 'initial-scale=1.0,width=device-width' );
+};
+
+/**
+ * Method: addMetaTag
+ * @param {String} name
+ * @param {String} content
+ */
+
+Html_view.prototype.addMetaTag = function( name, content ) {
+	this._meta.push( {
+		name: name,
+		content: content
+	} );
+};
+
+/**
+ * Method: createMetaTags
+ * @return {String}
+ */
+
+Html_view.prototype.createMetaTags = function( ) {
+	var str = '',
+		i, len;
+
+	for ( i = 0, len = this._meta.length; i < len; i++ ) {
+		str += '<meta name="' + this._meta[ i ].name + '" content="' + this._meta[ i ].content + '" />';
+	}
+
+	return str;
+};
+
+/**
  * Method: getDocumentTitle
  * @return {String}
  */
@@ -153,37 +195,23 @@ Html_view.prototype.getDocumentTitle = function( ) {
 };
 
 /**
- * Method: _getDocumentHeader
+ * Method: getDocumentContent
  * @param {Object} def
  * @param {Function} callback
  */
 
-Html_view.prototype.getDocumentHeader = function( def, callback ) {
+Html_view.prototype.getDocumentContent = function( def, callback ) {
 	var def = util.merge( {
 		title: this.getDocumentTitle( ),
-		styles: this.createStyleIncludes( )
-	}, def );
-
-	this.partial( '/controllers/base/views/header.html', def, function( err, content ) {
-		callback( null, content );
-	});
-};
-
-/**
- * Method: _getDocumentFooter
- * @param {Object} def
- * @param {Function} callback
- */
-
-Html_view.prototype.getDocumentFooter = function( def, callback ) {
-	var def = util.merge( {
-		name: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
+		meta: this.createMetaTags( ),
+		styles: this.createStyleIncludes( ),
+		module: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
 		scripts: this.createScriptIncludes( ),
 		analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 	}, def );
 
-	this.partial( '/controllers/base/views/footer.html', def, function( err, content ) {
-		callback( null, content );
+	this.partial( '/controllers/base/views/document.html', def, function( err, content ) {
+		callback( err, content );
 	});
 };
 
@@ -220,25 +248,8 @@ Html_view.prototype.render = function( body ) {
 	var body = body || '',
 		self = this;
 
-	async.parallel([
-		function( callback ) {
-			self.getDocumentHeader( { }, function( err, content ) {
-				callback( err, content );
-			});
-		},
-		function( callback ) {
-			self.getDocumentFooter( { }, function( err, content ) {
-				callback( err, content );
-			});
-		}
-	], function( err, results ) {
-		if ( err ) throw Error( err );
-
-		self._response.render( __dirname + '/../base/views/document', {
-			header: results[ 0 ],
-			body: body,
-			footer: results[ 1 ]
-		});
+	self.getDocumentContent( { body: body }, function( err, result ) {
+		self._response.send( result );
 	});
 };
 
