@@ -6,7 +6,7 @@
 var util = require( '../../helpers/util' ),
 	async = require( 'async' ),
 	Base_controller = require( './../base/controller' ),
-	Html_view = require( './../base/html' );
+	Html_view = require( './html' );
 
 function Login_controller( ) {
 	Base_controller.apply( this, arguments );

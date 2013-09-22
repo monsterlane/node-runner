@@ -26,11 +26,11 @@ app.extend = function( sub, sup ) {
  * Pads a string with leading characters
  * @param {String} str
  * @param {Int} len
- * @param {String} char
+ * @param {String} c
  */
 
-app.pad = function( str, len, char ) {
-	var c = char || 0,
+app.pad = function( str, len, c ) {
+	var c = c || 0,
 		s = str + '';
 
 	return ( s.length >= len ) ? s : new Array( len - s.length + 1 ).join( c ) + s;

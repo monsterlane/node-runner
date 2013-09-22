@@ -5,7 +5,7 @@
 
 var config = {
 	name: 'node-runner',
-	environment: 'development',
+	environment: null,
 	server: {
 		development: {
 			port: 3000,
@@ -17,7 +17,7 @@ var config = {
 			}
 		},
 		staging: {
-			port: 4000,
+			port: 3000,
 			database: {
 				type: 'mongo',
 				host: '127.0.0.1',
@@ -40,7 +40,7 @@ var config = {
 /* bind */
 
 module.exports = function( mode ) {
-	config.environment = mode || process.argv[ 2 ] || 'development';
+	config.environment = mode || process.argv[ 2 ] || 'staging';
 
 	return config;
 };

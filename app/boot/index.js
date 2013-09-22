@@ -17,10 +17,73 @@ module.exports = function( parent, options ) {
 			assets = [ 'img', 'css', 'js', 'fonts' ],
 			app = express( ),
 			method, path,
+			view, files, group,
 			key, i, len;
+
+		/*
+		// clear module assets cache
+		path = __dirname + '/../cache/' + name + '.css';
+		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
+
+		path = __dirname + '/../cache/' + name + '.js';
+		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
+
+		// create module assets cache
+		path = __dirname + '/../controllers/' + name + '/html.js';
+		if ( fs.existsSync( path ) ) {
+			view = require( './../controllers/' + name + '/html.js' );
+			view = new view( null, name );
+			group = ( name == 'base' ) ? 0 : 1;
+
+			files = [ ];
+			if ( view._styles[ group ] && view._styles[ group ].length > 0 ) {
+				for ( i = 0, len = view._styles[ group ].length; i < len; i++ ) {
+					files.push( view._styles[ group ][ i ].path.replace( '/' + name + '/css/', __dirname + '/../controllers/' + name + '/public/css/' ) );
+				}
+
+				new compressor.minify( {
+					type: 'yui-css',
+					fileIn: files,
+					fileOut: __dirname + '/../cache/' + name + '.css',
+					callback: function( err, min ) {
+						if ( err ) {
+							console.log( err );
+						}
+						else {
+							console.log( 'yui-css complete' );
+						}
+					}
+				} );
+			}
+
+			files = [ ];
+			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
+				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
+					files.push( view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', __dirname + '/../controllers/' + name + '/public/js/' ) );
+				}
+
+				new compressor.minify( {
+					type: 'yui-js',
+					fileIn: files,
+					fileOut: __dirname + '/../cache/' + name + '.js',
+					callback: function( err, min ) {
+						if ( err ) {
+							console.log( err );
+						}
+						else {
+							console.log( 'yui-js complete' );
+						}
+					}
+				} );
+			}
+		}
+		*/
 
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
+			// only served cached assets in staging/production
+			if ( config.environment != 'development' && ( assets[ i ] == 'css' || assets[ i ] == 'js' ) ) continue;
+
 			path = '/' + name + '/' + assets[ i ];
 
 			app.use( path, express.static( __dirname + '/../controllers/' + name + '/public/' + assets[ i ] ) );

@@ -18,6 +18,7 @@ util.inherits( Main_view, Html_view );
 
 Main_view.prototype.resolveIncludes = function( ) {
 	Html_view.prototype.resolveIncludes.apply( this, arguments );
+	this.addStyle( '/main/css/style.css' );
 	this.addScript( '/main/js/module.js' );
 };
 

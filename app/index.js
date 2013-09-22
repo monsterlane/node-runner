@@ -41,6 +41,9 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		// load controllers
 		require( './boot' )( app, { verbose: !module.parent, database: attachDb } );
 
+		// serve asset cache
+		app.use( '/cache', express.static( __dirname + '/cache' ) );
+
 		// assume "not found" in the error msgs is a 404
 		app.use( function( err, req, res, next ) {
 			// treat as 404

@@ -126,13 +126,22 @@ Html_view.prototype.createStyleIncludes = function( ) {
 		i, len1,
 		j, len2;
 
-	for ( i = 0, len1 = this._styles.length; i < len1; i++ ) {
-		for ( j = 0, len2 = this._styles[ i ].length; j < len2; j++ ) {
-			if ( config.environment == 'development' && this._styles[ i ][ j ].path.substring( 0, 2 ) != '//' && this._styles[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
-				str += '<link href="' + this._styles[ i ][ j ].path + '?t=' + t + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
-			}
-			else {
-				str += '<link href="' + this._styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
+	if ( config.environment != 'development' ) {
+		str += '<link href="/cache/base.css" type="text/css" rel="stylesheet" media="all" />';
+
+		if ( this._styles[ 1 ] && this._styles[ 1 ].length > 0 ) {
+			str += '<link href="/cache/' + this._name + '.css" type="text/css" rel="stylesheet" media="all" />';
+		}
+	}
+	else {
+		for ( i = 0, len1 = this._styles.length; i < len1; i++ ) {
+			for ( j = 0, len2 = this._styles[ i ].length; j < len2; j++ ) {
+				if ( config.environment == 'development' && this._styles[ i ][ j ].path.substring( 0, 2 ) != '//' && this._styles[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
+					str += '<link href="' + this._styles[ i ][ j ].path + '?t=' + t + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
+				}
+				else {
+					str += '<link href="' + this._styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
+				}
 			}
 		}
 	}
@@ -171,13 +180,22 @@ Html_view.prototype.createScriptIncludes = function( ) {
 		i, len1,
 		j, len2;
 
-	for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
-		for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
-			if ( config.environment == 'development' && this._scripts[ i ][ j ].path.substring( 0, 2 ) != '//' && this._scripts[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
-				str += '<script src="' + this._scripts[ i ][ j ].path + '?t=' + t + '" type="text/javascript"></script>';
-			}
-			else {
-				str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
+	if ( config.environment != 'development' ) {
+		str += '<script src="/cache/base.js" type="text/javascript"></script>';
+
+		if ( this._scripts[ 1 ] && this._scripts[ 1 ].length > 0 ) {
+			str += '<script src="/cache/' + this._name + '.js" type="text/javascript"></script>';
+		}
+	}
+	else {
+		for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
+			for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
+				if ( config.environment == 'development' && this._scripts[ i ][ j ].path.substring( 0, 2 ) != '//' && this._scripts[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
+					str += '<script src="' + this._scripts[ i ][ j ].path + '?t=' + t + '" type="text/javascript"></script>';
+				}
+				else {
+					str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
+				}
 			}
 		}
 	}

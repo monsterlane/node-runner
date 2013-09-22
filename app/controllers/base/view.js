@@ -3,6 +3,7 @@ var collection = require( '../../helpers/collection' );
 
 /**
  * View: Base
+ * @param {Object} options
  */
 
 function Base_view( res ) {
