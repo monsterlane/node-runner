@@ -49,7 +49,7 @@ module.exports = function( parent, options ) {
 							console.log( err );
 						}
 						else {
-							console.log( 'yui-css complete' );
+							console.log( 'yui-css: ' + name + '.css' );
 						}
 					}
 				} );
@@ -70,7 +70,7 @@ module.exports = function( parent, options ) {
 							console.log( err );
 						}
 						else {
-							console.log( 'yui-js complete' );
+							console.log( 'yui-js: ' + name + '.js' );
 						}
 					}
 				} );
