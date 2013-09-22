@@ -20,7 +20,6 @@ module.exports = function( parent, options ) {
 			view, files, group,
 			key, i, len;
 
-		/*
 		// clear module assets cache
 		path = __dirname + '/../cache/' + name + '.css';
 		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
@@ -77,7 +76,6 @@ module.exports = function( parent, options ) {
 				} );
 			}
 		}
-		*/
 
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
