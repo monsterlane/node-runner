@@ -85,10 +85,10 @@ Html_view.prototype.createMetaTags = function( ) {
 Html_view.prototype.resolveIncludes = function( ) {
 	var opts = { group: 0 };
 
-	this.addStyle( '/base/css/bootstrap.min.css', opts );
-
+	this.addStyle( '/base/css/normalize.min.css', opts );
+	this.addScript( '/base/js/require.min.js', opts );
 	this.addScript( '/base/js/jquery.min.js', opts );
-	this.addScript( '/base/js/bootstrap.min.js', opts );
+
 	this.addScript( '/base/js/app.js', opts );
 	this.addScript( '/base/js/app.module.js', opts );
 };
