@@ -23,5 +23,15 @@ module.exports = {
 		}
 
 		return obj1;
+	},
+	toObject: function( arr ) {
+		var obj = { },
+			i, len;
+
+		for ( i = 0, len = arr.length; i < len; i++ ) {
+			obj[ i ] = arr[ i ];
+		}
+
+		return obj;
 	}
 };

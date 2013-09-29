@@ -1,15 +1,19 @@
 
-/* asset caching */
+/* grunt tasks - asset caching */
 
-var fs = require( 'fs' );
+var fs = require( 'fs' ),
+	util = require( './helpers/util' );
 
 module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
+		img = [ ],
 		css = [ ],
 		js = [ ];
 
 	fs.readdirSync( __dirname + '/controllers' ).forEach( function( name ) {
-		var i, len, t;
+		var path, files,
+			i, len,
+			t, ext;
 
 		// clear module assets cache
 		path = __dirname + '/cache/' + name + '.css';
@@ -18,7 +22,7 @@ module.exports = function( grunt ) {
 		path = __dirname + '/cache/' + name + '.js';
 		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
 
-		// create module assets cache
+		// check if the module has a custom view
 		path = __dirname + '/controllers/' + name + '/html.js';
 		if ( fs.existsSync( path ) ) {
 			// create a view instance to get include order
@@ -26,8 +30,9 @@ module.exports = function( grunt ) {
 			view = new view( null, name );
 			group = ( name == 'base' ) ? 0 : 1;
 
-			files = [ ];
 			if ( view._styles[ group ] && view._styles[ group ].length > 0 ) {
+				files = [ ];
+
 				for ( i = 0, len = view._styles[ group ].length; i < len; i++ ) {
 					// ignore external files
 					if ( view._styles[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
@@ -36,20 +41,23 @@ module.exports = function( grunt ) {
 					}
 				}
 
-				// create a task for the module
-				css[ name ] = {
-					options: {
-						banner: banner
-					},
-					files: { }
-				};
+				if ( files.length > 0 ) {
+					// create a task for the module
+					css[ name ] = {
+						options: {
+							banner: banner
+						},
+						files: { }
+					};
 
-				// output : input
-				css[ name ].files[ 'cache/' + name + '.css' ] = files;
+					// output : input
+					css[ name ].files[ 'cache/' + name + '.css' ] = files;
+				}
 			}
 
-			files = [ ];
 			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
+				files = [ ];
+
 				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
 					// ignore external files
 					if ( view._scripts[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
@@ -58,16 +66,45 @@ module.exports = function( grunt ) {
 					}
 				}
 
-				// create a task for the module
-				js[ name ] = {
-					options: {
-						banner: banner
-					},
-					files: { }
-				};
+				if ( files.length > 0 ) {
+					// create a task for the module
+					js[ name ] = {
+						options: {
+							banner: banner
+						},
+						files: { }
+					};
 
-				// output : input
-				js[ name ].files[ 'cache/' + name + '.js' ] = files;
+					// output : input
+					js[ name ].files[ 'cache/' + name + '.js' ] = files;
+				}
+			}
+		}
+
+		// check if the module has images to compress
+		path = __dirname + '/controllers/' + name + '/public/img';
+		if ( fs.existsSync( path ) ) {
+			t = fs.readdirSync( path );
+			files = { };
+
+			for ( i = 0, len = t.length; i < len; i++ ) {
+				ext = t[ i ].substring( t[ i ].lastIndexOf( '.' ) + 1 );
+
+				// supported image types
+				if ( ext == 'png' || ext == 'gif' || ext == 'jpg' || ext == 'jpeg' ) {
+					// does it end in .min.ext?
+					if ( t[ i ].substring( 0, t[ i ].lastIndexOf( '.' ) ).substr( -4 ) == '.min' ) {
+						// output : input
+						files[ 'controllers/' + name + '/public/img/' + t[ i ].replace( '.min', '' ) ] = 'controllers/' + name + '/public/img/' + t[ i ];
+					}
+				}
+			}
+
+			if ( Object.keys( files ).length > 0 ) {
+				// create task for the module
+				img[ name ] = {
+					files: files
+				};
 			}
 		}
 	} );
@@ -75,11 +112,13 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		cssmin: css,
-		uglify: js
+		uglify: js,
+		imagemin: img
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 
-	grunt.registerTask( 'default', [ 'cssmin', 'uglify' ] );
+	grunt.registerTask( 'default', [ 'cssmin', 'uglify', 'imagemin' ] );
 };
