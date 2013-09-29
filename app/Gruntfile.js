@@ -70,7 +70,8 @@ module.exports = function( grunt ) {
 					// create a task for the module
 					js[ name ] = {
 						options: {
-							banner: banner
+							banner: banner,
+							sourceMap: 'cache/' + name + '.map.js'
 						},
 						files: { }
 					};
