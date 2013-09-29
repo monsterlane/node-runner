@@ -29,8 +29,11 @@ module.exports = function( grunt ) {
 			files = [ ];
 			if ( view._styles[ group ] && view._styles[ group ].length > 0 ) {
 				for ( i = 0, len = view._styles[ group ].length; i < len; i++ ) {
-					// convert web paths to real paths
-					files.push( view._styles[ group ][ i ].path.replace( '/' + name + '/css/', 'controllers/' + name + '/public/css/' ) );
+					// ignore external files
+					if ( view._styles[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
+						// convert web paths to real paths
+						files.push( view._styles[ group ][ i ].path.replace( '/' + name + '/css/', 'controllers/' + name + '/public/css/' ) );
+					}
 				}
 
 				// create a task for the module
@@ -48,8 +51,11 @@ module.exports = function( grunt ) {
 			files = [ ];
 			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
 				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
-					// convert web paths to real paths
-					files.push( view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) );
+					// ignore external files
+					if ( view._scripts[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
+						// convert web paths to real paths
+						files.push( view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) );
+					}
 				}
 
 				// create a task for the module
