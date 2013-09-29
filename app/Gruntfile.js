@@ -78,8 +78,8 @@ module.exports = function( grunt ) {
 		uglify: js
 	} );
 
-	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 
 	grunt.registerTask( 'default', [ 'cssmin', 'uglify' ] );
 };
