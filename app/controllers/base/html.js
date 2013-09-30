@@ -267,7 +267,7 @@ Html_view.prototype.render = function( body ) {
 	var body = body || '',
 		self = this;
 
-	self.createDocument( { body: body }, function( err, result ) {
+	this.createDocument( { body: body }, function( err, result ) {
 		self._response.send( result );
 	});
 };

@@ -40,7 +40,7 @@ var config = {
 /* bind */
 
 module.exports = function( mode ) {
-	config.environment = mode || process.argv[ 2 ] || 'staging';
+	config.environment = mode || process.argv[ 2 ] || 'development';
 
 	return config;
 };
