@@ -44,8 +44,8 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		// serve asset cache
 		app.use( '/cache', express.static( __dirname + '/cache' ) );
 
-		// serve user files
-		app.use( '/files', express.static( __dirname + '/files' ) );
+		// serve public files
+		app.use( express.static( __dirname + '/public' ) );
 
 		// assume "not found" in the error msgs is a 404
 		app.use( function( err, req, res, next ) {
