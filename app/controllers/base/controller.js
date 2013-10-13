@@ -66,7 +66,7 @@ Base_controller.prototype._getOptions = function( ) {
 };
 
 /**
- * Route:
+ * Route: amd
  */
 
 Base_controller.prototype.amd = function( req, res, next ) {
