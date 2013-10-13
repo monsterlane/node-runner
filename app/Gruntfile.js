@@ -9,7 +9,8 @@ module.exports = function( grunt ) {
 		img = [ ],
 		css = [ ],
 		js = [ ],
-		pf = [ ];
+		pf = [ ],
+		hint = [ ];
 
 	// clean up cache folders
 	fs.readdirSync( __dirname + '/public/cache/css' ).forEach( function( name ) {
@@ -70,6 +71,7 @@ module.exports = function( grunt ) {
 			files = fs.readdirSync( path );
 
 			for ( i = 0, len = files.length; i < len; i++ ) {
+				// copy already minifed files to cache folder
 				if ( files[ i ].indexOf( '.min.' ) != -1 ) {
 					t = fs.readFileSync( __dirname + '/controllers/' + name + '/public/js/' + files[ i ] );
 					fs.writeFileSync( 'public/cache/js/' + files[ i ], t );
@@ -78,7 +80,10 @@ module.exports = function( grunt ) {
 					path = files[ i ].substring( 0, files[ i ].lastIndexOf( '.' ) );
 					if ( path == 'module' ) path = name;
 
-					// create a task for the file
+					// hint the file
+					hint.push( __dirname + '/controllers/' + name + '/public/js/' + files[ i ] );
+
+					// minify the file
 					js[ path ] = {
 						options: {
 							sourceMap: 'public/cache/js/' + path + '.map.js'
@@ -108,8 +113,6 @@ module.exports = function( grunt ) {
 							}
 						]
 					};
-
-
 				}
 			}
 		}
@@ -145,15 +148,24 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		cssmin: css,
+		jshint: {
+			options: {
+				globals: {
+					jQuery: true
+				}
+			},
+			uses_defaults: hint
+		},
 		uglify: js,
-		imagemin: img,
-		replace: pf
+		replace: pf,
+		imagemin: img
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 	grunt.loadNpmTasks( 'grunt-text-replace' );
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 
-	grunt.registerTask( 'default', [ 'cssmin', 'uglify', 'replace', 'imagemin' ] );
+	grunt.registerTask( 'default', [ 'cssmin', 'jshint', 'uglify', 'replace', 'imagemin' ] );
 };
