@@ -21,7 +21,8 @@ function Html_view( res, name ) {
 
 	this._meta = [ ];
 	this._styles = [ [ ], [ ], [ ] ];
-	this._scripts = [ [ ], [ ], [ ] ];
+	this._scripts = [ ];
+	this._module = null;
 
 	this.resolveOptions( );
 	this.resolveMetaTags( );
@@ -86,11 +87,7 @@ Html_view.prototype.resolveIncludes = function( ) {
 	var opts = { group: 1 };
 
 	this.addStyle( '/base/css/bootstrap.min.css', opts );
-
-	this.addScript( '/base/js/require.min.js', opts );
-	this.addScript( '/base/js/jquery.min.js', opts );
-	this.addScript( '/base/js/bootstrap.min.js', opts );
-	this.addScript( '/base/js/module.js', opts );
+	this.setModule( '/base/js/module' );
 };
 
 /**
@@ -162,15 +159,10 @@ Html_view.prototype.createStyleIncludes = function( ) {
 
 Html_view.prototype.addScript = function( path, opts ) {
 	var opts = util.merge( {
-		group: 2
 	}, opts );
 
-	if ( !this._scripts[ opts.group ] ) {
-		this._scripts[ opts.group ] = [ ];
-	}
-
-	this._scripts[ opts.group ].push( {
-		path: path,
+	this._scripts.push( {
+		path: path
 	} );
 };
 
@@ -183,11 +175,29 @@ Html_view.prototype.createScriptIncludes = function( ) {
 	var str = '',
 		i, len;
 
-	for ( i = 0, len = this._scripts[ 0 ].length; i < len; i++ ) {
-		str += '<script src="' + this._scripts[ 0 ][ i ].path + '" type="text/javascript"></script>';
+	for ( i = 0, len = this._scripts.length; i < len; i++ ) {
+		str += '<script src="' + this._scripts[ i ].path + '" type="text/javascript"></script>';
 	}
 
 	return str;
+};
+
+/**
+ * Method: setModule
+ * @param {String} path
+ */
+
+Html_view.prototype.setModule = function( path ) {
+	this._module = path;
+};
+
+/**
+ * Method: getModule
+ * @return {String}
+ */
+
+Html_view.prototype.getModule = function( ) {
+	return this._module;
 };
 
 /**
@@ -196,21 +206,9 @@ Html_view.prototype.createScriptIncludes = function( ) {
  */
 
 Html_view.prototype.getModuleName = function( ) {
-	var name = 'base',
-		path = '/' + this._name + '/js/module.js',
-		i, len;
+	var name = this._module.split( '/' );
 
-	if ( this._scripts[ 2 ].length == 0 ) {
-		return name;
-	}
-
-	for ( i = 0, len = this._scripts[ 2 ].length; i < len; i++ ) {
-		if ( this._scripts[ 2 ][ i ].path == path ) {
-			return this._name;
-		}
-	}
-
-	return name;
+	return name[ 0 ];
 };
 
 /**
@@ -237,7 +235,7 @@ Html_view.prototype.createDocument = function( def, callback ) {
 			css: this.createStyleIncludes( ),
 			js: this.createScriptIncludes( ),
 			require: '/base/js/require.min.js',
-			module: '/' + module + '/js/module',
+			module: this.getModule( ),
 			analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 		}, def );
 
