@@ -199,6 +199,7 @@ Html_view.prototype.createScriptIncludes = function( ) {
 
 Html_view.prototype.getModuleName = function( ) {
 	var name = 'base',
+		path = '/' + this._name + '/js/module.js',
 		i, len;
 
 	if ( !this._scripts[ 1 ] || this._scripts[ 1 ].length == 0 ) {
@@ -206,7 +207,7 @@ Html_view.prototype.getModuleName = function( ) {
 	}
 
 	for ( i = 0, len = this._scripts[ 1 ].length; i < len; i++ ) {
-		if ( this._scripts[ 1 ][ i ].path.substring( 0, 2 ) != '//' ) {
+		if ( this._scripts[ 1 ][ i ].path == path ) {
 			return this._name;
 		}
 	}

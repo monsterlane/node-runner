@@ -1,10 +1,10 @@
 
-var collection = require( '../../helpers/collection' );
-
 /**
  * View: Base
  * @param {Object} options
  */
+
+var collection = require( '../../helpers/collection' );
 
 function Base_view( res ) {
 	this._response = res;
