@@ -20,8 +20,8 @@ function Html_view( res, name ) {
 	this._viewPath = this._filePath + '/views';
 
 	this._meta = [ ];
-	this._styles = [ ];
-	this._scripts = [ ];
+	this._styles = [ [ ], [ ], [ ] ];
+	this._scripts = [ [ ], [ ], [ ] ];
 
 	this.resolveOptions( );
 	this.resolveMetaTags( );
@@ -83,7 +83,7 @@ Html_view.prototype.createMetaTags = function( ) {
  */
 
 Html_view.prototype.resolveIncludes = function( ) {
-	var opts = { group: 0 };
+	var opts = { group: 1 };
 
 	this.addStyle( '/base/css/bootstrap.min.css', opts );
 
@@ -101,7 +101,7 @@ Html_view.prototype.resolveIncludes = function( ) {
 
 Html_view.prototype.addStyle = function( path, opts ) {
 	var opts = util.merge( {
-		group: 1,
+		group: 2,
 		media: 'all'
 	}, opts );
 
@@ -126,24 +126,27 @@ Html_view.prototype.createStyleIncludes = function( ) {
 		i, len1,
 		j, len2;
 
-	if ( config.server.environment != 'development' ) {
-		if ( this._styles[ 0 ] && this._styles[ 0 ].length > 0 ) {
-			str += '<link href="/cache/css/base.min.css" type="text/css" rel="stylesheet" media="all" />';
+	if ( config.server.cache == true ) {
+		for ( i = 0, len1 = this._styles[ 0 ].length; i < len1; i++ ) {
+			str += '<link href="' + this._styles[ 0 ][ i ].path + '" type="text/css" rel="stylesheet" />';
 		}
 
-		if ( this._styles[ 1 ] && this._styles[ 1 ].length > 0 ) {
-			str += '<link href="/cache/css/' + this._name + '.min.css" type="text/css" rel="stylesheet" media="all" />';
+		if ( this._styles[ 1 ].length > 0 ) {
+			str += '<link href="/cache/css/base.min.css" type="text/css" rel="stylesheet" />';
+		}
+
+		if ( this._styles[ 2 ].length > 0 ) {
+			str += '<link href="/cache/css/' + this._name + '.min.css" type="text/css" rel="stylesheet" />';
 		}
 	}
 	else {
-		for ( i = 0, len1 = this._styles.length; i < len1; i++ ) {
+		for ( i = 0, len1 = this._styles[ 0 ].length; i < len1; i++ ) {
+			str += '<link href="' + this._styles[ 0 ][ i ].path + '" type="text/css" rel="stylesheet" />';
+		}
+
+		for ( i = 1, len1 = this._styles.length; i < len1; i++ ) {
 			for ( j = 0, len2 = this._styles[ i ].length; j < len2; j++ ) {
-				if ( config.server.environment == 'development' && this._styles[ i ][ j ].path.substring( 0, 2 ) != '//' && this._styles[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
-					str += '<link href="' + this._styles[ i ][ j ].path + '?t=' + t + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
-				}
-				else {
-					str += '<link href="' + this._styles[ i ][ j ].path + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
-				}
+				str += '<link href="' + this._styles[ i ][ j ].path + '?t=' + t + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
 			}
 		}
 	}
@@ -159,7 +162,7 @@ Html_view.prototype.createStyleIncludes = function( ) {
 
 Html_view.prototype.addScript = function( path, opts ) {
 	var opts = util.merge( {
-		group: 1
+		group: 2
 	}, opts );
 
 	if ( !this._scripts[ opts.group ] ) {
@@ -178,15 +181,10 @@ Html_view.prototype.addScript = function( path, opts ) {
 
 Html_view.prototype.createScriptIncludes = function( ) {
 	var str = '',
-		i, len1,
-		j, len2;
+		i, len;
 
-	for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
-		for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
-			if ( this._scripts[ i ][ j ].path.substring( 0, 2 ) == '//' ) {
-				str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
-			}
-		}
+	for ( i = 0, len = this._scripts[ 0 ].length; i < len; i++ ) {
+		str += '<script src="' + this._scripts[ 0 ][ i ].path + '" type="text/javascript"></script>';
 	}
 
 	return str;
@@ -202,12 +200,12 @@ Html_view.prototype.getModuleName = function( ) {
 		path = '/' + this._name + '/js/module.js',
 		i, len;
 
-	if ( !this._scripts[ 1 ] || this._scripts[ 1 ].length == 0 ) {
+	if ( this._scripts[ 2 ].length == 0 ) {
 		return name;
 	}
 
-	for ( i = 0, len = this._scripts[ 1 ].length; i < len; i++ ) {
-		if ( this._scripts[ 1 ][ i ].path == path ) {
+	for ( i = 0, len = this._scripts[ 2 ].length; i < len; i++ ) {
+		if ( this._scripts[ 2 ][ i ].path == path ) {
 			return this._name;
 		}
 	}
@@ -231,15 +229,24 @@ Html_view.prototype.getDocumentTitle = function( ) {
  */
 
 Html_view.prototype.createDocument = function( def, callback ) {
-	var def = util.merge( {
-		name: config.name,
-		module: this.getModuleName( ),
-		title: this.getDocumentTitle( ),
-		meta: this.createMetaTags( ),
-		css: this.createStyleIncludes( ),
-		js: this.createScriptIncludes( ),
-		analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
-	}, def );
+	var module = this.getModuleName( ),
+		def = util.merge( {
+			name: config.name,
+			title: this.getDocumentTitle( ),
+			meta: this.createMetaTags( ),
+			css: this.createStyleIncludes( ),
+			js: this.createScriptIncludes( ),
+			require: '/base/js/require.min.js',
+			module: '/' + module + '/js/module',
+			analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
+		}, def );
+
+	if ( config.server.cache == true ) {
+		def.require = def.require.replace( 'base', 'cache' );
+		def.module = def.module.replace( module, 'cache' ).replace( 'module', module + '.min' );
+	}
+
+	def.module = encodeURIComponent( def.module );
 
 	this.partial( '/controllers/base/views/document.html', def, function( err, content ) {
 		callback( err, content );

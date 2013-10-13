@@ -3,7 +3,8 @@
  * Controller: Base
  */
 
-var collection = require( '../../helpers/collection' );
+var collection = require( '../../helpers/collection' ),
+	Html_view = require( './html' );
 
 function Base_controller( ) {
 	this._name = 'base';
@@ -62,6 +63,18 @@ Base_controller.prototype._resolveOptions = function( ) {
 
 Base_controller.prototype._getOptions = function( ) {
 	return this._options;
+};
+
+/**
+ * Route:
+ */
+
+Base_controller.prototype.amd = function( req, res, next ) {
+	var view = new Html_view( res, this._name );
+
+	view.partial( 'amd.html', { path: req.query.path }, function( err, result ) {
+		res.send( result );
+	});
 };
 
 /* bind */

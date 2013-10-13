@@ -7,7 +7,8 @@ var config = {
 	name: 'node-runner',
 	server: {
 		environment: 'development',
-		port: 3000
+		port: 3000,
+		cache: false
 	},
 	database: {
 		type: 'mongo',

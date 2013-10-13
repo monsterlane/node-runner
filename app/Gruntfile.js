@@ -35,17 +35,12 @@ module.exports = function( grunt ) {
 			// create a view instance to get include order
 			view = require( './controllers/' + name + '/html.js' );
 			view = new view( null, name );
-			group = ( name == 'base' ) ? 0 : 1;
+			group = ( name == 'base' ) ? 1 : 2;
 
 			if ( view._styles[ group ] && view._styles[ group ].length > 0 ) {
 				files = [ ];
 
 				for ( i = 0, len = view._styles[ group ].length; i < len; i++ ) {
-					// ignore external files
-					if ( view._styles[ group ][ i ].path.substring( 0, 2 ) == '//' ) {
-						continue;
-					}
-
 					// convert web paths to real paths
 					path = view._styles[ group ][ i ].path.replace( '/' + name + '/css/', 'controllers/' + name + '/public/css/' );
 
@@ -68,11 +63,6 @@ module.exports = function( grunt ) {
 
 			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
 				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
-					// ignore external files
-					if ( view._scripts[ group ][ i ].path.substring( 0, 2 ) == '//' ) {
-						continue;
-					}
-
 					// copy already minified files to cache folder
 					if ( view._scripts[ group ][ i ].path.indexOf( '.min.' ) != -1 ) {
 						// convert web paths to real paths

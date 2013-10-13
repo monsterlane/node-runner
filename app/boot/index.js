@@ -21,7 +21,7 @@ module.exports = function( parent, options ) {
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
 			// only served cached assets in staging/production
-			if ( config.server.environment != 'development' && ( assets[ i ] == 'css' || assets[ i ] == 'js' ) ) continue;
+			if ( config.server.cache == true && ( assets[ i ] == 'css' || assets[ i ] == 'js' ) ) continue;
 
 			path = '/' + name + '/' + assets[ i ];
 
@@ -52,15 +52,16 @@ module.exports = function( parent, options ) {
 			}
 
 			if ( key == 'index' && name == 'main' ) {
-				method = 'get';
 				path = '/';
+				method = 'get';
 			}
 			else if ( key == 'index' ) {
-				method = 'get';
 				path = '/' + name;
+				method = 'get';
 			}
 			else {
-				throw new Error( 'unrecognized route: ' + name + '.' + key );
+				path = '/' + name + '/' + key;
+				method = 'get';
 			}
 
 			app.all( path, attachDb, obj[ key ].bind( obj ) );
