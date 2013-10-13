@@ -27,3 +27,6 @@ node_modules
 
 # project files
 */config/index.js
+*/public/cache/css
+*/public/cache/js
+*/public/files
