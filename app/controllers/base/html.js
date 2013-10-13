@@ -85,12 +85,17 @@ Html_view.prototype.createMetaTags = function( ) {
 Html_view.prototype.resolveIncludes = function( ) {
 	var opts = { group: 0 };
 
-	this.addStyle( '/base/css/normalize.min.css', opts );
+	//this.addStyle( '/base/css/normalize.min.css', opts );
+	this.addStyle( '/base/css/bootstrap.min.css', opts );
+
 	this.addScript( '/base/js/require.min.js', opts );
 	this.addScript( '/base/js/jquery.min.js', opts );
+	this.addScript( '/base/js/bootstrap.min.js', opts );
 
-	this.addScript( '/base/js/app.js', opts );
-	this.addScript( '/base/js/app.module.js', opts );
+	this.addScript( '/base/js/module.js', opts );
+
+	//this.addScript( '/base/js/app.js', opts );
+	//this.addScript( '/base/js/app.module.js', opts );
 };
 
 /**
@@ -175,11 +180,21 @@ Html_view.prototype.addScript = function( path, opts ) {
  */
 
 Html_view.prototype.createScriptIncludes = function( ) {
-	var t = new Date( ).getTime( ),
-		str = '',
-		i, len1,
-		j, len2;
+	var path = ( this._scripts[ 1 ] && this._scripts[ 1 ].length > 0 ) ? this._name : 'base',
+		str = '';
 
+	str += '<script data-main="/' + path + '/js/module" src="/base/js/require.min.js"></script>';
+	str += '<script type="text/javascript">';
+	str += 'require(';
+	str += '	[ \'/' + path + '/js/module.js\' ],';
+	str += '	func' + 'tion( aModule ) {';
+	str += '		var module = new aModule( );';
+	str += '		module.bind( );';
+	str += '	}';
+	str += ');';
+	str += '</script>';
+
+	/*
 	if ( config.environment != 'development' ) {
 		str += '<script src="/cache/base.js" type="text/javascript"></script>';
 
@@ -199,6 +214,7 @@ Html_view.prototype.createScriptIncludes = function( ) {
 			}
 		}
 	}
+	*/
 
 	return str;
 };

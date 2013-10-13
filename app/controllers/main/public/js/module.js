@@ -3,15 +3,30 @@
  * Module: Main
  */
 
-if ( window.hasOwnProperty( 'app' ) == false ) window.app = { };
+define(
+	[ '/base/js/module.js' ],
+	function( Module ) {
 
-app.MainModule = function( ) { };
-app.extend( app.MainModule, app.BaseModule );
+		function MainModule( ) {
+			Module.call( this );
 
-/**
- * Method: bind
- */
+			return this;
+		}
 
-app.MainModule.prototype.bind = function( ) {
+		MainModule.prototype = Object.create( Module.prototype );
 
-};
+		/* public methods */
+
+
+
+		/* bind */
+
+		MainModule.prototype.bind = function( ) {
+			Module.prototype.bind.call( this );
+
+			console.log( 'bind from MainModule' );
+		};
+
+		return MainModule;
+	}
+);
