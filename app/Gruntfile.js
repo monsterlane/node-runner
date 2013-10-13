@@ -10,17 +10,24 @@ module.exports = function( grunt ) {
 		css = [ ],
 		js = [ ];
 
+	// clean up cache folders
+	fs.readdirSync( __dirname + '/public/cache/css' ).forEach( function( name ) {
+		if ( name.substring( name.lastIndexOf( '.' ) + 1 ) == 'css' ) {
+			fs.unlinkSync( __dirname + '/public/cache/css/' + name );
+		}
+	});
+
+	fs.readdirSync( __dirname + '/public/cache/js' ).forEach( function( name ) {
+		if ( name.substring( name.lastIndexOf( '.' ) + 1 ) == 'js' ) {
+			fs.unlinkSync( __dirname + '/public/cache/js/' + name );
+		}
+	});
+
+	// create controller asset cache
 	fs.readdirSync( __dirname + '/controllers' ).forEach( function( name ) {
 		var path, files,
 			i, len,
 			t, ext;
-
-		// clear module assets cache
-		path = __dirname + '/cache/' + name + '.css';
-		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
-
-		path = __dirname + '/cache/' + name + '.js';
-		if ( fs.existsSync( path ) ) fs.unlinkSync( path );
 
 		// check if the module has a custom view
 		path = __dirname + '/controllers/' + name + '/html.js';
@@ -35,10 +42,14 @@ module.exports = function( grunt ) {
 
 				for ( i = 0, len = view._styles[ group ].length; i < len; i++ ) {
 					// ignore external files
-					if ( view._styles[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
-						// convert web paths to real paths
-						files.push( view._styles[ group ][ i ].path.replace( '/' + name + '/css/', 'controllers/' + name + '/public/css/' ) );
+					if ( view._styles[ group ][ i ].path.substring( 0, 2 ) == '//' ) {
+						continue;
 					}
+
+					// convert web paths to real paths
+					path = view._styles[ group ][ i ].path.replace( '/' + name + '/css/', 'controllers/' + name + '/public/css/' );
+
+					files.push( path );
 				}
 
 				if ( files.length > 0 ) {
@@ -51,33 +62,46 @@ module.exports = function( grunt ) {
 					};
 
 					// output : input
-					css[ name ].files[ 'cache/' + name + '.css' ] = files;
+					css[ name ].files[ 'public/cache/css/' + name + '.min.css' ] = files;
 				}
 			}
 
 			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
-				files = [ ];
-
 				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
 					// ignore external files
-					if ( view._scripts[ group ][ i ].path.substring( 0, 1 ) != '//' ) {
-						// convert web paths to real paths
-						files.push( view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) );
+					if ( view._scripts[ group ][ i ].path.substring( 0, 2 ) == '//' ) {
+						continue;
 					}
-				}
 
-				if ( files.length > 0 ) {
-					// create a task for the module
-					js[ name ] = {
-						options: {
-							banner: banner,
-							sourceMap: 'cache/' + name + '.map.js'
-						},
-						files: { }
-					};
+					// copy already minified files to cache folder
+					if ( view._scripts[ group ][ i ].path.indexOf( '.min.' ) != -1 ) {
+						// convert web paths to real paths
+						path = view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' );
+						t = fs.readFileSync( path );
 
-					// output : input
-					js[ name ].files[ 'cache/' + name + '.js' ] = files;
+						// get the files name
+						path = view._scripts[ group ][ i ].path.substring( view._scripts[ group ][ i ].path.lastIndexOf( '/' ) + 1 );
+
+						fs.writeFileSync( 'public/cache/js/' + path, t );
+					}
+					else {
+						// get the files name
+						path = view._scripts[ group ][ i ].path.substring( view._scripts[ group ][ i ].path.lastIndexOf( '/' ) + 1 );
+						path = path.substring( 0, path.lastIndexOf( '.' ) );
+						if ( path == 'module' ) path = name;
+
+						// create a task for the file
+						js[ path ] = {
+							options: {
+								banner: banner,
+								sourceMap: 'public/cache/js/' + name + '.map.js'
+							},
+							files: { }
+						};
+
+						// output : input
+						js[ path ].files[ 'public/cache/js/' + name + '.min.js' ] = [ view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) ];
+					}
 				}
 			}
 		}
