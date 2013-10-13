@@ -3,16 +3,25 @@
 <head>
 	<title>{{=it.name}} | {{=it.title}}</title>
 	<meta charset="utf-8">
-
 	{{=it.meta}}
 
-	{{=it.styles}}
+	{{=it.css}}
 </head>
 <body>
 
 {{=it.body}}
 
-{{=it.scripts}}
+{{=it.js}}
+<script data-main="/{{=it.module}}/js/module" src="/base/js/require.min.js"></script>
+<script type="text/javascript">
+require(
+	[ '/{{=it.module}}/js/module.js' ],
+	function( aModule ) {
+		var module = new aModule( );
+		module.bind( );
+	}
+);
+</script>
 
 {{? it.analytics}}
 <script type="text/javascript">

@@ -85,17 +85,12 @@ Html_view.prototype.createMetaTags = function( ) {
 Html_view.prototype.resolveIncludes = function( ) {
 	var opts = { group: 0 };
 
-	//this.addStyle( '/base/css/normalize.min.css', opts );
 	this.addStyle( '/base/css/bootstrap.min.css', opts );
 
 	this.addScript( '/base/js/require.min.js', opts );
 	this.addScript( '/base/js/jquery.min.js', opts );
 	this.addScript( '/base/js/bootstrap.min.js', opts );
-
 	this.addScript( '/base/js/module.js', opts );
-
-	//this.addScript( '/base/js/app.js', opts );
-	//this.addScript( '/base/js/app.module.js', opts );
 };
 
 /**
@@ -132,10 +127,12 @@ Html_view.prototype.createStyleIncludes = function( ) {
 		j, len2;
 
 	if ( config.environment != 'development' ) {
-		str += '<link href="/cache/base.css" type="text/css" rel="stylesheet" media="all" />';
+		if ( this._styles[ 0 ] && this._styles[ 0 ].length > 0 ) {
+			str += '<link href="/cache/css/base.min.css" type="text/css" rel="stylesheet" media="all" />';
+		}
 
 		if ( this._styles[ 1 ] && this._styles[ 1 ].length > 0 ) {
-			str += '<link href="/cache/' + this._name + '.css" type="text/css" rel="stylesheet" media="all" />';
+			str += '<link href="/cache/css/' + this._name + '.min.css" type="text/css" rel="stylesheet" media="all" />';
 		}
 	}
 	else {
@@ -180,43 +177,41 @@ Html_view.prototype.addScript = function( path, opts ) {
  */
 
 Html_view.prototype.createScriptIncludes = function( ) {
-	var path = ( this._scripts[ 1 ] && this._scripts[ 1 ].length > 0 ) ? this._name : 'base',
-		str = '';
+	var str = '',
+		i, len1,
+		j, len2;
 
-	str += '<script data-main="/' + path + '/js/module" src="/base/js/require.min.js"></script>';
-	str += '<script type="text/javascript">';
-	str += 'require(';
-	str += '	[ \'/' + path + '/js/module.js\' ],';
-	str += '	func' + 'tion( aModule ) {';
-	str += '		var module = new aModule( );';
-	str += '		module.bind( );';
-	str += '	}';
-	str += ');';
-	str += '</script>';
-
-	/*
-	if ( config.environment != 'development' ) {
-		str += '<script src="/cache/base.js" type="text/javascript"></script>';
-
-		if ( this._scripts[ 1 ] && this._scripts[ 1 ].length > 0 ) {
-			str += '<script src="/cache/' + this._name + '.js" type="text/javascript"></script>';
-		}
-	}
-	else {
-		for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
-			for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
-				if ( config.environment == 'development' && this._scripts[ i ][ j ].path.substring( 0, 2 ) != '//' && this._scripts[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
-					str += '<script src="' + this._scripts[ i ][ j ].path + '?t=' + t + '" type="text/javascript"></script>';
-				}
-				else {
-					str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
-				}
+	for ( i = 0, len1 = this._scripts.length; i < len1; i++ ) {
+		for ( j = 0, len2 = this._scripts[ i ].length; j < len2; j++ ) {
+			if ( this._scripts[ i ][ j ].path.substring( 0, 2 ) == '//' ) {
+				str += '<script src="' + this._scripts[ i ][ j ].path + '" type="text/javascript"></script>';
 			}
 		}
 	}
-	*/
 
 	return str;
+};
+
+/**
+ * Method: getModuleName
+ * @return {String}
+ */
+
+Html_view.prototype.getModuleName = function( ) {
+	var name = 'base',
+		i, len;
+
+	if ( !this._scripts[ 1 ] || this._scripts[ 1 ].length == 0 ) {
+		return name;
+	}
+
+	for ( i = 0, len = this._scripts[ 1 ].length; i < len; i++ ) {
+		if ( this._scripts[ 1 ][ i ].path.substring( 0, 2 ) != '//' ) {
+			return this._name;
+		}
+	}
+
+	return name;
 };
 
 /**
@@ -237,11 +232,11 @@ Html_view.prototype.getDocumentTitle = function( ) {
 Html_view.prototype.createDocument = function( def, callback ) {
 	var def = util.merge( {
 		name: config.name,
+		module: this.getModuleName( ),
 		title: this.getDocumentTitle( ),
 		meta: this.createMetaTags( ),
-		styles: this.createStyleIncludes( ),
-		module: this._name.charAt( 0 ).toUpperCase( ) + this._name.slice( 1 ),
-		scripts: this.createScriptIncludes( ),
+		css: this.createStyleIncludes( ),
+		js: this.createScriptIncludes( ),
 		analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 	}, def );
 
