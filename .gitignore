@@ -26,4 +26,4 @@ npm-debug.log
 node_modules
 
 # project files
-config/index.js
+*/config/index.js
