@@ -1,5 +1,5 @@
 
-var config = require( '../config' )( ),
+var config = require( '../config' ),
 	fs = require( 'fs' ),
 	express = require( 'express' );
 
@@ -21,7 +21,7 @@ module.exports = function( parent, options ) {
 		// serve static files
 		for ( i = 0, len = assets.length; i < len; i++ ) {
 			// only served cached assets in staging/production
-			if ( config.environment != 'development' && ( assets[ i ] == 'css' || assets[ i ] == 'js' ) ) continue;
+			if ( config.server.environment != 'development' && ( assets[ i ] == 'css' || assets[ i ] == 'js' ) ) continue;
 
 			path = '/' + name + '/' + assets[ i ];
 

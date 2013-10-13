@@ -1,5 +1,5 @@
 
-var config = require( './config' )( ),
+var config = require( './config' ),
 	express = require( 'express' ),
 	cons = require( 'consolidate' ),
 	mongo = require( 'mongodb' ).MongoClient,
@@ -28,7 +28,7 @@ app.configure( function( ) {
 	app.use( express.favicon( __dirname + '/controllers/base/public/img/favicon.ico' ) );
 });
 
-mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host + ':' + config.server[ config.environment ].database.port + '/' + config.server[ config.environment ].database.name, function( err, db ) {
+mongo.connect( 'mongodb://' + config.database.host + ':' + config.database.port + '/' + config.database.name, function( err, db ) {
 	if ( err ) {
 		throw new Error( 'Sorry, there is no mongo db server running.' );
 	}
@@ -65,9 +65,9 @@ mongo.connect( 'mongodb://' + config.server[ config.environment ].database.host 
 		});
 
 		if ( !module.parent ) {
-			app.listen( config.server[ config.environment ].port );
+			app.listen( config.server.port );
 
-			console.log( '\n  ' + config.environment + ' server listening on port ' + config.server[ config.environment ].port + '\n' );
+			console.log( '\n  ' + config.server.environment + ' server listening on port ' + config.server.port + '\n' );
 		}
 	}
 });

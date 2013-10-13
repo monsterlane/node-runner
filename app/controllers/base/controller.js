@@ -3,10 +3,7 @@
  * Controller: Base
  */
 
-var config = require( '../../config' )( ),
-	collection = require( '../../helpers/collection' ),
-	fs = require( 'fs' ),
-	url = require( 'url' );
+var collection = require( '../../helpers/collection' );
 
 function Base_controller( ) {
 	this._name = 'base';

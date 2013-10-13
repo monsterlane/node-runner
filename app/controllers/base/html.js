@@ -3,7 +3,7 @@
  * View: Html
  */
 
-var config = require( '../../config' )( ),
+var config = require( '../../config' ),
 	util = require( '../../helpers/util' ),
 	fs = require( 'fs' ),
 	async = require( 'async' ),
@@ -126,7 +126,7 @@ Html_view.prototype.createStyleIncludes = function( ) {
 		i, len1,
 		j, len2;
 
-	if ( config.environment != 'development' ) {
+	if ( config.server.environment != 'development' ) {
 		if ( this._styles[ 0 ] && this._styles[ 0 ].length > 0 ) {
 			str += '<link href="/cache/css/base.min.css" type="text/css" rel="stylesheet" media="all" />';
 		}
@@ -138,7 +138,7 @@ Html_view.prototype.createStyleIncludes = function( ) {
 	else {
 		for ( i = 0, len1 = this._styles.length; i < len1; i++ ) {
 			for ( j = 0, len2 = this._styles[ i ].length; j < len2; j++ ) {
-				if ( config.environment == 'development' && this._styles[ i ][ j ].path.substring( 0, 2 ) != '//' && this._styles[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
+				if ( config.server.environment == 'development' && this._styles[ i ][ j ].path.substring( 0, 2 ) != '//' && this._styles[ i ][ j ].path.indexOf( '.min.' ) == -1 ) {
 					str += '<link href="' + this._styles[ i ][ j ].path + '?t=' + t + '" type="text/css" rel="stylesheet" media="' + this._styles[ i ][ j ].media + '" />';
 				}
 				else {
