@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 			view = new view( null, name );
 			group = ( name == 'base' ) ? 1 : 2;
 
+			// cache css assets
 			if ( view._styles[ group ] && view._styles[ group ].length > 0 ) {
 				files = [ ];
 
@@ -61,57 +62,54 @@ module.exports = function( grunt ) {
 					css[ name ].files[ 'public/cache/css/' + name + '.min.css' ] = files;
 				}
 			}
+		}
 
-			if ( view._scripts[ group ] && view._scripts[ group ].length > 0 ) {
-				for ( i = 0, len = view._scripts[ group ].length; i < len; i++ ) {
-					// copy already minified files to cache folder
-					if ( view._scripts[ group ][ i ].path.indexOf( '.min.' ) != -1 ) {
-						// convert web paths to real paths
-						path = view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' );
-						t = fs.readFileSync( path );
+		// cache js assets
+		path = __dirname + '/controllers/' + name + '/public/js';
+		if ( fs.existsSync( path ) ) {
+			files = fs.readdirSync( path );
 
-						// get the files name
-						path = view._scripts[ group ][ i ].path.substring( view._scripts[ group ][ i ].path.lastIndexOf( '/' ) + 1 );
+			for ( i = 0, len = files.length; i < len; i++ ) {
+				if ( files[ i ].indexOf( '.min.' ) != -1 ) {
+					t = fs.readFileSync( __dirname + '/controllers/' + name + '/public/js/' + files[ i ] );
+					fs.writeFileSync( 'public/cache/js/' + files[ i ], t );
+				}
+				else {
+					path = files[ i ].substring( 0, files[ i ].lastIndexOf( '.' ) );
+					if ( path == 'module' ) path = name;
 
-						fs.writeFileSync( 'public/cache/js/' + path, t );
-					}
-					else {
-						// get the files name
-						path = view._scripts[ group ][ i ].path.substring( view._scripts[ group ][ i ].path.lastIndexOf( '/' ) + 1 );
-						path = path.substring( 0, path.lastIndexOf( '.' ) );
-						if ( path == 'module' ) path = name;
+					// create a task for the file
+					js[ path ] = {
+						options: {
+							sourceMap: 'public/cache/js/' + path + '.map.js'
+						},
+						files: { }
+					};
 
-						// create a task for the file
-						js[ path ] = {
-							options: {
-								sourceMap: 'public/cache/js/' + name + '.map.js'
+					// output : input
+					js[ path ].files[ 'public/cache/js/' + path + '.min.js' ] = [ __dirname + '/controllers/' + name + '/public/js/' + files[ i ] ];
+
+					// fix paths after minification
+					pf[ path ] = {
+						src: [ 'public/cache/js/' + name + '.min.js' ],
+						overwrite: true,
+						replacements: [
+							{
+								from: '/base/js/module.js',
+								to: '/cache/js/base.min.js'
 							},
-							files: { }
-						};
+							{
+								from: '/' + name + '/js/',
+								to: '/cache/js/'
+							},
+							{
+								from: 'sourceMappingURL=public',
+								to: 'sourceMappingURL='
+							}
+						]
+					};
 
-						// output : input
-						js[ path ].files[ 'public/cache/js/' + name + '.min.js' ] = [ view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) ];
 
-						// fix paths after minification
-						pf[ path ] = {
-							src: [ 'public/cache/js/' + name + '.min.js' ],
-							overwrite: true,
-							replacements: [
-								{
-									from: '/base/js/module.js',
-									to: '/cache/js/base.min.js'
-								},
-								{
-									from: '/' + name + '/js/',
-									to: '/cache/js/'
-								},
-								{
-									from: 'sourceMappingURL=public',
-									to: 'sourceMappingURL='
-								}
-							]
-						};
-					}
 				}
 			}
 		}
