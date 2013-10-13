@@ -8,7 +8,8 @@ module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
 		img = [ ],
 		css = [ ],
-		js = [ ];
+		js = [ ],
+		pf = [ ];
 
 	// clean up cache folders
 	fs.readdirSync( __dirname + '/public/cache/css' ).forEach( function( name ) {
@@ -83,7 +84,6 @@ module.exports = function( grunt ) {
 						// create a task for the file
 						js[ path ] = {
 							options: {
-								banner: banner,
 								sourceMap: 'public/cache/js/' + name + '.map.js'
 							},
 							files: { }
@@ -91,6 +91,26 @@ module.exports = function( grunt ) {
 
 						// output : input
 						js[ path ].files[ 'public/cache/js/' + name + '.min.js' ] = [ view._scripts[ group ][ i ].path.replace( '/' + name + '/js/', 'controllers/' + name + '/public/js/' ) ];
+
+						// fix paths after minification
+						pf[ path ] = {
+							src: [ 'public/cache/js/' + name + '.min.js' ],
+							overwrite: true,
+							replacements: [
+								{
+									from: '/base/js/module.js',
+									to: '/cache/js/base.min.js'
+								},
+								{
+									from: '/' + name + '/js/',
+									to: '/cache/js/'
+								},
+								{
+									from: 'sourceMappingURL=public',
+									to: 'sourceMappingURL='
+								}
+							]
+						};
 					}
 				}
 			}
@@ -128,12 +148,14 @@ module.exports = function( grunt ) {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		cssmin: css,
 		uglify: js,
-		imagemin: img
+		imagemin: img,
+		replace: pf
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
+	grunt.loadNpmTasks( 'grunt-text-replace' );
 
-	grunt.registerTask( 'default', [ 'cssmin', 'uglify', 'imagemin' ] );
+	grunt.registerTask( 'default', [ 'cssmin', 'uglify', 'replace', 'imagemin' ] );
 };
