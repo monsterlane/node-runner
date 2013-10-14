@@ -13,6 +13,15 @@ function Login_view( res, name ) {
 util.inherits( Login_view, Html_view );
 
 /**
+ * Method: resolveIncludes
+ */
+
+Login_view.prototype.resolveIncludes = function( ) {
+	Html_view.prototype.resolveIncludes.apply( this, arguments );
+	this.addStyle( '/login/css/style.css' );
+};
+
+/**
  * Method: getDocumentTitle
  */
 

@@ -1,1 +1,32 @@
-<p>Hello from {{=it.name}}.</p>
+
+<div class="frame">
+	<section id="nrLoginArea" class="panel panel-default">
+		<div class="panel-heading">
+			please sign in
+		</div>
+
+		<div class="panel-body">
+			<div class="alert alert-dismissable alert-danger">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				Incorrect username or password
+			</div>
+
+			<form id="nrLoginForm" action="#" method="post">
+				<fieldset>
+					<input name="username" value="" placeholder="username" type="text" class="form-control" />
+					<input name="password" value="" placeholder="password" type="password" class="form-control" />
+
+					<div class="checkbox">
+						<label>
+							<input name="remember" value="1" type="checkbox" /> remember me
+						</label>
+					</div>
+				</fieldset>
+			</form>
+
+			<footer>
+				<button type="submit" class="btn btn-primary btn-block">sign in</button>
+			</footer>
+		</div>
+	</section>
+</div>

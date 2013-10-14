@@ -53,7 +53,7 @@ Base_controller.prototype._addHook = function( key, path, callback ) {
  */
 
 Base_controller.prototype._resolveOptions = function( ) {
-	this._getOptions( ).set( 'app.requires.authentication', false );
+	this._getOptions( ).set( 'app.requires.authentication', true );
 };
 
 /**

@@ -1,0 +1,43 @@
+
+/* document */
+
+html, body {
+	height:100%;
+	margin:0;
+}
+
+/* block spacing */
+
+* + table,
+* + p,
+* + ul,
+* + ol,
+* + form,
+* + div,
+* + nav,
+* + header,
+* + footer,
+* + aside {
+	margin-top:1em;
+}
+
+* + section,
+section + * {
+	margin-top:2em;
+}
+
+header + * {
+	margin-top:1em;
+}
+
+hgroup > * + * {
+	margin-top:0.5em;
+}
+
+fieldset * + label {
+	margin-top:1em;
+}
+
+fieldset div:first-child + div {
+	margin:0;
+}

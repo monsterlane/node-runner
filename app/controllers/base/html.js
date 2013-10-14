@@ -87,6 +87,8 @@ Html_view.prototype.resolveIncludes = function( ) {
 	var opts = { group: 1 };
 
 	this.addStyle( '/base/css/bootstrap.min.css', opts );
+	this.addStyle( '/base/css/style.css', opts );
+
 	this.setModule( '/base/js/module' );
 };
 
