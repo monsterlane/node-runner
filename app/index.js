@@ -49,8 +49,10 @@ mongo.connect( 'mongodb://' + config.database.host + ':' + config.database.port 
 		// load controllers
 		require( './boot' )( app, { verbose: !module.parent, database: attachDb } );
 
-		// serve asset cache
-		app.use( '/cache', express.static( __dirname + '/cache' ) );
+		if ( config.server.cache == true ) {
+			// serve asset cache
+			app.use( '/cache', express.static( __dirname + '/cache' ) );
+		}
 
 		// serve public files
 		app.use( express.static( __dirname + '/public' ) );
