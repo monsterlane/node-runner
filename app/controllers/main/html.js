@@ -13,20 +13,11 @@ function Main_view( res, name ) {
 util.inherits( Main_view, Html_view );
 
 /**
- * Method: resolveIncludes
- */
-
-Main_view.prototype.resolveIncludes = function( ) {
-	Html_view.prototype.resolveIncludes.apply( this, arguments );
-	this.setModule( '/main/js/module' );
-};
-
-/**
  * Method: getDocumentTitle
  */
 
 Main_view.prototype.getDocumentTitle = function( ) {
-	return 'welcome';
+	return 'welcome home';
 };
 
 /* bind */

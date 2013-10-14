@@ -18,7 +18,9 @@ util.inherits( Login_view, Html_view );
 
 Login_view.prototype.resolveIncludes = function( ) {
 	Html_view.prototype.resolveIncludes.apply( this, arguments );
+
 	this.addStyle( '/login/css/style.css' );
+	this.setModule( '/login/js/module' );
 };
 
 /**
