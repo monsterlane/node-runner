@@ -13,6 +13,16 @@ function Main_view( res, name ) {
 util.inherits( Main_view, Html_view );
 
 /**
+ * Method: resolveIncludes
+ */
+
+Main_view.prototype.resolveIncludes = function( ) {
+	Html_view.prototype.resolveIncludes.apply( this, arguments );
+
+	this.addStyle( '/main/css/style.css' );
+};
+
+/**
  * Method: getDocumentTitle
  */
 

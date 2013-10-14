@@ -1,22 +1,6 @@
 
-body {
-	background-image:url(/login/img/background.jpg);
-	-moz-background-size:cover; -webkit-background-size:cover; background-size:cover;
-}
-
-div.page {
-	display:table;
-}
-
-div.frame {
-	display:table-cell;
-	vertical-align:middle;
-	height:100%;
-}
-
 #nrLoginArea {
 	width:100%;
 	max-width:320px;
 	margin:0 auto;
-	-moz-box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45); -webkit-box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45); box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45);
 }
