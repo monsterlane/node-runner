@@ -1,0 +1,15 @@
+
+/* bootstrap */
+
+@font-face {
+	font-family:'Glyphicons Halflings';
+	src:url('/base/fonts/glyphicons-halflings-regular.eot');
+	src:url('/base/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+		url('/base/fonts/glyphicons-halflings-regular.woff') format('woff'),
+		url('/base/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+		url('/base/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+}
+
+.btn > span.glyphicon {
+	margin-right:1ex;
+}
