@@ -23,6 +23,3 @@ div.frame {
 	margin:0 auto;
 	-moz-box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45); -webkit-box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45); box-shadow:0px 1px 30px rgba(50, 50, 50, 0.45);
 }
-	#nrLoginForm > fieldset > input[type=password] {
-		margin-top:1em;
-	}
