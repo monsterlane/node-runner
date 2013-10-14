@@ -1,9 +1,15 @@
 
 var config = require( './config' ),
+	fs = require( 'fs' ),
 	express = require( 'express' ),
 	cons = require( 'consolidate' ),
 	mongo = require( 'mongodb' ).MongoClient,
-	app = module.exports = express( );
+	app = module.exports = express( ),
+	favicon = null;
+
+if ( fs.existsSync( __dirname + '/public/favicon.ico' ) ) {
+	favicon = __dirname + '/public/favicon.ico';
+}
 
 // environment settings
 app.configure( function( ) {
@@ -24,8 +30,10 @@ app.configure( function( ) {
 	// support _method (PUT in forms etc)
 	app.use( express.methodOverride( ) );
 
-	// use a favicon
-	app.use( express.favicon( __dirname + '/controllers/base/public/img/favicon.ico' ) );
+	if ( favicon != null ) {
+		// use a favicon
+		app.use( express.favicon( favicon ) );
+	}
 });
 
 mongo.connect( 'mongodb://' + config.database.host + ':' + config.database.port + '/' + config.database.name, function( err, db ) {
