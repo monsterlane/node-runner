@@ -45,28 +45,30 @@ module.exports = function( parent, options ) {
 		}
 
 		// generate routes based on the exported methods
-		for ( key in obj ) {
-			// "reserved" exports
-			if ( ( key.charAt( 0 ) == '_' ) || ( key == 'amd' && name != 'base' ) ) {
-				continue;
-			}
+		if ( name != 'error' ) {
+			for ( key in obj ) {
+				// "reserved" exports
+				if ( ( key.charAt( 0 ) == '_' ) || ( key == 'amd' && name != 'base' ) ) {
+					continue;
+				}
 
-			if ( key == 'index' && name == 'main' ) {
-				path = '/';
-				method = 'get';
-			}
-			else if ( key == 'index' ) {
-				path = '/' + name;
-				method = 'get';
-			}
-			else {
-				path = '/' + name + '/' + key;
-				method = 'get';
-			}
+				if ( key == 'index' && name == 'main' ) {
+					path = '/';
+					method = 'get';
+				}
+				else if ( key == 'index' ) {
+					path = '/' + name;
+					method = 'get';
+				}
+				else {
+					path = '/' + name + '/' + key;
+					method = 'get';
+				}
 
-			app.all( path, attachDb, obj[ key ].bind( obj ) );
+				app.all( path, attachDb, obj[ key ].bind( obj ) );
 
-			verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
+				verbose && console.log( '     %s %s -> %s', method.toUpperCase( ), path, key );
+			}
 		}
 
 		// mount the app

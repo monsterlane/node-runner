@@ -56,12 +56,14 @@ mongo.connect( 'mongodb://' + config.database.host + ':' + config.database.port 
 			console.error( err.stack );
 
 			// error page
-			res.status( 500 ).render( '5xx' );
+			var error = new( require( './controllers/error/controller' ) );
+			error.message( req, res, 500 );
 		});
 
 		// assume 404 since no middleware responded
 		app.use( function( req, res, next ) {
-			res.status( 404 ).render( '404', { url: req.originalUrl } );
+			var error = new( require( './controllers/error/controller' ) );
+			error.message( req, res, 404 );
 		});
 
 		if ( !module.parent ) {

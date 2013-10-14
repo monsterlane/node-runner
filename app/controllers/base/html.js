@@ -281,14 +281,21 @@ Html_view.prototype.partial = function( path, def, callback ) {
 /**
  * Method: render
  * @param {String} body
+ * @param {String} code
  */
 
-Html_view.prototype.render = function( body ) {
+Html_view.prototype.render = function( body, code ) {
 	var body = body || '',
+		code = code || null;
 		self = this;
 
 	this.createDocument( { body: body }, function( err, result ) {
-		self._response.send( result );
+		if ( code != null ) {
+			self._response.status( code ).send( result );
+		}
+		else {
+			self._response.send( result );
+		}
 	});
 };
 
