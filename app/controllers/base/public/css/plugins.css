@@ -13,3 +13,7 @@
 .btn > span.glyphicon {
 	margin-right:1ex;
 }
+
+div.panel-body > footer {
+	margin-top:1em;
+}
