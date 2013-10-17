@@ -5,3 +5,7 @@
 	margin:0 auto;
 	-moz-border-radius:4px; -webkit-border-radius:4px; border-radius:4px;
 }
+	#nrErrorArea > pre {
+		overflow:scroll;
+		height:125px;
+	}

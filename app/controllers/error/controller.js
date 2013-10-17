@@ -28,7 +28,7 @@ Error_controller.prototype.message = function( req, res, code ) {
 	}
 	else {
 		file = '5xx.html',
-		def = { };
+		def = { stack: req.error.stack };
 	}
 
 	view.partial( file, def, function( err, result ) {

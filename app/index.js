@@ -64,6 +64,7 @@ mongo.connect( 'mongodb://' + config.database.host + ':' + config.database.port 
 
 			// log it
 			console.error( err.stack );
+			req.error = { stack: err.stack };
 
 			// error page
 			var error = new( require( './controllers/error/controller' ) );
