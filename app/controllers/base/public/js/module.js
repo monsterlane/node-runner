@@ -20,6 +20,11 @@ requirejs.config({
 define(
 	[ 'jquery', './conduit.js', './notification.js' ],
 	function( $, Conduit, Notification ) {
+
+		/**
+		 * Class: Module
+		 */
+
 		function Module( ) {
 			this._data = { };
 			this._conduit = { };
@@ -28,11 +33,19 @@ define(
 			return this;
 		}
 
-		/* public methods */
+		/**
+		 * Method: getData
+		 * @return {Object}
+		 */
 
 		Module.prototype.getData = function( ) {
 			return this._data;
 		};
+
+		/**
+		 * Method: getConduit
+		 * @param {String} name
+		 */
 
 		Module.prototype.getConduit = function( name ) {
 			if ( !this._conduit.hasOwnProperty( name ) ) {
@@ -42,12 +55,17 @@ define(
 			return this._conduit[ name ];
 		};
 
-		Module.prototype.notification = function( message ) {
+		/**
+		 * Method: notification
+		 * @param {Object} def
+		 */
+
+		Module.prototype.notification = function( def ) {
 			if ( this._notify != null ) {
-				this._notify.message( message );
+				this._notify.message( def );
 			}
 			else {
-				alert( message );
+				alert( def.message );
 			}
 		};
 
