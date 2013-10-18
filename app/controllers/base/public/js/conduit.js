@@ -43,7 +43,7 @@ define(
 					}
 					catch( e ) {
 						self.getParent( ).notification({
-							type: 'error',
+							type: 'danger',
 							message: 'an error has occured'
 						});
 
