@@ -23,8 +23,6 @@ define(
 
 		MainModule.prototype.bind = function( ) {
 			Module.prototype.bind.call( this );
-
-			console.log( 'bind from MainModule' );
 		};
 
 		return MainModule;

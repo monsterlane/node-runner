@@ -6,6 +6,7 @@
 		</div>
 
 		<div class="panel-body">
+			<div class="purpose-notify"></div>
 			<!--
 			<div class="alert alert-dismissable alert-danger">
 				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -13,7 +14,7 @@
 			</div>
 			//-->
 
-			<form id="nrLoginForm" action="#" method="post" role="form">
+			<form id="nrLoginForm" action="/login" method="post" role="form">
 				<fieldset>
 					<div class="form-group">
 						<label for="nrUsernameTextbox" class="sr-only">username</label>
@@ -34,7 +35,7 @@
 			</form>
 
 			<footer>
-				<button type="button" class="btn btn-primary btn-block">
+				<button id="nrLoginSubmitButton" type="button" class="btn btn-primary btn-block">
 					<span class="glyphicon glyphicon-lock"></span>
 					Sign In
 				</button>
