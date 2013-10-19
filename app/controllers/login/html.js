@@ -8,6 +8,7 @@ var util = require( '../../helpers/util' ),
 
 function Login_view( res, name ) {
 	Html_view.apply( this, arguments );
+	this.setModule( 'login' );
 };
 
 util.inherits( Login_view, Html_view );
@@ -20,7 +21,6 @@ Login_view.prototype.resolveIncludes = function( ) {
 	Html_view.prototype.resolveIncludes.apply( this, arguments );
 
 	this.addStyle( '/login/css/style.css' );
-	this.setModule( '/login/js/module' );
 };
 
 /**

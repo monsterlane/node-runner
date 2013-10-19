@@ -27,6 +27,8 @@ function Html_view( res, name ) {
 	this.resolveOptions( );
 	this.resolveMetaTags( );
 	this.resolveIncludes( );
+
+	this.setModule( 'base' );
 }
 
 util.inherits( Html_view, Base_view );
@@ -89,8 +91,6 @@ Html_view.prototype.resolveIncludes = function( ) {
 	this.addStyle( '/base/css/bootstrap.min.css', opts );
 	this.addStyle( '/base/css/style.css', opts );
 	this.addStyle( '/base/css/plugins.css', opts );
-
-	this.setModule( '/base/js/module' );
 };
 
 /**
@@ -187,11 +187,11 @@ Html_view.prototype.createScriptIncludes = function( ) {
 
 /**
  * Method: setModule
- * @param {String} path
+ * @param {String} name
  */
 
-Html_view.prototype.setModule = function( path ) {
-	this._module = path;
+Html_view.prototype.setModule = function( name ) {
+	this._module = name;
 };
 
 /**
@@ -201,17 +201,6 @@ Html_view.prototype.setModule = function( path ) {
 
 Html_view.prototype.getModule = function( ) {
 	return this._module;
-};
-
-/**
- * Method: getModuleName
- * @return {String}
- */
-
-Html_view.prototype.getModuleName = function( ) {
-	var name = this._module.split( '/' );
-
-	return name[ 0 ];
 };
 
 /**
@@ -230,7 +219,7 @@ Html_view.prototype.getDocumentTitle = function( ) {
  */
 
 Html_view.prototype.createDocument = function( def, callback ) {
-	var module = this.getModuleName( ),
+	var module = this.getModule( ),
 		def = util.merge( {
 			name: config.name,
 			title: this.getDocumentTitle( ),
@@ -238,7 +227,7 @@ Html_view.prototype.createDocument = function( def, callback ) {
 			css: this.createStyleIncludes( ),
 			js: this.createScriptIncludes( ),
 			require: '/base/js/require.min.js',
-			module: this.getModule( ),
+			module: ( config.server.cache == true ) ? '/cache/' + module + '.amd.js' : '/base/amd/?path=' + encodeURIComponent( '/' + module + '/js/module' ),
 			analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 		}, def );
 
@@ -246,8 +235,6 @@ Html_view.prototype.createDocument = function( def, callback ) {
 		def.require = def.require.replace( 'base', 'cache' );
 		def.module = def.module.replace( module, 'cache' ).replace( 'module', module + '.min' );
 	}
-
-	def.module = encodeURIComponent( def.module );
 
 	this.partial( '/controllers/base/views/document.html', def, function( err, content ) {
 		callback( err, content );

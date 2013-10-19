@@ -2,17 +2,21 @@
 /* grunt tasks - asset caching */
 
 var fs = require( 'fs' ),
-	util = require( './helpers/util' );
+	util = require( './helpers/util' ),
+	dot = require( 'dot' );
 
 module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
+		amd = dot.compile( fs.readFileSync( __dirname + '/controllers/base/views/amd.html' ) ),
 		tasks = [ 'clean' ],
-		css = { },
+		sl = { },
+		fc = { },
 		hint = [ ],
 		js = { },
 		pf = { },
 		sp = { },
-		img = { };
+		img = { },
+		css = { };
 
 	// create controller asset cache
 	fs.readdirSync( __dirname + '/controllers' ).forEach( function( name ) {
@@ -65,14 +69,31 @@ module.exports = function( grunt ) {
 			files = fs.readdirSync( path );
 
 			for ( i = 0, len = files.length; i < len; i++ ) {
-				// copy already minifed files to cache folder
+				// create a symbolic link in the cache folder to the minifed file
 				if ( files[ i ].indexOf( '.min.' ) != -1 ) {
-					t = fs.readFileSync( __dirname + '/controllers/' + name + '/public/js/' + files[ i ] );
-					fs.writeFileSync( 'public/cache/js/' + files[ i ], t );
+					sl[ files[ i ] ] = {
+						explicit: {
+							src: 'controllers/' + name + '/public/js/' + files[ i ],
+							dest: 'public/cache/js/' + files[ i ]
+						}
+					};
 				}
 				else {
 					path = files[ i ].substring( 0, files[ i ].lastIndexOf( '.' ) );
-					if ( path == 'module' ) path = name;
+
+					// create a loader for the module
+					if ( path == 'module' ) {
+						path = name;
+
+						fc[ path ] = { };
+						fc[ path ][ 'public/cache/js/' + path + '.amd.js' ] = function( fs, fd, done ) {
+							fs.writeSync( fd, amd({ path: './' + name + '.min' }) );
+							done( );
+						};
+
+						js[ path + '-amd' ] = { files: { } };
+						js[ path + '-amd' ].files[ 'public/cache/js/' + path + '.amd.js' ] = [ 'public/cache/js/' + path + '.amd.js' ];
+					}
 
 					// hint the file
 					hint.push( __dirname + '/controllers/' + name + '/public/js/' + files[ i ] );
@@ -112,6 +133,14 @@ module.exports = function( grunt ) {
 		}
 
 		// add the task to the list of jobs
+		if ( Object.keys( sl ).length > 0 && tasks.indexOf( 'symlink' ) == -1 ) {
+			tasks.push( 'symlink' );
+		}
+
+		if ( Object.keys( fc ).length > 0 && tasks.indexOf( 'file-creator' ) == -1 ) {
+			tasks.push( 'file-creator' );
+		}
+
 		if ( hint.length > 0 && tasks.indexOf( 'jshint' ) == -1 ) {
 			tasks.push( 'jshint' );
 		}
@@ -160,26 +189,30 @@ module.exports = function( grunt ) {
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
 		clean: [ __dirname + '/public/cache/css/*.css', __dirname + '/public/cache/js/*.js' ],
-		spritepacker: sp,
-		imagemin: img,
-		cssmin: css,
+		symlink: sl,
+		'file-creator': fc,
 		jshint: {
 			uses_defaults: hint
 		},
 		uglify: js,
-		replace: pf
+		replace: pf,
+		spritepacker: sp,
+		imagemin: img,
+		cssmin: css
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
-	grunt.loadNpmTasks( 'grunt-sprite-packer' );
-	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
-	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
+	grunt.loadNpmTasks( 'grunt-contrib-symlink' );
+	grunt.loadNpmTasks( 'grunt-file-creator' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-text-replace' );
+	grunt.loadNpmTasks( 'grunt-sprite-packer' );
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
+	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
 	grunt.registerTask( 'img', [ 'sp', 'imagemin' ] );
 	grunt.registerTask( 'css', [ 'cssmin' ] );
-	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'replace' ] );
+	grunt.registerTask( 'js', [ 'symlink', 'file-creator', 'jshint', 'uglify', 'replace' ] );
 	grunt.registerTask( 'default', tasks );
 };

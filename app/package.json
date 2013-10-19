@@ -25,11 +25,13 @@
 	"devDependencies": {
 		"grunt": "~0.4.1",
 		"grunt-contrib-clean": "~0.5.0",
-		"grunt-contrib-cssmin": "~0.4.2",
+		"grunt-contrib-symlink": "~0.2.0",
+		"grunt-file-creator": "~0.1.1",
 		"grunt-contrib-jshint": "~0.6.4",
 		"grunt-contrib-uglify": "~0.2.4",
 		"grunt-text-replace": "~0.3.8",
 		"grunt-sprite-packer": "~0.1.5",
-		"grunt-contrib-imagemin": "~0.3.0"
+		"grunt-contrib-imagemin": "~0.3.0",
+		"grunt-contrib-cssmin": "~0.4.2"
 	}
 }
