@@ -53,7 +53,7 @@ define(
 		Notification.prototype.message = function( def ) {
 			var def = $.extend( true, {
 					type: 'info',
-					message: ''
+					message: 'message'
 				}, def ),
 				frag = document.createDocumentFragment( ),
 				div, btn;
@@ -83,8 +83,8 @@ define(
 
 		Notification.prototype.modal = function( def ) {
 			var def = $.extend( true, {
-					type: 'info',
-					message: ''
+					title: 'Notification',
+					message: 'message'
 				}, def ),
 				frag = document.createDocumentFragment( ),
 				modal, dialog, content,
@@ -93,7 +93,10 @@ define(
 				footer, fclose;
 
 			modal = document.createElement( 'div' );
-			modal.setAttribute( 'class', 'modal' );
+			modal.setAttribute( 'class', 'modal fade' );
+			modal.setAttribute( 'tabindex', '-1' );
+			modal.setAttribute( 'role', 'dialog' );
+			modal.setAttribute( 'aria-hidden', true );
 			frag.appendChild( modal );
 
 			dialog = document.createElement( 'div' );
@@ -114,11 +117,10 @@ define(
 			hclose.setAttribute( 'data-dismiss', 'modal' );
 			hclose.setAttribute( 'aria-hidden', true );
 			hclose.innerHTML = '&times;';
+			header.appendChild( hclose );
 
 			h4 = document.createElement( 'h4' );
 			h4.innerHTML = def.type;
-
-			header.appendChild( hclose );
 			header.appendChild( h4 );
 
 			body = document.createElement( 'div' );
@@ -127,7 +129,6 @@ define(
 
 			p = document.createElement( 'p' );
 			p.innerHTML = def.message;
-
 			body.appendChild( p );
 
 			footer = document.createElement( 'div' );
@@ -141,9 +142,12 @@ define(
 			fclose.innerHTML = 'Close';
 			footer.appendChild( fclose );
 
-			this.$container.empty( );
-			this._container.appendChild( frag );
-			this.$container.modal( );
+			document.body.appendChild( frag );
+			$( modal ).modal( );
+
+			$( modal ).on( 'hidden.bs.modal', function( ) {
+				$( this ).remove( );
+			});
 		};
 
 		return( Notification );
