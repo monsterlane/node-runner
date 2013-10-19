@@ -12,6 +12,7 @@ requirejs.config({
 define(
 	[ 'jquery' ],
 	function( $ ) {
+		'use strict';
 
 		/**
 		 * Class: Conduit

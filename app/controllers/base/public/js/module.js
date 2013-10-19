@@ -20,6 +20,7 @@ requirejs.config({
 define(
 	[ 'jquery', './conduit.js', './notification.js' ],
 	function( $, Conduit, Notification ) {
+		'use strict';
 
 		/**
 		 * Class: Module

@@ -6,6 +6,7 @@
 define(
 	[ '/base/js/module.js' ],
 	function( Module ) {
+		'use strict';
 
 		function LoginModule( ) {
 			Module.call( this );

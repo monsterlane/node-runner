@@ -20,6 +20,7 @@ requirejs.config({
 define(
 	[ 'jquery', 'bootstrap' ],
 	function( $, Bootstrap ) {
+		'use strict';
 
 		/**
 		 * Class: Notification
