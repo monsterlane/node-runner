@@ -25,17 +25,34 @@ define(
 		/**
 		 * Class: Notification
 		 * @param {Object} parent
-		 * @param {DOMelement} el
 		 */
 
-		function Notification( parent, el ) {
+		function Notification( parent ) {
 			this._parent = parent;
-
-			this._container = el;
-			this.$container = $( el );
+			this._inline = null;
+			this.$inline = null;
 
 			return this;
 		}
+
+		/**
+		 * Method: setContainer
+		 * @param {DOMelement} el
+		 */
+
+		Notification.prototype.setContainer = function( el ) {
+			this._inline = el;
+			this.$inline = $( el );
+		};
+
+		/**
+		 * Method: hasContainer
+		 * @return {Bool}
+		 */
+
+		Notification.prototype.hasContainer = function( ) {
+			return !!this._inline;
+		};
 
 		/**
 		 * Method: getParent
@@ -72,9 +89,9 @@ define(
 			btn.innerHTML = '&times;';
 			div.appendChild( btn );
 
-			this.$container.empty( );
-			this._container.appendChild( frag );
-			this.$container.alert( );
+			this.$inline.empty( );
+			this._inline.appendChild( frag );
+			this.$inline.alert( );
 		};
 
 		/**
@@ -144,9 +161,8 @@ define(
 			footer.appendChild( fclose );
 
 			document.body.appendChild( frag );
-			$( modal ).modal( );
 
-			$( modal ).on( 'hidden.bs.modal', function( ) {
+			$( modal ).modal( ).on( 'hidden.bs.modal', function( ) {
 				$( this ).remove( );
 			});
 		};

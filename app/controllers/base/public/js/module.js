@@ -62,21 +62,23 @@ define(
 		 */
 
 		Module.prototype.notification = function( def ) {
-			if ( this._notify != null ) {
+			if ( this._notify.hasContainer( ) == true ) {
 				this._notify.message( def );
 			}
 			else {
-				alert( def.message );
+				this._notify.modal( def );
 			}
 		};
 
 		/* bind */
 
 		Module.prototype.bind = function( ) {
-			var notify = $( 'div.purpose-notify' );
+			var inline = $( 'div.purpose-notify' );
 
-			if ( notify.length > 0 ) {
-				this._notify = new Notification( this, notify[ 0 ] );
+			this._notify = new Notification( this );
+
+			if ( inline.length > 0 ) {
+				this._notify.setContainer( inline[ 0 ] );
 			}
 		};
 
