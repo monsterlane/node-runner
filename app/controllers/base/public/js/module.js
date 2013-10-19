@@ -18,8 +18,8 @@ requirejs.config({
 });
 
 define(
-	[ 'jquery', './conduit.js', './notification.js' ],
-	function( $, Conduit, Notification ) {
+	[ 'jquery', './doT.min.js', './conduit.js', './notification.js' ],
+	function( $, doT, Conduit, Notification ) {
 		'use strict';
 
 		/**

@@ -6,12 +6,13 @@ var fs = require( 'fs' ),
 
 module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
-		clean = [ __dirname + '/public/cache/css/*.css', __dirname + '/public/cache/js/*.js' ],
-		img = [ ],
-		css = [ ],
-		js = [ ],
-		pf = [ ],
-		hint = [ ];
+		tasks = [ 'clean' ],
+		css = { },
+		hint = [ ],
+		js = { },
+		pf = { },
+		sp = { },
+		img = { };
 
 	// create controller asset cache
 	fs.readdirSync( __dirname + '/controllers' ).forEach( function( name ) {
@@ -51,6 +52,11 @@ module.exports = function( grunt ) {
 					css[ name ].files[ 'public/cache/css/' + name + '.min.css' ] = files;
 				}
 			}
+		}
+
+		// add the task to the list of jobs
+		if ( Object.keys( css ).length > 0 && tasks.indexOf( 'cssmin' ) == -1 ) {
+			tasks.push( 'cssmin' );
 		}
 
 		// cache js assets
@@ -105,6 +111,19 @@ module.exports = function( grunt ) {
 			}
 		}
 
+		// add the task to the list of jobs
+		if ( hint.length > 0 && tasks.indexOf( 'jshint' ) == -1 ) {
+			tasks.push( 'jshint' );
+		}
+
+		if ( Object.keys( js ).length > 0 && tasks.indexOf( 'uglify' ) == -1 ) {
+			tasks.push( 'uglify' );
+		}
+
+		if ( Object.keys( pf ).length > 0 && tasks.indexOf( 'replace' ) == -1 ) {
+			tasks.push( 'replace' );
+		}
+
 		// check if the module has images to compress
 		path = __dirname + '/controllers/' + name + '/public/img';
 		if ( fs.existsSync( path ) ) {
@@ -131,31 +150,36 @@ module.exports = function( grunt ) {
 				};
 			}
 		}
+
+		// add the task to the list of jobs
+		if ( Object.keys( img ).length > 0 && tasks.indexOf( 'imagemin' ) == -1 ) {
+			tasks.push( 'imagemin' );
+		}
 	} );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
-		clean: clean,
+		clean: [ __dirname + '/public/cache/css/*.css', __dirname + '/public/cache/js/*.js' ],
+		spritepacker: sp,
+		imagemin: img,
 		cssmin: css,
 		jshint: {
-			options: {
-				globals: {
-					jQuery: true
-				}
-			},
 			uses_defaults: hint
 		},
 		uglify: js,
-		replace: pf,
-		imagemin: img
+		replace: pf
 	} );
 
 	grunt.loadNpmTasks( 'grunt-contrib-clean' );
+	grunt.loadNpmTasks( 'grunt-sprite-packer' );
+	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-text-replace' );
-	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 
-	grunt.registerTask( 'default', [ 'clean', 'cssmin', 'jshint', 'uglify', 'replace', 'imagemin' ] );
+	grunt.registerTask( 'img', [ 'sp', 'imagemin' ] );
+	grunt.registerTask( 'css', [ 'cssmin' ] );
+	grunt.registerTask( 'js', [ 'jshint', 'uglify', 'replace' ] );
+	grunt.registerTask( 'default', tasks );
 };
