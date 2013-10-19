@@ -31,8 +31,8 @@ define(
 			$( '#nrLoginSubmitButton' ).on( 'click', function( evt ) {
 				evt.preventDefault( );
 
-				self.getConduit( 'main' ).ajax( form, function( res ) {
-					var res = $.parseJSON( res );
+				self.getConduit( 'main' ).ajax( form, function( response ) {
+					var res = $.parseJSON( response );
 
 					console.log( res );
 				});

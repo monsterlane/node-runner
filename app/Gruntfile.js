@@ -6,24 +6,12 @@ var fs = require( 'fs' ),
 
 module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
+		clean = [ __dirname + '/public/cache/css/*.css', __dirname + '/public/cache/js/*.js' ],
 		img = [ ],
 		css = [ ],
 		js = [ ],
 		pf = [ ],
 		hint = [ ];
-
-	// clean up cache folders
-	fs.readdirSync( __dirname + '/public/cache/css' ).forEach( function( name ) {
-		if ( name.substring( name.lastIndexOf( '.' ) + 1 ) == 'css' ) {
-			fs.unlinkSync( __dirname + '/public/cache/css/' + name );
-		}
-	});
-
-	fs.readdirSync( __dirname + '/public/cache/js' ).forEach( function( name ) {
-		if ( name.substring( name.lastIndexOf( '.' ) + 1 ) == 'js' ) {
-			fs.unlinkSync( __dirname + '/public/cache/js/' + name );
-		}
-	});
 
 	// create controller asset cache
 	fs.readdirSync( __dirname + '/controllers' ).forEach( function( name ) {
@@ -147,6 +135,7 @@ module.exports = function( grunt ) {
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
+		clean: clean,
 		cssmin: css,
 		jshint: {
 			options: {
@@ -161,11 +150,12 @@ module.exports = function( grunt ) {
 		imagemin: img
 	} );
 
+	grunt.loadNpmTasks( 'grunt-contrib-clean' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 	grunt.loadNpmTasks( 'grunt-contrib-jshint' );
 	grunt.loadNpmTasks( 'grunt-contrib-uglify' );
 	grunt.loadNpmTasks( 'grunt-text-replace' );
 	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 
-	grunt.registerTask( 'default', [ 'cssmin', 'jshint', 'uglify', 'replace', 'imagemin' ] );
+	grunt.registerTask( 'default', [ 'clean', 'cssmin', 'jshint', 'uglify', 'replace', 'imagemin' ] );
 };

@@ -62,7 +62,7 @@ define(
 		 */
 
 		Module.prototype.notification = function( def ) {
-			if ( this._notify.hasContainer( ) == true ) {
+			if ( this._notify.hasContainer( ) === true ) {
 				this._notify.message( def );
 			}
 			else {

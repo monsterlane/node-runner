@@ -37,8 +37,8 @@ define(
 
 		/**
 		 * Method: ajax
- 		 * @param {DOMelement} form
- 		 * @param {Function} callback
+		 * @param {DOMelement} form
+		 * @param {Function} callback
 		 */
 
 		Conduit.prototype.ajax = function( form, callback ) {
@@ -75,7 +75,7 @@ define(
 		 */
 
 		Conduit.prototype.abort = function( ) {
-			if ( this._xhr != null ) {
+			if ( this._xhr !== null ) {
 				this._xhr.abort( );
 			}
 		};

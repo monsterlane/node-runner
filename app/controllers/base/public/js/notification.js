@@ -65,11 +65,11 @@ define(
 
 		/**
 		 * Method: message
- 		 * @param {Object} def
+		 * @param {Object} def
 		 */
 
 		Notification.prototype.message = function( def ) {
-			var def = $.extend( true, {
+			var msg = $.extend( true, {
 					type: 'info',
 					message: 'message'
 				}, def ),
@@ -77,8 +77,8 @@ define(
 				div, btn;
 
 			div = document.createElement( 'div' );
-			div.setAttribute( 'class', 'alert alert-' + def.type );
-			div.innerHTML = '<strong>' + def.type + ':</strong> ' + def.message;
+			div.setAttribute( 'class', 'alert alert-' + msg.type );
+			div.innerHTML = '<strong>' + msg.type + ':</strong> ' + msg.message;
 			frag.appendChild( div );
 
 			btn = document.createElement( 'button' );
@@ -96,11 +96,11 @@ define(
 
 		/**
 		 * Method: modal
- 		 * @param {Object} def
+		 * @param {Object} def
 		 */
 
 		Notification.prototype.modal = function( def ) {
-			var def = $.extend( true, {
+			var frm = $.extend( true, {
 					title: 'Notification',
 					message: 'message'
 				}, def ),
@@ -138,7 +138,7 @@ define(
 			header.appendChild( hclose );
 
 			h4 = document.createElement( 'h4' );
-			h4.innerHTML = def.type;
+			h4.innerHTML = frm.type;
 			header.appendChild( h4 );
 
 			body = document.createElement( 'div' );
@@ -146,7 +146,7 @@ define(
 			content.appendChild( body );
 
 			p = document.createElement( 'p' );
-			p.innerHTML = def.message;
+			p.innerHTML = frm.message;
 			body.appendChild( p );
 
 			footer = document.createElement( 'div' );
