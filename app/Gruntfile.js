@@ -9,7 +9,7 @@ module.exports = function( grunt ) {
 	var banner = '/*! <%= pkg.name %> <%= grunt.template.today("dd-mm-yyyy") %> */\n';
 		amd = dot.compile( fs.readFileSync( __dirname + '/controllers/base/views/amd.html' ) ),
 		tasks = [ 'clean' ],
-		sl = { },
+		sl = [ ],
 		fc = { },
 		hint = [ ],
 		js = { },
@@ -66,31 +66,33 @@ module.exports = function( grunt ) {
 		// cache js assets
 		path = __dirname + '/controllers/' + name + '/public/js';
 		if ( fs.existsSync( path ) ) {
+			// create symbolic links to already minifed files in the cache folder
+			sl.push({
+				expand: true,
+				cwd: 'controllers/' + name + '/public/js',
+				src: [ '*.min.js' ],
+				dest: 'public/cache/js'
+			});
+
 			files = fs.readdirSync( path );
 
 			for ( i = 0, len = files.length; i < len; i++ ) {
-				// create a symbolic link in the cache folder to the minifed file
-				if ( files[ i ].indexOf( '.min.' ) != -1 ) {
-					sl[ files[ i ] ] = {
-						explicit: {
-							src: 'controllers/' + name + '/public/js/' + files[ i ],
-							dest: 'public/cache/js/' + files[ i ]
-						}
-					};
-				}
-				else {
+				// skip already minified files
+				if ( files[ i ].indexOf( '.min.' ) == -1 ) {
 					path = files[ i ].substring( 0, files[ i ].lastIndexOf( '.' ) );
 
 					// create a loader for the module
 					if ( path == 'module' ) {
 						path = name;
 
+						// create the file
 						fc[ path ] = { };
 						fc[ path ][ 'public/cache/js/' + path + '.amd.js' ] = function( fs, fd, done ) {
-							fs.writeSync( fd, amd({ path: './' + name + '.min' }) );
+							fs.writeSync( fd, amd({ path: '/cache/js/' + name + '.min' }) );
 							done( );
 						};
 
+						// minify the file
 						js[ path + '-amd' ] = { files: { } };
 						js[ path + '-amd' ].files[ 'public/cache/js/' + path + '.amd.js' ] = [ 'public/cache/js/' + path + '.amd.js' ];
 					}
@@ -111,7 +113,7 @@ module.exports = function( grunt ) {
 
 					// fix paths after minification
 					pf[ path ] = {
-						src: [ 'public/cache/js/' + name + '.min.js' ],
+						src: [ 'public/cache/js/' + path + '.min.js' ],
 						overwrite: true,
 						replacements: [
 							{
@@ -119,8 +121,16 @@ module.exports = function( grunt ) {
 								to: '/cache/js/base.min.js'
 							},
 							{
+								from: '/base/js/',
+								to: '/cache/js/'
+							},
+							{
 								from: '/' + name + '/js/',
 								to: '/cache/js/'
+							},
+							{
+								from: /\/cache\/js\/(((?!\.min).)*?)\.js/g,
+								to: '/cache/js/$1.min.js'
 							},
 							{
 								from: 'sourceMappingURL=public',

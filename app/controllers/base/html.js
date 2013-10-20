@@ -22,13 +22,11 @@ function Html_view( res, name ) {
 	this._meta = [ ];
 	this._styles = [ [ ], [ ], [ ] ];
 	this._scripts = [ ];
-	this._module = null;
+	this._module = 'base';
 
 	this.resolveOptions( );
 	this.resolveMetaTags( );
 	this.resolveIncludes( );
-
-	this.setModule( 'base' );
 }
 
 util.inherits( Html_view, Base_view );
@@ -227,13 +225,13 @@ Html_view.prototype.createDocument = function( def, callback ) {
 			css: this.createStyleIncludes( ),
 			js: this.createScriptIncludes( ),
 			require: '/base/js/require.min.js',
-			module: ( config.server.cache == true ) ? '/cache/' + module + '.amd.js' : '/base/amd/?path=' + encodeURIComponent( '/' + module + '/js/module' ),
+			module: '/base/amd/?path=' + encodeURIComponent( '/' + module + '/js/module' ),
 			analytics: this.getOptions( ).get( 'app.use.googleAnalytics' )
 		}, def );
 
 	if ( config.server.cache == true ) {
-		def.require = def.require.replace( 'base', 'cache' );
-		def.module = def.module.replace( module, 'cache' ).replace( 'module', module + '.min' );
+		def.require = '/cache/js/require.min.js';
+		def.module = '/cache/js/' + module + '.amd.js';
 	}
 
 	this.partial( '/controllers/base/views/document.html', def, function( err, content ) {
