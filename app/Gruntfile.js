@@ -58,11 +58,6 @@ module.exports = function( grunt ) {
 			}
 		}
 
-		// add the task to the list of jobs
-		if ( Object.keys( css ).length > 0 && tasks.indexOf( 'cssmin' ) == -1 ) {
-			tasks.push( 'cssmin' );
-		}
-
 		// cache js assets
 		path = __dirname + '/controllers/' + name + '/public/js';
 		if ( fs.existsSync( path ) ) {
@@ -163,27 +158,46 @@ module.exports = function( grunt ) {
 			tasks.push( 'replace' );
 		}
 
-		// check if the module has images to compress
+		// check if the module has image assets
 		path = __dirname + '/controllers/' + name + '/public/img';
 		if ( fs.existsSync( path ) ) {
 			t = fs.readdirSync( path );
 			files = { };
 
 			for ( i = 0, len = t.length; i < len; i++ ) {
-				ext = t[ i ].substring( t[ i ].lastIndexOf( '.' ) + 1 );
+				path = __dirname + '/controllers/' + name + '/public/img/' + t[ i ];
 
-				// supported image types
-				if ( ext == 'png' || ext == 'gif' || ext == 'jpg' || ext == 'jpeg' ) {
-					// does it end in .min.ext?
-					if ( t[ i ].substring( 0, t[ i ].lastIndexOf( '.' ) ).substr( -4 ) == '.min' ) {
-						// output : input
-						files[ 'controllers/' + name + '/public/img/' + t[ i ].replace( '.min', '' ) ] = 'controllers/' + name + '/public/img/' + t[ i ];
+				if ( fs.lstatSync( path ).isDirectory( ) == true ) {
+					// create a task for the directory
+					sp[ t[ i ] ] = {
+						options: {
+							template: 'controllers/' + name + '/public/img/' + t[ i ] + '/css.tpl',
+							destCss: 'controllers/' + name + '/public/css/' + t[ i ] + '.css',
+							baseUrl: '/' + name + '/img/',
+							padding: 2
+						},
+						files: { }
+					};
+
+					// output : input
+					sp[ t[ i ] ].files[ 'controllers/' + name + '/public/img/' + t[ i ] + '.png' ] = [ 'controllers/' + name + '/public/img/' + t[ i ] + '/*.png' ];
+				}
+				else {
+					ext = t[ i ].substring( t[ i ].lastIndexOf( '.' ) + 1 );
+
+					// supported image types
+					if ( ext == 'png' || ext == 'gif' || ext == 'jpg' || ext == 'jpeg' ) {
+						// does it end in .min.ext?
+						if ( t[ i ].substring( 0, t[ i ].lastIndexOf( '.' ) ).substr( -4 ) == '.min' ) {
+							// output : input
+							files[ 'controllers/' + name + '/public/img/' + t[ i ].replace( '.min', '' ) ] = 'controllers/' + name + '/public/img/' + t[ i ];
+						}
 					}
 				}
 			}
 
+			// create task for the module
 			if ( Object.keys( files ).length > 0 ) {
-				// create task for the module
 				img[ name ] = {
 					files: files
 				};
@@ -191,8 +205,16 @@ module.exports = function( grunt ) {
 		}
 
 		// add the task to the list of jobs
+		if ( Object.keys( sp ).length > 0 && tasks.indexOf( 'spritepacker' ) == -1 ) {
+			tasks.push( 'spritepacker' );
+		}
+
 		if ( Object.keys( img ).length > 0 && tasks.indexOf( 'imagemin' ) == -1 ) {
 			tasks.push( 'imagemin' );
+		}
+
+		if ( Object.keys( css ).length > 0 && tasks.indexOf( 'cssmin' ) == -1 ) {
+			tasks.push( 'cssmin' );
 		}
 	} );
 
@@ -221,7 +243,7 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks( 'grunt-contrib-imagemin' );
 	grunt.loadNpmTasks( 'grunt-contrib-cssmin' );
 
-	grunt.registerTask( 'img', [ 'sp', 'imagemin' ] );
+	grunt.registerTask( 'img', [ 'spritepacker', 'imagemin' ] );
 	grunt.registerTask( 'css', [ 'cssmin' ] );
 	grunt.registerTask( 'js', [ 'symlink', 'file-creator', 'jshint', 'uglify', 'replace' ] );
 	grunt.registerTask( 'default', tasks );

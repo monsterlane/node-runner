@@ -1,0 +1,216 @@
+
+.sm {
+	background:url(/base/img/sm.png) no-repeat;
+}
+
+
+.sm.mixx {
+	width: 64px; height: 64px;
+	background-position:-2px -2px;
+}
+
+.sm.aim {
+	width: 64px; height: 64px;
+	background-position:-70px -2px;
+}
+
+.sm.bebo {
+	width: 64px; height: 64px;
+	background-position:-2px -70px;
+}
+
+.sm.betvibes {
+	width: 64px; height: 64px;
+	background-position:-70px -70px;
+}
+
+.sm.blinklist {
+	width: 64px; height: 64px;
+	background-position:-138px -2px;
+}
+
+.sm.blogger {
+	width: 64px; height: 64px;
+	background-position:-138px -70px;
+}
+
+.sm.buzz {
+	width: 64px; height: 64px;
+	background-position:-2px -138px;
+}
+
+.sm.delicious {
+	width: 64px; height: 64px;
+	background-position:-70px -138px;
+}
+
+.sm.deviantart {
+	width: 64px; height: 64px;
+	background-position:-138px -138px;
+}
+
+.sm.digg {
+	width: 64px; height: 64px;
+	background-position:-206px -2px;
+}
+
+.sm.diigo {
+	width: 64px; height: 64px;
+	background-position:-206px -70px;
+}
+
+.sm.everynote {
+	width: 64px; height: 64px;
+	background-position:-206px -138px;
+}
+
+.sm.facebook {
+	width: 64px; height: 64px;
+	background-position:-2px -206px;
+}
+
+.sm.flickr {
+	width: 64px; height: 64px;
+	background-position:-70px -206px;
+}
+
+.sm.friendfeed {
+	width: 64px; height: 64px;
+	background-position:-138px -206px;
+}
+
+.sm.friendster {
+	width: 64px; height: 64px;
+	background-position:-206px -206px;
+}
+
+.sm.furl {
+	width: 64px; height: 64px;
+	background-position:-274px -2px;
+}
+
+.sm.google {
+	width: 64px; height: 64px;
+	background-position:-274px -70px;
+}
+
+.sm.lastfm {
+	width: 64px; height: 64px;
+	background-position:-274px -138px;
+}
+
+.sm.linkedin {
+	width: 64px; height: 64px;
+	background-position:-274px -206px;
+}
+
+.sm.livejournal {
+	width: 64px; height: 64px;
+	background-position:-2px -274px;
+}
+
+.sm.ask {
+	width: 64px; height: 64px;
+	background-position:-70px -274px;
+}
+
+.sm.myspace {
+	width: 64px; height: 64px;
+	background-position:-138px -274px;
+}
+
+.sm.newsvine {
+	width: 64px; height: 64px;
+	background-position:-206px -274px;
+}
+
+.sm.orkut {
+	width: 64px; height: 64px;
+	background-position:-274px -274px;
+}
+
+.sm.plaxo {
+	width: 64px; height: 64px;
+	background-position:-342px -2px;
+}
+
+.sm.plurk {
+	width: 64px; height: 64px;
+	background-position:-342px -70px;
+}
+
+.sm.posterous {
+	width: 64px; height: 64px;
+	background-position:-342px -138px;
+}
+
+.sm.reddit {
+	width: 64px; height: 64px;
+	background-position:-342px -206px;
+}
+
+.sm.rss {
+	width: 64px; height: 64px;
+	background-position:-342px -274px;
+}
+
+.sm.shoutwire {
+	width: 64px; height: 64px;
+	background-position:-2px -342px;
+}
+
+.sm.spurl {
+	width: 64px; height: 64px;
+	background-position:-70px -342px;
+}
+
+.sm.squidoo {
+	width: 64px; height: 64px;
+	background-position:-138px -342px;
+}
+
+.sm.stumbleupon {
+	width: 64px; height: 64px;
+	background-position:-206px -342px;
+}
+
+.sm.technorati {
+	width: 64px; height: 64px;
+	background-position:-274px -342px;
+}
+
+.sm.tumblr {
+	width: 64px; height: 64px;
+	background-position:-342px -342px;
+}
+
+.sm.twitter {
+	width: 64px; height: 64px;
+	background-position:-410px -2px;
+}
+
+.sm.vimeo {
+	width: 64px; height: 64px;
+	background-position:-410px -70px;
+}
+
+.sm.wordpress {
+	width: 64px; height: 64px;
+	background-position:-410px -138px;
+}
+
+.sm.xanga {
+	width: 64px; height: 64px;
+	background-position:-410px -206px;
+}
+
+.sm.yahoo {
+	width: 64px; height: 64px;
+	background-position:-410px -274px;
+}
+
+.sm.youtube {
+	width: 64px; height: 64px;
+	background-position:-410px -342px;
+}
+
