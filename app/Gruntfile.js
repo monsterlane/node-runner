@@ -181,6 +181,9 @@ module.exports = function( grunt ) {
 
 					// output : input
 					sp[ t[ i ] ].files[ 'controllers/' + name + '/public/img/' + t[ i ] + '.png' ] = [ 'controllers/' + name + '/public/img/' + t[ i ] + '/*.png' ];
+
+					// minify output
+					files[ 'controllers/' + name + '/public/img/' + t[ i ] + '.png' ] = 'controllers/' + name + '/public/img/' + t[ i ] + '.png';
 				}
 				else {
 					ext = t[ i ].substring( t[ i ].lastIndexOf( '.' ) + 1 );
